@@ -6,6 +6,8 @@ import { Provider } from "react-redux";
 
 // custom components
 import App from "./App";
+
+// redux store
 import store from "./store";
 
 // styles
@@ -14,11 +16,9 @@ import "./index.css";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <React.StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
   </BrowserRouter>
 );
 

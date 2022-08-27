@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import axios from "axios";
 
-export const useAxios = (url, method, payload) => {
+export const useAxios = (url, method = "GET", payload = {}) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [loaded, setLoaded] = useState(false);
