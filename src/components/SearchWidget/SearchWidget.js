@@ -55,6 +55,7 @@ const SearchWidget = () => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      required={true}
                       placeholder="Where do you want to travel?"
                       label="Location"
                       className={styles["label"]}
@@ -62,9 +63,10 @@ const SearchWidget = () => {
                   )}
                 />
               </Grid>
-              <Grid item xs={12} sm={4} md={3}>
+              <Grid item xs={12} sm={5} md={3}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
+                    clearable={true}
                     label="Check in"
                     value={checkInDate}
                     minDate={dayjs().add(1, "day")}
@@ -73,17 +75,29 @@ const SearchWidget = () => {
                     className={styles["input"]}
                     onChange={(newCheckInDate) => {
                       setCheckInDate(newCheckInDate);
+                      // If Check-In date crosses check-Out date
+                      // Then set Check-Out date tommorow of Check-in Date
+                      if (
+                        dayjs(newCheckInDate).diff(
+                          dayjs(checkOutDate),
+                          "day"
+                        ) >= 0
+                      ) {
+                        setCheckOutDate(dayjs(newCheckInDate).add(1, "day"));
+                      }
                     }}
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => (
+                      <TextField {...params} required={true} />
+                    )}
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={12} sm={4} md={3}>
+              <Grid item xs={12} sm={5} md={3}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Check Out"
                     disabled={!checkInDate && true}
-                    minDate={dayjs(checkInDate).add(1, "day")}
+                    minDate={checkInDate && dayjs(checkInDate).add(1, "day")}
                     value={checkOutDate}
                     inputFormat="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
@@ -91,11 +105,13 @@ const SearchWidget = () => {
                     onChange={(newCheckOutDate) => {
                       setCheckOutDate(newCheckOutDate);
                     }}
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => (
+                      <TextField {...params} required={true} />
+                    )}
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={12} sm={4} md={2}>
+              <Grid item xs={12} sm={2} md={2}>
                 <Button
                   type="submit"
                   variant="contained"

@@ -3,10 +3,19 @@ import SearchWidget from "../components/SearchWidget/SearchWidget";
 import HomeHeadline from "../components/HomeHeadline/HomeHeadline";
 
 const HomePage = () => {
+  const searchWidgetStyle = {
+    position: "relative",
+    margin: "-9% 5%",
+  };
+
   return (
     <>
-      <HomeHeadline />
-      <SearchWidget />
+      <div>
+        <HomeHeadline />
+      </div>
+      <div style={searchWidgetStyle}>
+        <SearchWidget />
+      </div>
     </>
   );
 };
