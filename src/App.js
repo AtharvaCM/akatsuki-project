@@ -14,6 +14,7 @@ import Router from "./router/Router";
 
 // context
 import ColorModeContext from "./store/color-mode-context";
+import Header from "./components/Header/Header";
 
 const App = () => {
   const [mode, setMode] = useState("light");
@@ -40,7 +41,7 @@ const App = () => {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {/* Insert header here */}
+        <Header />
         <Router />
         {/* Insert footer here */}
       </ThemeProvider>
@@ -49,4 +50,3 @@ const App = () => {
 };
 
 export default App;
-
