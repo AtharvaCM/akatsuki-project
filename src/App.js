@@ -15,6 +15,7 @@ import Router from "./router/Router";
 // context
 import ColorModeContext from "./store/color-mode-context";
 import Header from "./components/Header/Header";
+import SearchWidget from "./components/SearchWidget/SearchWidget";
 
 const App = () => {
   const [mode, setMode] = useState("light");
@@ -31,6 +32,9 @@ const App = () => {
     () =>
       createTheme({
         palette: {
+          primary: {
+            main: "#3C71FF",
+          },
           mode,
         },
       }),
@@ -42,6 +46,7 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
+        <SearchWidget />
         <Router />
         {/* Insert footer here */}
       </ThemeProvider>
