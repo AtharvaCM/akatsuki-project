@@ -1,0 +1,45 @@
+.headlinecontainer {
+    width: 40%;
+    height: 20%;
+    position: absolute;
+    left: 6%;
+    top: 7%;
+}
+
+.headline {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 3rem;
+    color: #000000;
+    display: block;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Responsive Text */
+@media screen and (max-width: 1000px) {
+    .headline {
+        font-size: 2rem;
+        line-height: 2rem;
+
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .headlinecontainer {
+        top: 8%;
+    }
+
+    .headline {
+        font-size: 1rem;
+        line-height: 1rem;
+
+    }
+}
+
+
+.headlinebgimage {
+    width: 100vw;
+}
