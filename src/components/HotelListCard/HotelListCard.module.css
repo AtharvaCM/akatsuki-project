@@ -1,5 +1,9 @@
 .hotelDetailsGridItem {
-  padding: 1.875rem 3.125rem;
+  padding: 1.875rem 3.125rem 0 1.875rem;
+}
+
+.hotelDetailsCardContent {
+  padding: 0 !important;
 }
 
 .hotelLocation {

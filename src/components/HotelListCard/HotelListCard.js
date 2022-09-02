@@ -28,7 +28,7 @@ import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import { ReactComponent as DatabaseIcon } from "../../assets/images/database_icon.svg";
 
 // styles
-import "./HotelListCard.css";
+import styles from "./HotelListCard.module.css";
 
 // Routes
 import { ROUTES } from "../../utils/constants/routingPathConstants";
@@ -41,7 +41,6 @@ const HotelListCard = (props) => {
     navigate(`${ROUTES.HOTEL_DETAILS}/${props.id}`);
   };
 
-  console.log("img_src: ", props.img_src);
   return (
     <Card sx={{ borderRadius: "24px" }}>
       <Grid container>
@@ -57,14 +56,14 @@ const HotelListCard = (props) => {
         </Grid>
 
         {/* Hotel Details */}
-        <Grid item md={7} className="hotelDetailsGridItem">
-          <CardContent>
+        <Grid item md={7} className={styles.hotelDetailsGridItem}>
+          <CardContent className={styles.hotelDetailsCardContent}>
             <Typography
               variant="h4"
               component="h4"
               gutterBottom
               fontWeight={"bolder"}
-              className="hotelLocation"
+              className={styles.hotelLocation}
             >
               {props.state}, {props.country}
             </Typography>
@@ -77,32 +76,34 @@ const HotelListCard = (props) => {
               {props.hotel_name}
             </Typography>
             {/* Ratings */}
-            <span className="ratingsSpan">
-              <StarIcon className="ratingsIcon" />
-              <Typography variant="body1" className="iconLabels">
+            <span className={styles.ratingsSpan}>
+              <StarIcon className={styles.ratingsIcon} />
+              <Typography variant="body1" className={styles.iconLabels}>
                 {props.rating} ({props.reviews_count} reviews)
               </Typography>
             </span>
             <Grid container>
               {/* Address */}
-              <Grid item md={7} className="alignCenter">
-                <LocationOnOutlinedIcon className="icon" />
-                <address className="iconLabels hotelAddress">
+              <Grid item md={7} className={styles.alignCenter}>
+                <LocationOnOutlinedIcon className={styles.icon} />
+                <address
+                  className={`${styles.iconLabels} ${styles.hotelAddress}`}
+                >
                   {props.address}
                 </address>
               </Grid>
               {/* Dates */}
-              <Grid item md={5} className="alignCenter">
-                <DateRangeOutlinedIcon className="icon" />
-                <Typography variant="body1" className="iconLabels">
+              <Grid item md={5} className={styles.alignCenter}>
+                <DateRangeOutlinedIcon className={styles.icon} />
+                <Typography variant="body1" className={styles.iconLabels}>
                   {props.check_in_date} - {props.check_out_date}
                 </Typography>
               </Grid>
             </Grid>
             {/* Departure */}
-            <span className="departure">
-              <FlightOutlinedIcon className="icon" />
-              <Typography variant="body1" className="iconLabels">
+            <span className={styles.departure}>
+              <FlightOutlinedIcon className={styles.icon} />
+              <Typography variant="body1" className={styles.iconLabels}>
                 Departure from {props.departure}
               </Typography>
             </span>
@@ -110,34 +111,34 @@ const HotelListCard = (props) => {
             <Grid container>
               {/* Hotel features */}
               <Grid item md={6}>
-                <div className="hotelFeatures">
+                <div className={styles.hotelFeatures}>
                   <span>
-                    <WifiOutlinedIcon className="icon" />
-                    <Typography variant="body1" className="iconLabels">
+                    <WifiOutlinedIcon className={styles.icon} />
+                    <Typography variant="body1" className={styles.iconLabels}>
                       Free Wifi
                     </Typography>
                   </span>
                   <span>
-                    <DirectionsCarOutlinedIcon className="icon" />
-                    <Typography variant="body1" className="iconLabels">
+                    <DirectionsCarOutlinedIcon className={styles.icon} />
+                    <Typography variant="body1" className={styles.iconLabels}>
                       Free Parking
                     </Typography>
                   </span>
                   <span>
-                    <LocalOfferOutlinedIcon className="icon" />
-                    <Typography variant="body1" className="iconLabels">
+                    <LocalOfferOutlinedIcon className={styles.icon} />
+                    <Typography variant="body1" className={styles.iconLabels}>
                       Special Offer
                     </Typography>
                   </span>
                   <span>
-                    <LanguageOutlinedIcon className="icon" />
-                    <Typography variant="body1" className="iconLabels">
+                    <LanguageOutlinedIcon className={styles.icon} />
+                    <Typography variant="body1" className={styles.iconLabels}>
                       Visit Hotel Website
                     </Typography>
                   </span>
                   <span>
-                    <DatabaseIcon className="dbIcon" />
-                    <Typography variant="body1" className="iconLabels">
+                    <DatabaseIcon className={styles.dbIcon} />
+                    <Typography variant="body1" className={styles.iconLabels}>
                       Taking Safety Measures
                     </Typography>
                   </span>
@@ -145,11 +146,11 @@ const HotelListCard = (props) => {
               </Grid>
               {/* Book Now Buttons */}
               <Grid item md={6}>
-                <div className="bookNowButtons">
+                <div className={styles.bookNowButtons}>
                   {/* Price chip */}
                   <Chip
                     label={
-                      <span className="priceChipSpan">
+                      <span className={styles.priceChipSpan}>
                         <Typography variant="h6">${props.price}</Typography>
                         <Typography variant="caption">
                           For {props.capacity}
@@ -162,7 +163,7 @@ const HotelListCard = (props) => {
                     color="primary"
                     sx={{ mt: "15px" }}
                     label={
-                      <Typography variant="h6" className="bookNowLabel">
+                      <Typography variant="h6" className={styles.bookNowLabel}>
                         Book Now
                       </Typography>
                     }
