@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import AxiosDemo from "../components/AxiosDemo";
 import ReduxDemo from "../components/ReduxDemo";
 import HomePage from "../pages/HomePage";
+import HotelDetailsPage from "../pages/HotelDetailsPage";
 
 // import paths from routingPathConstants
 // paths
@@ -15,6 +16,7 @@ const Router = () => {
   return (
     <Routes>
       <Route index exact path={ROUTES.HOME} element={<HomePage />} />
+      <Route exact path={ROUTES.HOTEL_DETAILS} element={<HotelDetailsPage />} />
       <Route path="/redux" element={<ReduxDemo />}></Route>
       <Route path="/axios" element={<AxiosDemo />}></Route>
     </Routes>
