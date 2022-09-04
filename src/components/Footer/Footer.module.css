@@ -1,0 +1,11 @@
+.footer {
+    background-color: #EAEAEB;
+    height: 40%;
+    position: fixed;
+    bottom: 0px; 
+}
+
+.innerfooter {
+    margin-top: 90px;
+    width: 100%;
+}

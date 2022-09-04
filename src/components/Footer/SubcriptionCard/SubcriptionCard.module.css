@@ -1,0 +1,39 @@
+.mainCards { 
+    width: 70% ;
+    margin-right: 15%;
+    margin-left: 15%;
+    background-color: #326BFF;
+    position: fixed;
+    border-radius: 10px;
+    bottom:33%;
+    height: auto;
+}
+
+.innerCard {
+    margin: 2%;
+    border-radius: 10px;
+    background-color: #326BFF;
+}
+
+.subCards {
+    background-color: white;
+    height: 70px;
+    width: auto;
+    margin: 0px 20px 0px 0px;
+}
+
+.rightCard {
+    margin: 8px 0px;
+}
+
+.emailFields {
+    border: none;
+    height: 50px;
+    font-size: 15px;
+}
+
+/* .subscribeButton {
+        background-color: #353945;
+        color: white;
+        
+} */
