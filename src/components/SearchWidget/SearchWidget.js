@@ -63,7 +63,7 @@ const SearchWidget = () => {
                   )}
                 />
               </Grid>
-              <Grid item xs={12} sm={5} md={3}>
+              <Grid item xs={6} sm={5} md={3}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     clearable={true}
@@ -92,7 +92,7 @@ const SearchWidget = () => {
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={12} sm={5} md={3}>
+              <Grid item xs={6} sm={5} md={3}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Check Out"
