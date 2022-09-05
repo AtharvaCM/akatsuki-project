@@ -4,7 +4,6 @@ import { Link as LinkDom } from "react-router-dom";
 // MUI
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
 
 // MUI icons
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -14,17 +13,12 @@ import styles from "./BreadCrumbs.module.css";
 
 const BreadCrumbs = () => {
   const breadcrumbs = [
-    <Link underline="hover" key="1" color="inherit">
-      <LinkDom to="/" className={styles.link}>
-        Home
-      </LinkDom>
-    </Link>,
-    <Link key="2" underline="hover" color="inherit">
-      <LinkDom to="/hotel-list" className={styles.link}>
-        Hotel List
-      </LinkDom>
-    </Link>,
-
+    <LinkDom key="1" to="/" className={styles.link}>
+      Home
+    </LinkDom>,
+    <LinkDom key="1" to="/hotel-list" className={styles.link}>
+      Hotel List
+    </LinkDom>,
     <Typography className={styles.activelink} key="3">
       Hotel Details
     </Typography>,
