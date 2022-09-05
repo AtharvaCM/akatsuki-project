@@ -1,7 +1,7 @@
 .mainCards { 
-    width: 70% ;
-    margin-right: 15%;
-    margin-left: 15%;
+    width: 80% ;
+    margin-right: 10%;
+    margin-left: 10%;
     background-color: #326BFF;
     position: fixed;
     border-radius: 10px;
@@ -30,6 +30,7 @@
     border: none;
     height: 50px;
     font-size: 15px;
+    outline: none;
 }
 
 /* .subscribeButton {
