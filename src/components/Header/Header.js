@@ -19,7 +19,7 @@ import {
 
 const Header = () => {
   return (
-    <AppBar color="default" position="sticky">
+    <AppBar color="default" position="sticky" style={{boxShadow:"none"}}>
       <Toolbar>
         <Box component="img" alt="Img" src={Logo} style={{ marginRight: 10 }} />
         <Typography variant="h6">Hotel Guide</Typography>
