@@ -2,9 +2,7 @@ import React from "react";
 import {
   Card,
   Grid,
-  Table,
   Typography,
-  Column,
   Box,
   Button,
 } from "@mui/material";
