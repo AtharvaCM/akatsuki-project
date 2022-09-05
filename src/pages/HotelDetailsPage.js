@@ -1,11 +1,12 @@
 import React from "react";
 
 // MUI
-import { Typography, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 
 // Custom Components
 import HotelHeader from "../components/HotelDetails/HotelHeader";
 import HotelDetailsTabs from "../components/HotelDetails/HotelDetailsTabs";
+import HotelBookingCard from "../components/HotelDetails/HotelBookingCard";
 import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
 
 const hotel = {
@@ -73,7 +74,7 @@ const HotelDetailsPage = () => {
           </Grid>
           <Grid item xs={12} md={1}></Grid>
           <Grid item xs={12} md={4}>
-            <h2>Booking Box Here</h2>
+            <HotelBookingCard />
           </Grid>
         </Grid>
       </div>

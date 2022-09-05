@@ -1,17 +1,7 @@
 import React from "react";
-import { Typography, Grid, Box } from "@mui/material";
-import { Divider } from "@mui/material";
+import { Typography, Divider, Grid, Box } from "@mui/material";
+
 import PropTypes from "prop-types";
-
-const ListStyle = {
-  listStyleType: "none",
-  padding: "0",
-};
-
-const ListEltStyle = {
-  display: "inline",
-  marginLeft: "2%",
-};
 
 const HotelFeatures = (props) => {
   return (

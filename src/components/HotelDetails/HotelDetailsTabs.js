@@ -43,10 +43,10 @@ const HotelDetailsTabs = (props) => {
             />
           </TabPanel>
           <TabPanel style={PaddingZeroStyle} value="3">
-            Item Three
+            <h3>Room Types here</h3>
           </TabPanel>
           <TabPanel style={PaddingZeroStyle} value="4">
-            Item Three
+            <h3>Reviews here</h3>
           </TabPanel>
         </TabContext>
       </Box>
