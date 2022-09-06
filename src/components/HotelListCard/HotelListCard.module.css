@@ -1,0 +1,90 @@
+.hotelDetailsGridItem {
+  padding: 1.875rem 3.125rem 0 1.875rem;
+}
+
+.hotelDetailsCardContent {
+  padding: 0 !important;
+}
+
+.hotelLocation {
+  line-height: 48px;
+}
+
+.hotelAddress {
+  font-style: normal;
+}
+
+.departure {
+  display: flex;
+  align-items: center;
+  margin-bottom: 37px;
+  margin-top: 28px;
+}
+
+.dbIcon {
+  margin-left: 3px; 
+  margin-right: 2px; 
+}
+
+
+.hotelFeatures span, .alignCenter {
+  display: flex;
+  align-items: center;
+}
+
+.hotelFeatures span:not(:last-child) {
+  margin-bottom: 0.7rem;
+}
+
+.ratingsSpan {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  color: #929090
+}
+
+.iconLabels {
+  margin-left: 10px !important;
+}
+
+.ratingsIcon {
+  color: #FF9C09
+}
+
+.bookNowButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 172px;
+  margin-left: auto;
+}
+
+.bookNowButtons div {
+  height: 50px;
+  border-radius: 30px;
+}
+
+.priceChipSpan {
+  display: flex;
+  align-items: flex-end;
+}
+
+.priceChipSpan h6{
+  font-weight: 700;
+  margin-right: 10px;
+  line-height: 33px;
+}
+
+.priceChipSpan span {
+  color: #9B9A9A;
+  line-height: 18px;
+  font-weight: 700;
+}
+
+.bookNowLabel {
+  font-weight: 700;
+  line-height: 29px;
+}
