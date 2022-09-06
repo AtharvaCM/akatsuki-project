@@ -15,6 +15,7 @@ import Router from "./router/Router";
 // context
 import ColorModeContext from "./store/color-mode-context";
 import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
   const [mode, setMode] = useState("light");
@@ -47,6 +48,7 @@ const App = () => {
         <Header />
 
         <Router />
+        <Footer/>
         {/* Insert footer here */}
       </ThemeProvider>
     </ColorModeContext.Provider>

@@ -1,4 +1,4 @@
-import { React} from "react";
+import { React, useState } from "react";
 
 // For Icons
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
@@ -11,15 +11,19 @@ import {
   AppBar,
   Typography,
   Toolbar,
-  Avatar,
   Box,
+  Avatar,
   Divider,
   Button,
 } from "@mui/material";
 
 const Header = () => {
+  const [isLogin, setIsLogin] = useState(false);
+  const onChangeHandler = () => {
+    setIsLogin(true);
+  };
   return (
-    <AppBar color="default" position="sticky">
+    <AppBar color="default" style={{ boxShadow: "none" }}>
       <Toolbar>
         <Box component="img" alt="Img" src={Logo} style={{ marginRight: 10 }} />
         <Typography variant="h6">Hotel Guide</Typography>
@@ -37,14 +41,16 @@ const Header = () => {
           flexItem
           style={{ marginLeft: 10, marginRight: 10 }}
         />
-        <>
-          <Avatar style={{ marginRight: 12 }} src={Profile}></Avatar>
-          <Typography>Adam Grant</Typography>
-        </>
-
-        {/* <Button variant="contained" size="small">
-          Login
-        </Button> */}
+        {isLogin ? (
+          <>
+            <Avatar style={{ marginRight: 12 }} src={Profile}></Avatar>
+            <Typography>Adam Grant</Typography>
+          </>
+        ) : (
+          <Button variant="contained" size="medium" onClick={onChangeHandler}>
+            Login
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );
