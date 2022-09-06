@@ -23,7 +23,7 @@ const Header = () => {
     setIsLogin(true);
   };
   return (
-    <AppBar color="default" style={{ boxShadow: "none" }}>
+    <AppBar color="default" style={{ boxShadow: "none" }} position="static">
       <Toolbar>
         <Box component="img" alt="Img" src={Logo} style={{ marginRight: 10 }} />
         <Typography variant="h6">Hotel Guide</Typography>
