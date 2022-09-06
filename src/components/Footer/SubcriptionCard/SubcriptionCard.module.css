@@ -1,16 +1,13 @@
 .mainCards { 
-    width: 80% ;
-    margin-right: 10%;
-    margin-left: 10%;
-    background-color: #326BFF;
-    position: fixed;
+    width: calc(100% - 12rem) ;
+    margin-right: 6rem;
+    margin-left: 6rem;
     border-radius: 10px;
-    bottom:33%;
     height: auto;
 }
 
 .innerCard {
-    margin: 2%;
+    /* margin: 2%; */
     border-radius: 10px;
     background-color: #326BFF;
 }
