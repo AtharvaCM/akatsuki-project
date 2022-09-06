@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import axios from "axios";
 
-export const useAxios = (url, method = "GET", payload = {}) => {
+export const useAxios = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [loaded, setLoaded] = useState(false);
@@ -14,23 +14,25 @@ export const useAxios = (url, method = "GET", payload = {}) => {
     controllerRef.current.abort();
   };
 
+  const callAPI = async (url, method = "GET", payload = {}) => {
+    try {
+      const response = await axios.request({
+        data: payload,
+        signal: controllerRef.current.signal,
+        method,
+        url,
+      });
+      setData(response.data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoaded(true);
+    }
+  };
+
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.request({
-          data: payload,
-          signal: controllerRef.current.signal,
-          method,
-          url,
-        });
-        setData(response.data);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoaded(true);
-      }
-    })();
+    (async () => {})();
   }, []);
 
-  return { cancel, data, error, loaded };
+  return { cancel, data, error, loaded, callAPI };
 };

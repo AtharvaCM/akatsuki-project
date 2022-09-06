@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // MUI
 import Container from "@mui/material/Container";
+
+// react router
+import { useLocation } from "react-router-dom";
 
 // custom components
 import HotelListCard from "../components/HotelListCard/HotelListCard";
 
 const HotelListPage = () => {
+  // get the state from prev page
+  const location = useLocation();
+
+  // react states
+  const [hotelList, setHotelList] = useState([]);
+
+  useEffect(() => {
+    // set the initial state
+    setHotelList(location.state);
+    console.log("location.state: ", location.state);
+  }, []);
+
+  console.log("hotelList: ", hotelList);
+
   return (
     <Container sx={{ mb: 5 }}>
       <HotelListCard
