@@ -1,0 +1,12 @@
+.footer {
+    background-color: #EAEAEB;
+    height: 40%;
+    position: fixed;
+    bottom: 0px; 
+}
+
+.innerfooter {
+    margin-top: 90px;
+    margin-left: 50px;
+    width: 100%;
+}
