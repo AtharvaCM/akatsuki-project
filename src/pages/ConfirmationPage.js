@@ -1,6 +1,11 @@
-import { Grid, Typography, Card, Box, Button } from "@mui/material";
-import { color } from "@mui/system";
 import React from "react";
+
+//Custom UI
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+
 
 const ConfirmationPage = () => {
   return (
@@ -23,66 +28,18 @@ const ConfirmationPage = () => {
         <Grid container spacing={1}>
           <Grid item xs={12} md={5}>
             <Grid container display="flex" style={{ marginBottom: "25px" }}>
-              <Box
-                style={{
-                  background: "#F4F4F6",
-                  borderRadius: "8px",
-                  padding: "10px",
-                  width: "42%",
-                  marginRight: "6%",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: "13px",
-                    fontWeight: 600,
-                    lineHeight: "15px",
-                  }}
-                >
-                  Dates
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: "14px",
-                    lineHeight: "20px",
-                    color: "#858383",
-                  }}
-                >
+              <Box sx={styles.smallBox}>
+                <Typography sx={styles.smallBoxHeading}>Dates</Typography>
+                <Typography sx={styles.smallBoxData}>
                   September 15 - 22 2022
                 </Typography>
               </Box>
-              <Box
-                style={{
-                  background: "#F4F4F6",
-                  borderRadius: "8px",
-                  padding: "10px",
-                  width: "42%",
-                }}
-              >
-                <Typography
-                  sx={{ fontSize: "13px", fontWeight: 600, lineHeight: "15px" }}
-                >
-                  Travelers
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: "14px",
-                    lineHeight: "20px",
-                    color: "#858383",
-                  }}
-                >
-                  3 Passengers
-                </Typography>
+              <Box sx={styles.smallBox}>
+                <Typography sx={styles.smallBoxHeading}>Travelers</Typography>
+                <Typography sx={styles.smallBoxData}>3 Passengers</Typography>
               </Box>
             </Grid>
-            <Box
-              style={{
-                background: "#F4F4F6",
-                borderRadius: "8px",
-                padding: "20px",
-                width: "90%",
-              }}
-            >
+            <Box sx={styles.ReservationDeatilsBox}>
               <Typography
                 sx={{
                   fontSize: "26px",
@@ -95,88 +52,20 @@ const ConfirmationPage = () => {
               </Typography>
               <Grid container>
                 <Grid item xs={7} md={7}>
-                  <Typography
-                    sx={{
-                      fontSize: "16px",
-                      lineHeight: "22px",
-                      fontWeight: "400",
-                      color: "#999898",
-                      marginBottom: "10px",
-                    }}
-                  >
+                  <Typography sx={styles.bookingHeaders}>
                     Booking Code
                   </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "16px",
-                      lineHeight: "22px",
-                      fontWeight: "400",
-                      color: "#999898",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    Date
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "16px",
-                      lineHeight: "22px",
-                      fontWeight: "400",
-                      color: "#999898",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    Total
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "16px",
-                      lineHeight: "22px",
-                      fontWeight: "400",
-                      color: "#999898",
-                    }}
-                  >
+                  <Typography sx={styles.bookingHeaders}>Date</Typography>
+                  <Typography sx={styles.bookingHeaders}>Total</Typography>
+                  <Typography sx={styles.bookingHeaders}>
                     Payment Method
                   </Typography>
                 </Grid>
                 <Grid item xs={4} md={4}>
-                  <Typography
-                    sx={{
-                      fontSize: "16px",
-                      lineHeight: "22px",
-                      fontWeight: "400",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    FD_158456
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "16px",
-                      lineHeight: "22px",
-                      fontWeight: "400",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    15.08.2022
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "16px",
-                      lineHeight: "22px",
-                      fontWeight: "400",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    $1000
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "16px",
-                      lineHeight: "22px",
-                      fontWeight: "400",
-                    }}
-                  >
+                  <Typography sx={styles.bookingDetails}>FD_158456</Typography>
+                  <Typography sx={styles.bookingDetails}>15.08.2022</Typography>
+                  <Typography sx={styles.bookingDetails}>$1000</Typography>
+                  <Typography sx={styles.bookingDetails}>
                     Credit card
                   </Typography>
                 </Grid>
@@ -184,27 +73,69 @@ const ConfirmationPage = () => {
             </Box>
           </Grid>
           <Grid item sx={12} md={7} display="flex">
-            {/* <Box
+            <Box
               component="img"
               alt="Img"
-              height="73%"
+              height="290px"
               width={"100%"}
               src="https://res.cloudinary.com/difrv1tb6/image/upload/v1662113208/HotelBookingAppAssets/BookingConfirmation_vjenmg.png"
               style={{ marginRight: 10 }}
-            /> */}
+            />
           </Grid>
         </Grid>
       </div>
-      <Button
-        variant="contained"
-        sx={{ borderRadius: "40px", marginTop: "20px", textTransform: "none" }}
-      >
+      <Button variant="contained" sx={styles.backButton}>
         Back to Home page
       </Button>
     </div>
   );
 };
 
-const styles = {};
+const styles = {
+  bookingDetails: {
+    fontSize: "16px",
+    lineHeight: "22px",
+    fontWeight: "400",
+    marginBottom: "10px",
+  },
+  bookingHeaders: {
+    fontSize: "16px",
+    lineHeight: "22px",
+    fontWeight: "400",
+    color: "#999898",
+    marginBottom: "10px",
+  },
+  backButton: {
+    borderRadius: "40px",
+    marginTop: "20px",
+    textTransform: "none",
+    height: "55px",
+    width: "240px",
+    fontSize: "18px",
+  },
+  ReservationDeatilsBox: {
+    background: "#F4F4F6",
+    borderRadius: "8px",
+    padding: "20px",
+    width: "90%",
+  },
+  smallBox: {
+    background: "#F4F4F6",
+    borderRadius: "8px",
+    padding: "10px",
+    width: "42%",
+    marginRight: "6%",
+  },
+  smallBoxHeading: {
+    fontSize: "13px",
+    fontWeight: 600,
+    lineHeight: "15px",
+  },
+  smallBoxData: {
+    fontSize: "14px",
+    lineHeight: "20px",
+    color: "#858383",
+  },
+};
 
 export default ConfirmationPage;
