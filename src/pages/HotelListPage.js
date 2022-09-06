@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 
 // custom components
 import HotelListCard from "../components/HotelListCard/HotelListCard";
+import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
 
 const HotelListPage = () => {
   // get the state from prev page
@@ -26,6 +27,7 @@ const HotelListPage = () => {
 
   return (
     <Container sx={{ mb: 5 }}>
+      <BreadCrumbs activePage="Hotel List" />
       <HotelListCard
         id={1}
         hotel_name="The Leela Kovalam"
