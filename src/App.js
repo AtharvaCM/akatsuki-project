@@ -48,11 +48,11 @@ const App = () => {
         <CssBaseline />
         <Header />
 
-        {/* <main style={styles.main}>
+        <main style={styles.main}>
           <Router />
-        </main> */}
-        <ViewReview />
-        {/* <Footer /> */}
+        </main>
+        
+        <Footer />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
