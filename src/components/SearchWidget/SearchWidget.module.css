@@ -1,0 +1,29 @@
+.searchwidget {
+    background: #FFFFFF;
+    box-shadow: 0px 4px 50px rgba(149, 149, 149, 0.25);
+    margin: 5%;
+    padding: 2% 3%;
+    border-radius: 12px;
+}
+
+.searchbtn {
+    height: 100%;
+    width: 100%;
+
+}
+
+.input {
+    background-color: #F0F1F2;
+    border: 1px solid #CAC8C8;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.label {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000000;
+}

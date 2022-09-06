@@ -17,7 +17,7 @@ const Home = () => {
   }, [data]);
 
   if (loaded) {
-    return error ? <p>Something went wrong</p> : <p>{stringifiedData}</p>;
+    return error ? <p>Something went wrong</p> : <p>Data ala</p>;
   }
 
   return <span>Loading...</span>;

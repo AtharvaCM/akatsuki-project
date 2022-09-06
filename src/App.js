@@ -32,6 +32,9 @@ const App = () => {
     () =>
       createTheme({
         palette: {
+          primary: {
+            main: "#3C71FF",
+          },
           mode,
         },
       }),
@@ -43,6 +46,7 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
+
         <Router />
         <Footer/>
         {/* Insert footer here */}
