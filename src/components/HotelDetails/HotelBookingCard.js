@@ -291,7 +291,7 @@ const HotelBookingCard = () => {
               </Grid>
             ))}
           </Box>
-          <Grid container>
+          <Grid container alignItems="center">
             <Grid item xs={9}>
               <Typography className={styles["night_text"]}>
                 Total Payment

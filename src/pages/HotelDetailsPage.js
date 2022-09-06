@@ -31,7 +31,7 @@ const hotel = {
     "Golf Course",
     "Airport Shuttle",
     "On Call Doctor",
-    "Covid safety Protocols ",
+    "Covid safety Protocols",
   ],
 
   amenities: [
@@ -41,12 +41,12 @@ const hotel = {
     "Complimentary drink",
     "Baby changing station",
     "Room Service",
-    "Smat TV",
+    "Smart TV",
     "Laundary Service",
     "Deck",
     "Duty free",
     "Breakfast included",
-    "Covid safety kit ",
+    "Covid safety kit",
   ],
 };
 
