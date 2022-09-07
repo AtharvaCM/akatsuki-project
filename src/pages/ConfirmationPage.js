@@ -6,6 +6,14 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
+import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
+import { ROUTES } from "../utils/constants/routingPathConstants";
+
+const BreadCrumbsData = [
+  { label: "Hotel List", route: ROUTES.HOTEL_LIST },
+  { label: "Hotel Details", route: ROUTES.HOTEL_DETAILS },
+];
+
 const ConfirmationPage = () => {
   const roomCount = 1;
   const bookingDate = "September 15 - 22 2022";
@@ -14,6 +22,7 @@ const ConfirmationPage = () => {
 
   return (
     <div style={{ margin: "20px" }}>
+      <BreadCrumbs data={BreadCrumbsData} activePage="Congratulations" />
       <Typography
         sx={{ fontSize: "20px", fontWeight: 600, lineHeight: "29px" }}
       >
