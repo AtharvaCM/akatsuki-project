@@ -17,6 +17,7 @@ import Footer from "./components/Footer/Footer";
 // context
 import ColorModeContext from "./store/color-mode-context";
 import ViewReview from "./components/ViewReview/ViewReview";
+import AddReview from "./components/AddReview/AddReview";
 
 const App = () => {
   const [mode, setMode] = useState("light");
@@ -48,11 +49,12 @@ const App = () => {
         <CssBaseline />
         <Header />
 
-        <main style={styles.main}>
+        {/* <main style={styles.main}>
           <Router />
-        </main>
+        </main> */}
+        <AddReview />
         
-        <Footer />
+        {/* <Footer /> */}
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
