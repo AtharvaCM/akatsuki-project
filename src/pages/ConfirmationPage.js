@@ -6,8 +6,13 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
-
 const ConfirmationPage = () => {
+  const roomCount = 1;
+  const bookingDate = "September 15 - 22 2022";
+  const NoOfPassenagers = 4;
+  const Details=["FD_158456","15.08.2022",1000,"Credit card"]
+
+
   return (
     <div style={{ margin: "20px" }}>
       <Typography
@@ -21,7 +26,7 @@ const ConfirmationPage = () => {
       <Typography
         sx={{ fontSize: "13px", fontWeight: 600, lineHeight: "15px" }}
       >
-        (1 Exclusive room)
+        ({roomCount} Exclusive room)
       </Typography>
 
       <div style={{ margin: "25px 0px" }}>
@@ -31,12 +36,12 @@ const ConfirmationPage = () => {
               <Box sx={styles.smallBox}>
                 <Typography sx={styles.smallBoxHeading}>Dates</Typography>
                 <Typography sx={styles.smallBoxData}>
-                  September 15 - 22 2022
+                  {bookingDate}
                 </Typography>
               </Box>
               <Box sx={styles.smallBox}>
                 <Typography sx={styles.smallBoxHeading}>Travelers</Typography>
-                <Typography sx={styles.smallBoxData}>3 Passengers</Typography>
+                <Typography sx={styles.smallBoxData}>{NoOfPassenagers} Passengers</Typography>
               </Box>
             </Grid>
             <Box sx={styles.ReservationDeatilsBox}>
@@ -62,12 +67,10 @@ const ConfirmationPage = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={4} md={4}>
-                  <Typography sx={styles.bookingDetails}>FD_158456</Typography>
-                  <Typography sx={styles.bookingDetails}>15.08.2022</Typography>
-                  <Typography sx={styles.bookingDetails}>$1000</Typography>
-                  <Typography sx={styles.bookingDetails}>
-                    Credit card
-                  </Typography>
+                  <Typography sx={styles.bookingDetails}>{Details[0]}</Typography>
+                  <Typography sx={styles.bookingDetails}>{Details[1]}</Typography>
+                  <Typography sx={styles.bookingDetails}>${Details[2]}</Typography>
+                  <Typography sx={styles.bookingDetails}>{Details[3]}</Typography>
                 </Grid>
               </Grid>
             </Box>
