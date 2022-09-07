@@ -8,6 +8,7 @@ import HotelHeader from "../components/HotelDetails/HotelHeader";
 import HotelDetailsTabs from "../components/HotelDetails/HotelDetailsTabs";
 import HotelBookingCard from "../components/HotelDetails/HotelBookingCard";
 import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
+import { ROUTES } from "../utils/constants/routingPathConstants";
 
 const hotel = {
   hotel_name: "The Leela Kovalam Kerala",
@@ -31,7 +32,7 @@ const hotel = {
     "Golf Course",
     "Airport Shuttle",
     "On Call Doctor",
-    "Covid safety Protocols ",
+    "Covid safety Protocols",
   ],
 
   amenities: [
@@ -41,20 +42,22 @@ const hotel = {
     "Complimentary drink",
     "Baby changing station",
     "Room Service",
-    "Smat TV",
+    "Smart TV",
     "Laundary Service",
     "Deck",
     "Duty free",
     "Breakfast included",
-    "Covid safety kit ",
+    "Covid safety kit",
   ],
 };
+
+const BreadCrumbsData = [{ label: "Hotel List", route: ROUTES.HOTEL_LIST }];
 
 const HotelDetailsPage = () => {
   return (
     <>
       <div style={{ padding: "2%" }}>
-        <BreadCrumbs />
+        <BreadCrumbs data={BreadCrumbsData} activePage="Hotel Details" />
         <HotelHeader
           hotel_name={hotel.hotel_name}
           rating={hotel.rating}

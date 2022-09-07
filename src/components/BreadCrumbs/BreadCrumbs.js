@@ -1,5 +1,6 @@
 import React from "react";
-import { Link as LinkDom } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 // MUI
 import Breadcrumbs from "@mui/material/Breadcrumbs";
@@ -11,19 +12,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 // CSS
 import styles from "./BreadCrumbs.module.css";
 
-const BreadCrumbs = () => {
-  const breadcrumbs = [
-    <LinkDom key="1" to="/" className={styles.link}>
-      Home
-    </LinkDom>,
-    <LinkDom key="1" to="/hotel-list" className={styles.link}>
-      Hotel List
-    </LinkDom>,
-    <Typography className={styles.activelink} key="3">
-      Hotel Details
-    </Typography>,
-  ];
-
+const BreadCrumbs = (props) => {
   return (
     <>
       <Breadcrumbs
@@ -31,10 +20,26 @@ const BreadCrumbs = () => {
         aria-label="breadcrumb"
         style={{ margin: "1% 0" }}
       >
-        {breadcrumbs}
+        <Link key="1" to="/" className={styles.link}>
+          Home
+        </Link>
+        {props.data &&
+          props.data.map((elt, index) => (
+            <Link key={index} to={elt.route} className={styles.link}>
+              {elt.label}
+            </Link>
+          ))}
+        <Typography key="10" sx={{ color: "black" }}>
+          {props.activePage}
+        </Typography>
       </Breadcrumbs>
     </>
   );
+};
+
+BreadCrumbs.propTypes = {
+  activePage: PropTypes.string,
+  data: PropTypes.array,
 };
 
 export default BreadCrumbs;

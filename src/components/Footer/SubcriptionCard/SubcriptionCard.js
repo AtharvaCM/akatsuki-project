@@ -14,37 +14,31 @@ const SubcriptionCard = () => {
             textAlign={"center"}
             sx={{ paddingY: "2rem", paddingX: "1rem" }}
           >
-            <Grid item xs={5}>
+            <Grid item xs={12} md={5}>
               <Typography variant="h5" color={"white"}>
                 Get Our Pro Offers
               </Typography>
             </Grid>
 
-            <Grid item xs={7}>
+            <Grid item xs={12} md={7}>
               <Card className={style.subCards}>
                 <Grid
                   className={style.rightCard}
                   container
-                  spacing={1}
                   display="flex"
-                  alignItems="center"
+                  alignItems="right"
+                  justifyContent={"space-between"}
                 >
-                  <Grid item xs={7}>
-                    {/* <TextField
-                        id="fullWidth"
-                        fullWidth
-                        placeholder="Type Your Email Here"
-                        
-                      /> */}
+                  <Grid item xs={8} md={8}>
                     <input
                       placeholder="Type Your Email Here"
                       className={style.emailFields}
                     ></input>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xs={4} md={4}>
                     <Button
                       size="large"
-                      style={{ backgroundColor: "#353945", color: "white" }}
+                      style={{ backgroundColor: "#353945", color: "white",marginTop:"4px" }}
                     >
                       Subcribe
                     </Button>

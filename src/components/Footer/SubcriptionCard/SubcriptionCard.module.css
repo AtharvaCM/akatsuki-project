@@ -1,13 +1,29 @@
-.mainCards { 
-    width: calc(100% - 12rem) ;
+.mainCards {
+    width: calc(100% - 12rem);
     margin-right: 6rem;
     margin-left: 6rem;
     border-radius: 10px;
     height: auto;
+    position: relative;
+    margin-bottom: -5%;
 }
 
+/* Responsive Text */
+@media screen and (max-width: 1000px) {
+    .mainCards {
+        margin-bottom: -8%;
+
+    }
+}
+
+/* @media screen and (max-width: 700px) {
+    .mainCards {
+        margin-bottom: -20%;
+
+    }
+} */
+
 .innerCard {
-    /* margin: 2%; */
     border-radius: 10px;
     background-color: #326BFF;
 }
@@ -16,11 +32,10 @@
     background-color: white;
     height: 70px;
     width: auto;
-    margin: 0px 20px 0px 0px;
 }
 
 .rightCard {
-    margin: 8px 0px;
+    padding: 9px 0px;
 }
 
 .emailFields {
