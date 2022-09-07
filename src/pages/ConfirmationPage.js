@@ -9,8 +9,8 @@ import Button from "@mui/material/Button";
 const ConfirmationPage = () => {
   const roomCount = 1;
   const bookingDate = "September 15 - 22 2022";
-  const NoOfPassenagers = 4;
-  const Details=["FD_158456","15.08.2022",1000,"Credit card"]
+  const noOfPassenagers = 4;
+  const details=["FD_158456","15.08.2022",1000,"Credit card"]
 
 
   return (
@@ -41,7 +41,7 @@ const ConfirmationPage = () => {
               </Box>
               <Box sx={styles.smallBox}>
                 <Typography sx={styles.smallBoxHeading}>Travelers</Typography>
-                <Typography sx={styles.smallBoxData}>{NoOfPassenagers} Passengers</Typography>
+                <Typography sx={styles.smallBoxData}>{noOfPassenagers} Passengers</Typography>
               </Box>
             </Grid>
             <Box sx={styles.ReservationDeatilsBox}>
@@ -67,10 +67,10 @@ const ConfirmationPage = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={4} md={4}>
-                  <Typography sx={styles.bookingDetails}>{Details[0]}</Typography>
-                  <Typography sx={styles.bookingDetails}>{Details[1]}</Typography>
-                  <Typography sx={styles.bookingDetails}>${Details[2]}</Typography>
-                  <Typography sx={styles.bookingDetails}>{Details[3]}</Typography>
+                  <Typography sx={styles.bookingDetails}>{details[0]}</Typography>
+                  <Typography sx={styles.bookingDetails}>{details[1]}</Typography>
+                  <Typography sx={styles.bookingDetails}>${details[2]}</Typography>
+                  <Typography sx={styles.bookingDetails}>{details[3]}</Typography>
                 </Grid>
               </Grid>
             </Box>
