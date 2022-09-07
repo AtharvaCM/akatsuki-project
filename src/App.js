@@ -51,6 +51,7 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
+
          <main style={styles.main}>
           <Router />
         </main> 
