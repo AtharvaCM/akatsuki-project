@@ -15,9 +15,6 @@ import dayjs from "dayjs";
 // CSS Imports
 import styles from "./SearchWidget.module.css";
 
-// custom hooks for API
-import { useAxios } from "../../hooks/useAxios";
-
 // react router
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/constants/routingPathConstants";
@@ -30,17 +27,14 @@ const DummyLocationOptions = [
   "Dehradun",
   "Mysore",
   "Manali",
+  "Kovalam",
 ];
-
-const URL = "http://localhost:5000/api/v1/hotels/";
 
 const SearchWidget = () => {
   // React Hooks
   const [location, setLocation] = useState(null);
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
-
-  const { data, error, loaded, callAPI } = useAxios();
 
   const navigate = useNavigate();
 
@@ -49,17 +43,20 @@ const SearchWidget = () => {
     console.log(location, checkInDate, checkOutDate);
     e.preventDefault();
     // call API
-    callAPI(`${URL}?location=${location}`);
+    navigate(ROUTES.HOTEL_LIST, {
+      replace: false,
+      state: { location, checkInDate, checkOutDate },
+    });
   };
 
-  if (error) {
-    console.log(error);
-  }
-
-  // if API call finished
-  if (loaded) {
-    navigate(ROUTES.HOTEL_LIST, { replace: false, state: data });
-  }
+  const onChangeCheckInDate = (newCheckInDate) => {
+    setCheckInDate(newCheckInDate);
+    // If Check-In date crosses check-Out date
+    // Then set Check-Out date tommorow of Check-in Date
+    if (dayjs(newCheckInDate).diff(dayjs(checkOutDate), "day") >= 0) {
+      setCheckOutDate(dayjs(newCheckInDate).add(1, "day"));
+    }
+  };
 
   return (
     <>
@@ -98,17 +95,7 @@ const SearchWidget = () => {
                     placeholder="DD/MM/YYYY"
                     className={styles["input"]}
                     onChange={(newCheckInDate) => {
-                      setCheckInDate(newCheckInDate);
-                      // If Check-In date crosses check-Out date
-                      // Then set Check-Out date tommorow of Check-in Date
-                      if (
-                        dayjs(newCheckInDate).diff(
-                          dayjs(checkOutDate),
-                          "day"
-                        ) >= 0
-                      ) {
-                        setCheckOutDate(dayjs(newCheckInDate).add(1, "day"));
-                      }
+                      onChangeCheckInDate(newCheckInDate);
                     }}
                     renderInput={(params) => (
                       <TextField {...params} required={true} />

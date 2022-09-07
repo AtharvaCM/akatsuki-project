@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 // MUI
 import Container from "@mui/material/Container";
@@ -10,20 +10,31 @@ import { useLocation } from "react-router-dom";
 import HotelListCard from "../components/HotelListCard/HotelListCard";
 import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
 
+// custom hooks for API
+import { useAxios } from "../hooks/useAxios";
+
+const URL = "http://localhost:5000/api/v1/hotels/";
+
 const HotelListPage = () => {
   // get the state from prev page
   const location = useLocation();
 
-  // react states
-  const [hotelList, setHotelList] = useState([]);
+  const { data: hotel_list_data, error, loaded, callAPI } = useAxios();
 
   useEffect(() => {
     // set the initial state
-    setHotelList(location.state);
-    console.log("location.state: ", location.state);
+    // setHotelList(location.state);
+    callAPI(`${URL}?location=${location.state.location}`);
   }, []);
 
-  console.log("hotelList: ", hotelList);
+  if (error) {
+    console.log(error);
+  }
+
+  // if API call finished
+  if (loaded) {
+    console.log("hotelList: ", hotel_list_data);
+  }
 
   return (
     <Container sx={{ mb: 5 }}>
