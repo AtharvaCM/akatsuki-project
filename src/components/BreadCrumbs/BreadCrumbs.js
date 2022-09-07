@@ -29,7 +29,9 @@ const BreadCrumbs = (props) => {
               {elt.label}
             </Link>
           ))}
-        <Typography key="10">{props.activePage}</Typography>
+        <Typography key="10" sx={{ color: "black" }}>
+          {props.activePage}
+        </Typography>
       </Breadcrumbs>
     </>
   );
