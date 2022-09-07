@@ -11,11 +11,14 @@ import "@fontsource/roboto/700.css";
 
 // custom components
 import Router from "./router/Router";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
 // context
 import ColorModeContext from "./store/color-mode-context";
-import Header from "./components/Header/Header";
+
 import RoomTypeCard from "./components/RoomTypeCard/RoomTypeCard";
+
 
 const App = () => {
   const [mode, setMode] = useState("light");
@@ -46,12 +49,22 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        {/* <Router /> */}
-        <RoomTypeCard />
-        {/* Insert footer here */}
+
+        <main style={styles.main}>
+          <Router />
+        </main>
+
+        <Footer />
+
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
+};
+
+const styles = {
+  main: {
+    minHeight: "70vh",
+  },
 };
 
 export default App;

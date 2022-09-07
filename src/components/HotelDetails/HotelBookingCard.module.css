@@ -1,0 +1,52 @@
+.booking_card {
+    padding: 5%;
+    background: #FFFFFF;
+    border: 1px solid #D1CECE;
+    border-radius: 30px;
+}
+
+/* Card Header */
+.card_header {
+    margin-bottom: 3%;
+    align-items: center;
+}
+
+.night_text {
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    color: #A4A2A2;
+}
+
+.discounted_price {
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    color: #C9C8C8;
+}
+
+.discount_chip {
+    padding: 2%;
+    font-size: 0.8rem;
+
+}
+
+/* Card Content */
+
+.dates_container {
+    margin-top: 4%;
+}
+
+.inputfullwidth {
+    margin-top: 4%;
+    width: 100%;
+}
+
+
+.cardfooter {
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.4rem;
+    color: #C9C8C8;
+    text-align: center;
+}
