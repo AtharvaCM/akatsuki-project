@@ -19,6 +19,11 @@ import styles from "./SearchWidget.module.css";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/constants/routingPathConstants";
 
+import { useDispatch, useSelector } from "react-redux";
+
+// actions
+import { updateSearchParams } from "../../store/searchHotelSlice";
+
 // List of locations will come from backend
 const DummyLocationOptions = [
   "Pune",
@@ -31,21 +36,39 @@ const DummyLocationOptions = [
 ];
 
 const SearchWidget = () => {
+  const dispatch = useDispatch();
+
+  const {
+    location: searchedLocation,
+    checkInDate: searchedCheckInDate,
+    checkOutDate: searchedCheckOutDate,
+  } = useSelector((state) => state.searchHotel);
+
   // React Hooks
-  const [location, setLocation] = useState(null);
-  const [checkInDate, setCheckInDate] = useState(null);
-  const [checkOutDate, setCheckOutDate] = useState(null);
+  const [location, setLocation] = useState(searchedLocation ?? null);
+  const [checkInDate, setCheckInDate] = useState(
+    searchedCheckInDate ? JSON.parse(searchedCheckInDate) : null
+  );
+  const [checkOutDate, setCheckOutDate] = useState(
+    searchedCheckOutDate ? JSON.parse(searchedCheckOutDate) : null
+  );
 
   const navigate = useNavigate();
 
   // Functions
   const searchSubmitHandler = (e) => {
-    console.log(location, checkInDate, checkOutDate);
     e.preventDefault();
+    console.log(location, checkInDate, checkOutDate);
+    dispatch(
+      updateSearchParams({
+        location: location,
+        checkInDate: JSON.stringify(checkInDate) ?? null,
+        checkOutDate: JSON.stringify(checkOutDate) ?? null,
+      })
+    );
     // call API
     navigate(ROUTES.HOTEL_LIST, {
       replace: false,
-      state: { location, checkInDate, checkOutDate },
     });
   };
 

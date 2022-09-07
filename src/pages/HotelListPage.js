@@ -4,7 +4,8 @@ import React, { useEffect } from "react";
 import Container from "@mui/material/Container";
 
 // react router
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // custom components
 import HotelListCard from "../components/HotelListCard/HotelListCard";
@@ -15,33 +16,36 @@ import { useAxios } from "../hooks/useAxios";
 
 // paths
 import { ROUTES } from "../utils/constants/routingPathConstants";
+import SearchWidget from "../components/SearchWidget/SearchWidget";
 
 const URL = "http://localhost:5000/api/v1/hotels/";
 
 const HotelListPage = () => {
+  const {
+    location: searchedLocation,
+    checkInDate: searchedCheckInDate,
+    checkOutDate: searchedCheckOutDate,
+  } = useSelector((state) => state.searchHotel);
+
   // get the state from prev page
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
 
   const { data: hotel_list_data, error, loaded, callAPI } = useAxios();
 
   useEffect(() => {
     // set the initial state
-    if (location.state === null) {
+    if (searchedLocation === null) {
       // console.log("Here is me");
       navigate(ROUTES.HOME);
-    } else {
-      const {
-        location: searchLocation,
-        checkInDate,
-        checkOutDate,
-      } = location.state;
-
-      callAPI(
-        `${URL}?location=${searchLocation}&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}`
-      );
     }
+    // else {
+    //   callAPI(
+    //     `${URL}?location=${searchedLocation}&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}`
+    //   );
+    // }
   }, []);
+  console.log(searchedLocation, searchedCheckInDate, searchedCheckOutDate);
 
   if (error) {
     console.log(error);
@@ -55,6 +59,7 @@ const HotelListPage = () => {
   return (
     <Container sx={{ mb: 5 }}>
       <BreadCrumbs activePage="Hotel List" />
+      <SearchWidget />
       <HotelListCard
         id={1}
         hotel_name="The Leela Kovalam"
