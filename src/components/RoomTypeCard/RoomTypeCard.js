@@ -17,6 +17,11 @@ const services = [
   "No-refundable",
 ];
 
+const room_type="Double Room";
+const price=350;
+const offerPercentage=10;
+
+
 const RoomTypeCard = () => {
   return (
     <div>
@@ -24,7 +29,7 @@ const RoomTypeCard = () => {
         <div className={style.innerCard}>
           <Grid container spacing={2}>
             <Grid item xs={9}>
-              <Typography variant="h6" style={{ fontWeight: "bolder"}}>Double Room</Typography>
+              <Typography variant="h6" style={{ fontWeight: "bolder"}}>{room_type}</Typography>
               <Typography style={{ fontSize: 12, color: "#89898C",margin:"7px 0px" }}>
                 Offer Conditions
               </Typography>
@@ -55,17 +60,17 @@ const RoomTypeCard = () => {
             <Grid item xs={3} textAlign={"right"}>
               <div>
                 <Typography variant="h6">
-                  $230
+                ${price- Math.round((price*offerPercentage)/100)}
                   <span style={{ color: "#A4A2A2", fontSize: "16px" }}>
                     /night
                   </span>
                 </Typography>
               </div>
               <Typography style={{ color: "#FF9C09", fontSize: "16px",fontWeight:600,lineHeight:"21.78px" }}>
-                Save $4
+                Save ${Math.round((price*offerPercentage)/100)}
               </Typography>
               <Typography style={{ color: "#A4A2A2", fontSize: "12px"}}>
-                Amount before discount $234/night
+                Amount before discount ${price}/night
               </Typography>
               <Button variant="contained" style={{ marginTop: 7,borderRadius:"9px",fontSize:"15px",textTransform:"none" }}>
                 Select
