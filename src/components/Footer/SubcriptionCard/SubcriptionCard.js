@@ -25,21 +25,20 @@ const SubcriptionCard = () => {
                 <Grid
                   className={style.rightCard}
                   container
-                  spacing={1}
                   display="flex"
-                  alignItems="center"
-                  
+                  alignItems="right"
+                  justifyContent={"space-between"}
                 >
-                  <Grid item xs={5} md={7}>
+                  <Grid item xs={8} md={8}>
                     <input
                       placeholder="Type Your Email Here"
                       className={style.emailFields}
                     ></input>
                   </Grid>
-                  <Grid item xs={5} md={5}>
+                  <Grid item xs={4} md={4}>
                     <Button
                       size="large"
-                      style={{ backgroundColor: "#353945", color: "white" }}
+                      style={{ backgroundColor: "#353945", color: "white",marginTop:"4px" }}
                     >
                       Subcribe
                     </Button>
