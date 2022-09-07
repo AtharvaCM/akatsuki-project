@@ -21,10 +21,15 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 
+import { ROUTES } from "../../utils/constants/routingPathConstants";
+// react router
+import { useNavigate } from "react-router-dom";
+
 // CSS
 import styles from "./HotelBookingCard.module.css";
 
 const HotelBookingCard = () => {
+  const navigate = useNavigate();
   // Dummy data
   const roomPrice = 720;
   const extraFeatures = [
@@ -55,31 +60,32 @@ const HotelBookingCard = () => {
     setGuestsCount((prevState) => +prevState + 1);
   };
 
-  const decrementRoomsCount = () => {
-    if (roomsCount > 1) {
-      setRoomsCount((prevState) => +prevState - 1);
-      setTotalAmount((prevState) => prevState - roomPrice * numberOfDays);
-    }
-  };
+  // Do NOT TOUCH THIS COMMENTED CODE . IT WILL BE ADDED IN NEXT SPRINT
+  // const decrementRoomsCount = () => {
+  //   if (roomsCount > 1) {
+  //     setRoomsCount((prevState) => +prevState - 1);
+  //     setTotalAmount((prevState) => prevState - roomPrice * numberOfDays);
+  //   }
+  // };
 
-  const incrementRoomsCount = () => {
-    setRoomsCount((prevState) => +prevState + 1);
-    setTotalAmount((prevState) => prevState + roomPrice * numberOfDays);
-  };
+  // const incrementRoomsCount = () => {
+  //   setRoomsCount((prevState) => +prevState + 1);
+  //   setTotalAmount((prevState) => prevState + roomPrice * numberOfDays);
+  // };
+
+  // const roomInputOnChangeHandler = (e) => {
+  //   let newRoomsCount =
+  //     e.target.value.length === 0 || e.target.value < 1 ? "" : e.target.value;
+
+  //   setRoomsCount(newRoomsCount);
+  //   setTotalAmount(
+  //     extraFeatureAmount + newRoomsCount * +roomPrice * numberOfDays
+  //   );
+  // };
 
   const guestsInputOnChangeHandler = (e) => {
     setGuestsCount(
       e.target.value.length === 0 || e.target.value < 1 ? "" : e.target.value
-    );
-  };
-
-  const roomInputOnChangeHandler = (e) => {
-    let newRoomsCount =
-      e.target.value.length === 0 || e.target.value < 1 ? "" : e.target.value;
-
-    setRoomsCount(newRoomsCount);
-    setTotalAmount(
-      extraFeatureAmount + newRoomsCount * +roomPrice * numberOfDays
     );
   };
 
@@ -120,6 +126,8 @@ const HotelBookingCard = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    // Redirect to booking confirmation page
+    navigate(`${ROUTES.BOOKING_CONFIRMATION}`);
   };
 
   return (
@@ -229,8 +237,8 @@ const HotelBookingCard = () => {
                 </IconButton>
               </Grid>
             </Grid>
-
-            <Grid container className={styles["card_header"]}>
+            {/* // Do NOT TOUCH THIS COMMENTED CODE . IT WILL BE ADDED IN NEXT SPRINT */}
+            {/* <Grid container className={styles["card_header"]}>
               <Grid item xs={2}>
                 <IconButton
                   onClick={decrementRoomsCount}
@@ -262,7 +270,7 @@ const HotelBookingCard = () => {
                   <AddBoxIcon fontSize="large" color="info"></AddBoxIcon>
                 </IconButton>
               </Grid>
-            </Grid>
+            </Grid> */}
           </Box>
 
           <Typography className={styles["night_text"]}>
@@ -294,7 +302,7 @@ const HotelBookingCard = () => {
           <Grid container alignItems="center">
             <Grid item xs={9}>
               <Typography className={styles["night_text"]}>
-                Total Payment
+                Total Payment (for {numberOfDays} days)
               </Typography>
             </Grid>
             <Grid item xs={3}>
