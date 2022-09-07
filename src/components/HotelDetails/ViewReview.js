@@ -7,11 +7,10 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
-import Button  from "@mui/material/Button";
+import Button from "@mui/material/Button";
 
 //Image
-import user from "./user.png";
-
+import user from "../../assets/images/user.png";
 
 const ViewReview = () => {
   const followers = 67;
@@ -20,8 +19,8 @@ const ViewReview = () => {
   const date = "15.09.2021";
   const reviewText =
     "We had the most spectacular view. Beautifully appointed rooms.Awesome food and curteous staff. Highly recommend it.";
-  const rating=4;
-  
+  const rating = 4;
+
   return (
     <Card variant="outlined" style={styles.mainCard}>
       <Grid container display="flex">
@@ -77,8 +76,8 @@ const ViewReview = () => {
 
 const styles = {
   mainCard: {
-    padding: "30px 60px",
-    margin: "10% ",
+    padding: "30px",
+    margin: "5% 0",
     borderRadius: "10px",
   },
   userDetailsDiv: {
@@ -100,7 +99,7 @@ const styles = {
   },
   buttons: {
     height: "31px",
-    width: "131px",
+    width: "fit-content",
     borderRadius: "20px",
     backgroundColor: "#E7EFFC",
     border: "none",
