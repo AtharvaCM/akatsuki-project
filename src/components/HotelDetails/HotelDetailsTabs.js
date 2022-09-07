@@ -12,6 +12,7 @@ import ViewReview from "./ViewReview";
 import RoomTypeCard from "./RoomTypeCard";
 
 const PaddingZeroStyle = {
+  whiteSpace: "pre-line",
   paddingLeft: "0",
   paddingRight: "0",
 };
