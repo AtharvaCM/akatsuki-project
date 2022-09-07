@@ -19,6 +19,9 @@ import ColorModeContext from "./store/color-mode-context";
 import ViewReview from "./components/ViewReview/ViewReview";
 import AddReview from "./components/AddReview/AddReview";
 
+import RoomTypeCard from "./components/RoomTypeCard/RoomTypeCard";
+
+
 const App = () => {
   const [mode, setMode] = useState("light");
   const colorMode = useMemo(
@@ -48,13 +51,11 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-
-        {/* <main style={styles.main}>
+         <main style={styles.main}>
           <Router />
-        </main> */}
-        <AddReview />
-        
-        {/* <Footer /> */}
+        </main> 
+        <Footer />
+
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

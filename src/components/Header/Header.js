@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 // path constants
 import { ROUTES } from "../../utils/constants/routingPathConstants";
 
+
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
 
@@ -37,7 +38,9 @@ const Header = () => {
   };
 
   return (
-    <AppBar color="default" style={{ boxShadow: "none" }} position="static">
+
+    <AppBar color="default" position="sticky" style={{boxShadow:"none"}}>
+
       <Toolbar>
         <Box
           component="img"
