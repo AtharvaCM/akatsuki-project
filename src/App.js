@@ -17,6 +17,9 @@ import Footer from "./components/Footer/Footer";
 // context
 import ColorModeContext from "./store/color-mode-context";
 
+import RoomTypeCard from "./components/RoomTypeCard/RoomTypeCard";
+
+
 const App = () => {
   const [mode, setMode] = useState("light");
   const colorMode = useMemo(
@@ -52,6 +55,7 @@ const App = () => {
         </main>
 
         <Footer />
+
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
