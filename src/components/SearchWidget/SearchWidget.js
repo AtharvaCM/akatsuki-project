@@ -15,6 +15,13 @@ import dayjs from "dayjs";
 // CSS Imports
 import styles from "./SearchWidget.module.css";
 
+// custom hooks for API
+import { useAxios } from "../../hooks/useAxios";
+
+// react router
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../utils/constants/routingPathConstants";
+
 // List of locations will come from backend
 const DummyLocationOptions = [
   "Pune",
@@ -25,17 +32,34 @@ const DummyLocationOptions = [
   "Manali",
 ];
 
+const URL = "http://localhost:5000/api/v1/hotels/";
+
 const SearchWidget = () => {
   // React Hooks
   const [location, setLocation] = useState(null);
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
 
+  const { data, error, loaded, callAPI } = useAxios();
+
+  const navigate = useNavigate();
+
   // Functions
   const searchSubmitHandler = (e) => {
     console.log(location, checkInDate, checkOutDate);
     e.preventDefault();
+    // call API
+    callAPI(`${URL}?location=${location}`);
   };
+
+  if (error) {
+    console.log(error);
+  }
+
+  // if API call finished
+  if (loaded) {
+    navigate(ROUTES.HOTEL_LIST, { replace: false, state: data });
+  }
 
   return (
     <>
@@ -63,7 +87,7 @@ const SearchWidget = () => {
                   )}
                 />
               </Grid>
-              <Grid item xs={12} sm={5} md={3}>
+              <Grid item xs={6} sm={5} md={3}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     clearable={true}
@@ -92,7 +116,7 @@ const SearchWidget = () => {
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={12} sm={5} md={3}>
+              <Grid item xs={6} sm={5} md={3}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Check Out"

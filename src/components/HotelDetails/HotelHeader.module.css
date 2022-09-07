@@ -1,0 +1,67 @@
+.hotel_name {
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 39px;
+    color: #000000;
+}
+
+.caption {
+    width: 100%;
+    margin-top: 1%;
+    font-weight: 400;
+    font-size: 0.8rem;
+}
+
+.star {
+    color: #FF9C09;
+}
+
+.grey {
+    color: #878686;
+}
+
+.iconfontsize {
+
+    font-size: large;
+    margin-right: 0.5%;
+}
+
+.hotel_address {
+    margin-left: 5%;
+}
+
+/* IMAGES SECTION */
+
+.imagecontainer {
+    height: fit-content;
+    margin: 2% 0;
+    border-radius: 30px;
+}
+
+.leftimg {
+    height: 100%;
+    width: 100%;
+
+}
+
+.rightimg {
+    padding-left: 16px;
+    width: 100%;
+    height: 100%;
+}
+
+.room_title {
+    margin-top: 1%;
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 30px;
+    color: #000000;
+}
+
+.city_state {
+    margin-top: 0.5%;
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 22px;
+    color: #797F91;
+}

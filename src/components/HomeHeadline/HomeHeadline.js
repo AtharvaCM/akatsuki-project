@@ -14,7 +14,7 @@ const HomeHeadline = () => {
           className={styles.headlinebgimage}
           src={IMAGES.HOMEPAGE_HOTEL_IMAGE}
           alt="Hotel_Image"
-        ></img>
+        />
         <div className={styles.headlinecontainer}>
           <h2 className={styles.headline}>
             Book With Us <br /> And Enjoy Your
