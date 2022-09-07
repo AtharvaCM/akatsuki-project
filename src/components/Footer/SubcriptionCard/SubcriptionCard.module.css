@@ -1,10 +1,27 @@
-.mainCards { 
-    width: calc(100% - 12rem) ;
+.mainCards {
+    width: calc(100% - 12rem);
     margin-right: 6rem;
     margin-left: 6rem;
     border-radius: 10px;
     height: auto;
+    position: relative;
+    margin-bottom: -5%;
 }
+
+/* Responsive Text */
+@media screen and (max-width: 1000px) {
+    .mainCards {
+        margin-bottom: -8%;
+
+    }
+}
+
+/* @media screen and (max-width: 700px) {
+    .mainCards {
+        margin-bottom: -20%;
+
+    }
+} */
 
 .innerCard {
     /* margin: 2%; */
