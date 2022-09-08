@@ -6,15 +6,23 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
+import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
+import { ROUTES } from "../utils/constants/routingPathConstants";
+
+const BreadCrumbsData = [
+  { label: "Hotel List", route: ROUTES.HOTEL_LIST },
+  { label: "Hotel Details", route: ROUTES.HOTEL_DETAILS },
+];
+
 const ConfirmationPage = () => {
   const roomCount = 1;
   const bookingDate = "September 15 - 22 2022";
   const NoOfPassenagers = 4;
-  const Details=["FD_158456","15.08.2022",1000,"Credit card"]
-
+  const Details = ["FD_158456", "15.08.2022", 1000, "Credit card"];
 
   return (
     <div style={{ margin: "20px" }}>
+      <BreadCrumbs data={BreadCrumbsData} activePage="Congratulations" />
       <Typography
         sx={{ fontSize: "20px", fontWeight: 600, lineHeight: "29px" }}
       >
@@ -35,13 +43,13 @@ const ConfirmationPage = () => {
             <Grid container display="flex" style={{ marginBottom: "25px" }}>
               <Box sx={styles.smallBox}>
                 <Typography sx={styles.smallBoxHeading}>Dates</Typography>
-                <Typography sx={styles.smallBoxData}>
-                  {bookingDate}
-                </Typography>
+                <Typography sx={styles.smallBoxData}>{bookingDate}</Typography>
               </Box>
               <Box sx={styles.smallBox}>
                 <Typography sx={styles.smallBoxHeading}>Travelers</Typography>
-                <Typography sx={styles.smallBoxData}>{NoOfPassenagers} Passengers</Typography>
+                <Typography sx={styles.smallBoxData}>
+                  {NoOfPassenagers} Passengers
+                </Typography>
               </Box>
             </Grid>
             <Box sx={styles.ReservationDeatilsBox}>
@@ -67,15 +75,23 @@ const ConfirmationPage = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={4} md={4}>
-                  <Typography sx={styles.bookingDetails}>{Details[0]}</Typography>
-                  <Typography sx={styles.bookingDetails}>{Details[1]}</Typography>
-                  <Typography sx={styles.bookingDetails}>${Details[2]}</Typography>
-                  <Typography sx={styles.bookingDetails}>{Details[3]}</Typography>
+                  <Typography sx={styles.bookingDetails}>
+                    {Details[0]}
+                  </Typography>
+                  <Typography sx={styles.bookingDetails}>
+                    {Details[1]}
+                  </Typography>
+                  <Typography sx={styles.bookingDetails}>
+                    ${Details[2]}
+                  </Typography>
+                  <Typography sx={styles.bookingDetails}>
+                    {Details[3]}
+                  </Typography>
                 </Grid>
               </Grid>
             </Box>
           </Grid>
-          <Grid item sx={12} md={7} display="flex">
+          <Grid item xs={12} md={7} display="flex">
             <Box
               component="img"
               alt="Img"

@@ -8,9 +8,9 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Button from "@mui/material/Button";
 
 const AddReview = () => {
-  const [value,setValue] = useState(3);
+  const [value, setValue] = useState(3);
   return (
-    <div style={{ margin: "10%" }}>
+    <div>
       <Box
         display={"flex"}
         alignItems="center"

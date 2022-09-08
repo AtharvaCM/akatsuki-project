@@ -15,12 +15,14 @@ import dayjs from "dayjs";
 // CSS Imports
 import styles from "./SearchWidget.module.css";
 
-// custom hooks for API
-import { useAxios } from "../../hooks/useAxios";
-
 // react router
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/constants/routingPathConstants";
+
+import { useDispatch, useSelector } from "react-redux";
+
+// actions
+import { updateSearchParams } from "../../store/searchHotelSlice";
 
 // List of locations will come from backend
 const DummyLocationOptions = [
@@ -30,36 +32,54 @@ const DummyLocationOptions = [
   "Dehradun",
   "Mysore",
   "Manali",
+  "Kovalam",
 ];
 
-const URL = "http://localhost:5000/api/v1/hotels/";
-
 const SearchWidget = () => {
-  // React Hooks
-  const [location, setLocation] = useState(null);
-  const [checkInDate, setCheckInDate] = useState(null);
-  const [checkOutDate, setCheckOutDate] = useState(null);
+  const dispatch = useDispatch();
 
-  const { data, error, loaded, callAPI } = useAxios();
+  const {
+    location: searchedLocation,
+    checkInDate: searchedCheckInDate,
+    checkOutDate: searchedCheckOutDate,
+  } = useSelector((state) => state.searchHotel);
+
+  // React Hooks
+  const [location, setLocation] = useState(searchedLocation ?? null);
+  const [checkInDate, setCheckInDate] = useState(
+    searchedCheckInDate ? JSON.parse(searchedCheckInDate) : null
+  );
+  const [checkOutDate, setCheckOutDate] = useState(
+    searchedCheckOutDate ? JSON.parse(searchedCheckOutDate) : null
+  );
 
   const navigate = useNavigate();
 
   // Functions
   const searchSubmitHandler = (e) => {
-    console.log(location, checkInDate, checkOutDate);
     e.preventDefault();
+    console.log(location, checkInDate, checkOutDate);
+    dispatch(
+      updateSearchParams({
+        location: location,
+        checkInDate: JSON.stringify(checkInDate) ?? null,
+        checkOutDate: JSON.stringify(checkOutDate) ?? null,
+      })
+    );
     // call API
-    callAPI(`${URL}?location=${location}`);
+    navigate(ROUTES.HOTEL_LIST, {
+      replace: false,
+    });
   };
 
-  if (error) {
-    console.log(error);
-  }
-
-  // if API call finished
-  if (loaded) {
-    navigate(ROUTES.HOTEL_LIST, { replace: false, state: data });
-  }
+  const onChangeCheckInDate = (newCheckInDate) => {
+    setCheckInDate(newCheckInDate);
+    // If Check-In date crosses check-Out date
+    // Then set Check-Out date tommorow of Check-in Date
+    if (dayjs(newCheckInDate).diff(dayjs(checkOutDate), "day") >= 0) {
+      setCheckOutDate(dayjs(newCheckInDate).add(1, "day"));
+    }
+  };
 
   return (
     <>
@@ -98,17 +118,7 @@ const SearchWidget = () => {
                     placeholder="DD/MM/YYYY"
                     className={styles["input"]}
                     onChange={(newCheckInDate) => {
-                      setCheckInDate(newCheckInDate);
-                      // If Check-In date crosses check-Out date
-                      // Then set Check-Out date tommorow of Check-in Date
-                      if (
-                        dayjs(newCheckInDate).diff(
-                          dayjs(checkOutDate),
-                          "day"
-                        ) >= 0
-                      ) {
-                        setCheckOutDate(dayjs(newCheckInDate).add(1, "day"));
-                      }
+                      onChangeCheckInDate(newCheckInDate);
                     }}
                     renderInput={(params) => (
                       <TextField {...params} required={true} />

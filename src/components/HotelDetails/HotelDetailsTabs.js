@@ -7,8 +7,12 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 // Custom Components
 import HotelFeatures from "./HotelFeatures";
+import AddReview from "./AddReview";
+import ViewReview from "./ViewReview";
+import RoomTypeCard from "./RoomTypeCard";
 
 const PaddingZeroStyle = {
+  whiteSpace: "pre-line",
   paddingLeft: "0",
   paddingRight: "0",
 };
@@ -43,10 +47,12 @@ const HotelDetailsTabs = (props) => {
             />
           </TabPanel>
           <TabPanel style={PaddingZeroStyle} value="3">
-            <h3>Room Types here</h3>
+            <RoomTypeCard />
           </TabPanel>
           <TabPanel style={PaddingZeroStyle} value="4">
-            <h3>Reviews here</h3>
+            <AddReview />
+            <ViewReview />
+            <ViewReview />
           </TabPanel>
         </TabContext>
       </Box>

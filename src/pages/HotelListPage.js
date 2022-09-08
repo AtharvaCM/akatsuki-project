@@ -1,33 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 // MUI
 import Container from "@mui/material/Container";
 
 // react router
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // custom components
 import HotelListCard from "../components/HotelListCard/HotelListCard";
 import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
 
-const HotelListPage = () => {
-  // get the state from prev page
-  const location = useLocation();
+// custom hooks for API
+import { useAxios } from "../hooks/useAxios";
 
-  // react states
-  const [hotelList, setHotelList] = useState([]);
+// paths
+import { ROUTES } from "../utils/constants/routingPathConstants";
+import SearchWidget from "../components/SearchWidget/SearchWidget";
+
+const URL = "http://localhost:5000/api/v1/hotels/";
+
+const HotelListPage = () => {
+  const {
+    location: searchedLocation,
+    checkInDate: searchedCheckInDate,
+    checkOutDate: searchedCheckOutDate,
+  } = useSelector((state) => state.searchHotel);
+
+  // get the state from prev page
+  // const location = useLocation();
+  const navigate = useNavigate();
+
+  const { data: hotel_list_data, error, loaded, callAPI } = useAxios();
 
   useEffect(() => {
     // set the initial state
-    setHotelList(location.state);
-    console.log("location.state: ", location.state);
+    if (searchedLocation === null) {
+      // console.log("Here is me");
+      navigate(ROUTES.HOME);
+    }
+    // else {
+    //   callAPI(
+    //     `${URL}?location=${searchedLocation}&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}`
+    //   );
+    // }
   }, []);
+  console.log(searchedLocation, searchedCheckInDate, searchedCheckOutDate);
 
-  console.log("hotelList: ", hotelList);
+  if (error) {
+    console.log(error);
+  }
+
+  // if API call finished
+  if (loaded) {
+    console.log("hotelList: ", hotel_list_data);
+  }
 
   return (
     <Container sx={{ mb: 5 }}>
       <BreadCrumbs activePage="Hotel List" />
+      <SearchWidget />
       <HotelListCard
         id={1}
         hotel_name="The Leela Kovalam"
