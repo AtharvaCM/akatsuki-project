@@ -16,13 +16,13 @@ const HotelHeader = (props) => {
   return (
     <>
       <Typography variant="h4" className={styles["hotel_name"]}>
-        {props.hotel_name}
+        {props.name}
       </Typography>
       <div className={`${styles.caption}`}>
         <Typography variant="caption" className={`${styles.caption}`}>
           <Grid container direction="row" alignItems="center">
             <StarIcon className={`${styles.star} ${styles.iconfontsize}`} />
-            {props.rating}
+            {props.ratings}
             <span className={`${styles.grey}`}>
               &nbsp;({props.number_of_reviews} reviews)
             </span>
@@ -38,7 +38,7 @@ const HotelHeader = (props) => {
           <Grid item xs={12} md={7}>
             <img
               className={styles.leftimg}
-              src={props.images[0]}
+              src={props.room_images[0]}
               alt="Hotel_Image"
             ></img>
           </Grid>
@@ -48,7 +48,7 @@ const HotelHeader = (props) => {
                 <Grid key={number} item xs={12} md={12}>
                   <img
                     className={styles.rightimg}
-                    src={props.images[number]}
+                    src={props.room_images[number]}
                     alt="Hotel_Image"
                   ></img>
                 </Grid>
@@ -59,7 +59,7 @@ const HotelHeader = (props) => {
       </div>
       <div>
         <Tags />
-        <Rating name="read-only" value={props.rating} readOnly />
+        <Rating name="read-only" value={props.ratings} readOnly />
       </div>
       <Typography variant="h5" className={styles["room_title"]}>
         Exclusive room in house
@@ -72,13 +72,13 @@ const HotelHeader = (props) => {
 };
 
 HotelHeader.propTypes = {
-  hotel_name: PropTypes.string,
-  rating: PropTypes.number,
+  name: PropTypes.string,
+  ratings: PropTypes.number,
   number_of_reviews: PropTypes.number,
   address: PropTypes.string,
   city: PropTypes.string,
   state: PropTypes.string,
-  images: PropTypes.array,
+  room_images: PropTypes.array,
 };
 
 export default HotelHeader;

@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // MUI
 import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 // react router
 import { useNavigate } from "react-router-dom";
@@ -10,15 +12,15 @@ import { useSelector } from "react-redux";
 // custom components
 import HotelListCard from "../components/HotelListCard/HotelListCard";
 import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
+import SearchWidget from "../components/SearchWidget/SearchWidget";
 
 // custom hooks for API
 import { useAxios } from "../hooks/useAxios";
 
 // paths
 import { ROUTES } from "../utils/constants/routingPathConstants";
-import SearchWidget from "../components/SearchWidget/SearchWidget";
 
-// const URL = "http://localhost:5000/api/v1/hotels/";
+const hotelListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/`;
 
 const HotelListPage = () => {
   const {
@@ -27,56 +29,96 @@ const HotelListPage = () => {
     checkOutDate: searchedCheckOutDate,
   } = useSelector((state) => state.searchHotel);
 
+  const [hotelList, setHotelList] = useState(null);
+
   // get the state from prev page
-  // const location = useLocation();
   const navigate = useNavigate();
 
-  const { data: hotel_list_data, error, loaded } = useAxios();
+  const {
+    data: hotel_list_data,
+    error,
+    loaded,
+    callAPI,
+    setLoaded,
+  } = useAxios();
 
   useEffect(() => {
-    // set the initial state
     if (searchedLocation === null) {
-      // console.log("Here is me");
       navigate(ROUTES.HOME);
+    } else {
+      (async () => {
+        setLoaded(false);
+        callAPI(`${hotelListURL}?location=${searchedLocation}`);
+      })();
     }
-    // else {
-    //   callAPI(
-    //     `${URL}?location=${searchedLocation}&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}`
-    //   );
-    // }
-  }, []);
-  console.log(searchedLocation, searchedCheckInDate, searchedCheckOutDate);
+  }, [searchedLocation]);
 
   if (error) {
     console.log(error);
   }
 
   // if API call finished
-  if (loaded) {
-    console.log("hotelList: ", hotel_list_data);
-  }
+  useEffect(() => {
+    if (loaded) {
+      console.log("hotelList: ", hotel_list_data);
+      setHotelList(hotel_list_data.data);
+    }
+  }, [loaded]);
 
   return (
     <Container sx={{ mb: 5 }}>
       <BreadCrumbs activePage="Hotel List" />
       <SearchWidget />
-      <HotelListCard
-        id={1}
-        hotel_name="The Leela Kovalam"
-        country="India"
-        state="Kerala"
-        img_src="https://res.cloudinary.com/difrv1tb6/image/upload/v1662018316/HotelBookingAppAssets/LeelaKovalam_DP_tmylk2.png"
-        address="Beach Road, Kovalam 695527 India"
-        check_in_date="15.09.2022"
-        check_out_date="20.09.2022"
-        rating={4.19}
-        reviews_count={234}
-        departure="Kochi"
-        price={720}
-        capacity="Two"
-      />
+
+      {/* hotels map */}
+      {hotelList &&
+        hotelList.map((hotel) => (
+          <HotelListCard
+            key={hotel.id}
+            id={hotel.id}
+            name={hotel.name}
+            country={hotel.country}
+            state={hotel.state}
+            hotel_dp={hotel.hotel_dp}
+            address={hotel.address}
+            check_in_date={searchedCheckInDate.substring(1, 11)}
+            check_out_date={searchedCheckOutDate.substring(1, 11)}
+            ratings={hotel.rating}
+            reviews_count={234}
+            departure="Kochi"
+            price={720}
+            capacity="Two"
+            room_images={hotel.room_images}
+          />
+        ))}
+
+      {/* View More Button */}
+      <Box sx={styles.box} component="div">
+        <Button variant="outlined" style={styles.ViewAllButton}>
+          View More
+        </Button>
+      </Box>
     </Container>
   );
+};
+
+const styles = {
+  box: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  ViewAllButton: {
+    borderRadius: "30px",
+    width: "240px",
+    height: "60px",
+    color: "black",
+    fontWeight: "600",
+    fontSize: "23px",
+    borderColor: "#9F9FA4",
+    textTransform: "none",
+  },
 };
 
 export default HotelListPage;
