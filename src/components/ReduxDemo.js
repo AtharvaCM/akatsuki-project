@@ -25,7 +25,7 @@ const ReduxDemo = () => {
           </li>
         ))}
       </ul>
-      <p>Env check - {window.env.REACT_APP_MY_VAR}</p>
+      <p>Env check - {process.env.REACT_APP_MY_VAR}</p>
     </div>
   );
 };

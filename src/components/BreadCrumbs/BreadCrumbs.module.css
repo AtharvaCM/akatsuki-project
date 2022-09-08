@@ -1,0 +1,13 @@
+.link {
+    color: #858383;
+    text-decoration: none
+}
+
+.link:hover {
+    color: blue;
+    text-decoration: underline;
+}
+
+.activelink {
+    color: black;
+}

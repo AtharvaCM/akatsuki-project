@@ -1,0 +1,54 @@
+.mainCards {
+    width: calc(100% - 12rem);
+    margin-right: 6rem;
+    margin-left: 6rem;
+    border-radius: 10px;
+    height: auto;
+    position: relative;
+    margin-bottom: -5%;
+}
+
+/* Responsive Text */
+@media screen and (max-width: 1000px) {
+    .mainCards {
+        margin-bottom: -8%;
+
+    }
+}
+
+/* @media screen and (max-width: 700px) {
+    .mainCards {
+        margin-bottom: -20%;
+
+    }
+} */
+
+.innerCard {
+    padding: 0 3%;
+    border-radius: 10px;
+    background-color: #326BFF;
+}
+
+.subCards {
+    padding: 0 3%;
+    background-color: white;
+    height: 70px;
+    width: auto;
+}
+
+.rightCard {
+    padding: 9px 0px;
+}
+
+.emailFields {
+    border: none;
+    height: 50px;
+    font-size: 15px;
+    outline: none;
+}
+
+/* .subscribeButton {
+        background-color: #353945;
+        color: white;
+        
+} */

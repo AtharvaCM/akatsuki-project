@@ -11,6 +11,8 @@ import "@fontsource/roboto/700.css";
 
 // custom components
 import Router from "./router/Router";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
 // context
 import ColorModeContext from "./store/color-mode-context";
@@ -30,6 +32,9 @@ const App = () => {
     () =>
       createTheme({
         palette: {
+          primary: {
+            main: "#3C71FF",
+          },
           mode,
         },
       }),
@@ -40,13 +45,20 @@ const App = () => {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {/* Insert header here */}
-        <Router />
-        {/* Insert footer here */}
+        <Header />
+        <main style={styles.main}>
+          <Router />
+        </main>
+        <Footer />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
 };
 
-export default App;
+const styles = {
+  main: {
+    minHeight: "70vh",
+  },
+};
 
+export default App;
