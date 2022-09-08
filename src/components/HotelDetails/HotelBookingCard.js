@@ -28,6 +28,8 @@ import { useNavigate } from "react-router-dom";
 // CSS
 import styles from "./HotelBookingCard.module.css";
 
+const roomsCount = 1;
+
 const HotelBookingCard = () => {
   const navigate = useNavigate();
   // Dummy data
@@ -45,7 +47,7 @@ const HotelBookingCard = () => {
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
   const [guestsCount, setGuestsCount] = useState(1);
-  const [roomsCount, setRoomsCount] = useState(1);
+  // const [roomsCount, setRoomsCount] = useState(1);
   const [extraFeatureAmount, setExtraFeatureAmount] = useState(0);
   const [numberOfDays, setNumberOfDays] = useState(1);
   const [totalAmount, setTotalAmount] = useState(roomPrice * numberOfDays);
