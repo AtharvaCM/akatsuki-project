@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import { Card, Grid, Typography, Box, Button } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 
 import style from "./RoomTypeCard.module.css";
+
+import { useDispatch, useSelector } from "react-redux";
+
+// actions
+import { updateRoomPrice } from "../../store/roomTypeSlice";
 
 const services = [
   "Free Wifi",
@@ -11,23 +17,49 @@ const services = [
   "No-refundable",
 ];
 
-const room_type = "Double Room";
-const price = 350;
+// const room_type = "Double Room";
 const offerPercentage = 10;
 
-const RoomTypeCard = () => {
+const RoomTypeCard = (props) => {
+  const price = props.price;
+  const roomType = props.room_type;
+
+  const dispatch = useDispatch();
+  const { roomType: selectedRoomType } = useSelector(
+    (state) => state.roomPrice
+  );
+
+  const onClickSelect = (roomPrice) => {
+    console.log(roomPrice);
+    //store in redux
+    dispatch(
+      updateRoomPrice({
+        roomType: roomType,
+        roomPrice: roomPrice,
+      })
+    );
+  };
+
+  useEffect(() => {}, [selectedRoomType]);
+
   return (
     <div>
       <Card
         className={style.roomCard}
         variant="outlined"
-        style={{ borderRadius: "10px" }}
+        style={{
+          borderRadius: "10px",
+          marginBottom: "2%",
+          backgroundColor: `${
+            selectedRoomType === roomType ? "#e6ffe6" : "white"
+          }`,
+        }}
       >
         <div className={style.innerCard}>
           <Grid container spacing={2}>
             <Grid item xs={9}>
               <Typography variant="h6" style={{ fontWeight: "bolder" }}>
-                {room_type}
+                {roomType}
               </Typography>
               <Typography
                 style={{ fontSize: 12, color: "#89898C", margin: "7px 0px" }}
@@ -81,6 +113,15 @@ const RoomTypeCard = () => {
                 <s>${price}/night</s>
               </Typography>
               <Button
+                type="button"
+                color={`${
+                  selectedRoomType === roomType ? "success" : "primary"
+                }`}
+                onClick={() =>
+                  onClickSelect(
+                    price - Math.round((price * offerPercentage) / 100)
+                  )
+                }
                 variant="contained"
                 style={{
                   marginTop: 7,
@@ -89,7 +130,7 @@ const RoomTypeCard = () => {
                   textTransform: "none",
                 }}
               >
-                Select
+                {selectedRoomType === roomType ? "Selected" : "Select"}
               </Button>
             </Grid>
           </Grid>
@@ -97,6 +138,11 @@ const RoomTypeCard = () => {
       </Card>
     </div>
   );
+};
+
+RoomTypeCard.propTypes = {
+  price: PropTypes.number,
+  room_type: PropTypes.string,
 };
 
 export default RoomTypeCard;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Autocomplete,
   TextField,
@@ -17,26 +17,25 @@ import styles from "./SearchWidget.module.css";
 
 // react router
 import { useNavigate } from "react-router-dom";
+
+// path constants
 import { ROUTES } from "../../utils/constants/routingPathConstants";
 
+// redux
 import { useDispatch, useSelector } from "react-redux";
 
 // actions
 import { updateSearchParams } from "../../store/searchHotelSlice";
 
-// List of locations will come from backend
-const DummyLocationOptions = [
-  "Pune",
-  "Mumbai",
-  "Delhi",
-  "Dehradun",
-  "Mysore",
-  "Manali",
-  "Kovalam",
-];
+// custom Hooks
+import { useAxios } from "../../hooks/useAxios";
+
+const locationListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/locations`;
 
 const SearchWidget = () => {
   const dispatch = useDispatch();
+
+  const { error, loaded, data, callAPI } = useAxios();
 
   const {
     location: searchedLocation,
@@ -45,7 +44,7 @@ const SearchWidget = () => {
   } = useSelector((state) => state.searchHotel);
 
   // React Hooks
-  const [location, setLocation] = useState(searchedLocation ?? null);
+  const [location, setLocation] = useState(searchedLocation);
   const [checkInDate, setCheckInDate] = useState(
     searchedCheckInDate ? JSON.parse(searchedCheckInDate) : null
   );
@@ -81,6 +80,15 @@ const SearchWidget = () => {
     }
   };
 
+  useEffect(() => {
+    // get list of locations
+    callAPI(locationListURL);
+  }, []);
+
+  if (error) {
+    console.log("error: ", error);
+  }
+
   return (
     <>
       <div className={styles["searchwidget"]}>
@@ -90,7 +98,7 @@ const SearchWidget = () => {
               <Grid item xs={12} md={4}>
                 <Autocomplete
                   disablePortal
-                  options={DummyLocationOptions}
+                  options={loaded ? data.data : []}
                   value={location}
                   className={styles["input"]}
                   onChange={(event, value) => {
