@@ -111,8 +111,10 @@ const HotelBookingCard = () => {
       // If Check-In date crosses check-Out date
       // Then set Check-Out date tommorow of Check-in Date
       var days = dayjs(newDate).diff(dayjs(checkOutDate), "day");
+      console.log("days", days);
       if (days >= 0) {
         setCheckOutDate(dayjs(newDate).add(1, "day"));
+        days = 1;
       }
       days = days >= 0 || !isNaN(days) ? Math.abs(days) : 1;
       setNumberOfDays(days);
@@ -121,6 +123,7 @@ const HotelBookingCard = () => {
       setCheckOutDate(newDate);
       setNumberOfDays(days);
     }
+    console.log("days", days);
     setTotalAmount(
       roomPrice * (isNaN(days) ? 1 : days) * roomsCount + extraFeatureAmount
     );
