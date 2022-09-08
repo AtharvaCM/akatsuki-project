@@ -17,6 +17,7 @@ import { useAxios } from "../hooks/useAxios";
 // paths
 import { ROUTES } from "../utils/constants/routingPathConstants";
 import SearchWidget from "../components/SearchWidget/SearchWidget";
+import { Button } from "@mui/material";
 
 const URL = "http://localhost:5000/api/v1/hotels/";
 
@@ -75,8 +76,24 @@ const HotelListPage = () => {
         price={720}
         capacity="Two"
       />
+      <Button variant="outlined" style={styles.ViewAllButton}>View More</Button>
     </Container>
   );
 };
+
+const styles = {
+  ViewAllButton:{
+    borderRadius:"30px",
+    width:"240px",
+    height:"60px",
+    marginTop:"30px",
+    marginLeft:"60%",
+    color:"black",
+    fontWeight:"600",
+    fontSize:"23px",
+    borderColor:"#9F9FA4",
+    textTransform:"none"
+  }
+}
 
 export default HotelListPage;
