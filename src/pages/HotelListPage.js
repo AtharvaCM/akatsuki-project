@@ -19,7 +19,7 @@ import { ROUTES } from "../utils/constants/routingPathConstants";
 import SearchWidget from "../components/SearchWidget/SearchWidget";
 import { Button } from "@mui/material";
 
-const URL = "http://localhost:5000/api/v1/hotels/";
+// const URL = "http://localhost:5000/api/v1/hotels/";
 
 const HotelListPage = () => {
   const {
@@ -32,7 +32,7 @@ const HotelListPage = () => {
   // const location = useLocation();
   const navigate = useNavigate();
 
-  const { data: hotel_list_data, error, loaded, callAPI } = useAxios();
+  const { data: hotel_list_data, error, loaded } = useAxios();
 
   useEffect(() => {
     // set the initial state
