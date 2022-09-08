@@ -47,7 +47,8 @@ const HotelDetailsTabs = (props) => {
             />
           </TabPanel>
           <TabPanel style={PaddingZeroStyle} value="3">
-            <RoomTypeCard />
+            <RoomTypeCard price={350} room_type={"Double Room"} />
+            <RoomTypeCard price={600} room_type={"Premium Room"} />
           </TabPanel>
           <TabPanel style={PaddingZeroStyle} value="4">
             <AddReview />

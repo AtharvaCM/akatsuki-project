@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //MUI
 import {
   Typography,
@@ -21,6 +21,7 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 
+import { useSelector } from "react-redux";
 import { ROUTES } from "../../utils/constants/routingPathConstants";
 // react router
 import { useNavigate } from "react-router-dom";
@@ -32,8 +33,12 @@ const roomsCount = 1;
 
 const HotelBookingCard = () => {
   const navigate = useNavigate();
+  const { roomPrice: selectedRoomPrice } = useSelector(
+    (state) => state.roomPrice
+  );
+
   // Dummy data
-  const roomPrice = 720;
+  // const roomPrice = 720;
   const extraFeatures = [
     {
       feature: "Allow to bring pet",
@@ -47,6 +52,7 @@ const HotelBookingCard = () => {
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
   const [guestsCount, setGuestsCount] = useState(1);
+  const [roomPrice, setRoomPrice] = useState(0);
   // const [roomsCount, setRoomsCount] = useState(1);
   const [extraFeatureAmount, setExtraFeatureAmount] = useState(0);
   const [numberOfDays, setNumberOfDays] = useState(1);
@@ -111,8 +117,10 @@ const HotelBookingCard = () => {
       // If Check-In date crosses check-Out date
       // Then set Check-Out date tommorow of Check-in Date
       var days = dayjs(newDate).diff(dayjs(checkOutDate), "day");
+      console.log("days", days);
       if (days >= 0) {
         setCheckOutDate(dayjs(newDate).add(1, "day"));
+        days = 1;
       }
       days = days >= 0 || !isNaN(days) ? Math.abs(days) : 1;
       setNumberOfDays(days);
@@ -121,6 +129,8 @@ const HotelBookingCard = () => {
       setCheckOutDate(newDate);
       setNumberOfDays(days);
     }
+    console.log("days", days);
+    setExtraFeatureAmount(extraFeatureAmount * numberOfDays);
     setTotalAmount(
       roomPrice * (isNaN(days) ? 1 : days) * roomsCount + extraFeatureAmount
     );
@@ -129,8 +139,18 @@ const HotelBookingCard = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     // Redirect to booking confirmation page
-    navigate(`${ROUTES.BOOKING_CONFIRMATION}`);
+    if (checkInDate !== null && checkOutDate !== null) {
+      navigate(`${ROUTES.BOOKING_CONFIRMATION}`);
+    }
   };
+
+  useEffect(() => {
+    console.log("In effect");
+    setRoomPrice(selectedRoomPrice);
+    setTotalAmount(
+      (selectedRoomPrice ?? 0) * numberOfDays + extraFeatureAmount
+    );
+  }, [selectedRoomPrice, numberOfDays]);
 
   return (
     <>
@@ -148,7 +168,7 @@ const HotelBookingCard = () => {
           <Grid container className={styles["card_header"]}>
             <Grid item xs={6} md={6}>
               <Typography variant="h6">
-                ${roomPrice}
+                ${roomPrice ?? 0}
                 <span className={styles["night_text"]}>/night</span>
               </Typography>
             </Grid>
@@ -288,6 +308,7 @@ const HotelBookingCard = () => {
               >
                 <Grid item xs={2} md={2}>
                   <Checkbox
+                    disabled={checkOutDate === null}
                     name={extraFeature.price.toString()}
                     onChange={ExtraFeaturesChangeHandler}
                   ></Checkbox>
