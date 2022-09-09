@@ -74,6 +74,7 @@ const HotelListPage = () => {
       <SearchWidget />
 
       {searchedLocation == null && loaded && <Loader />}
+      {!loaded && <Loader />}
       {searchedLocation == null && (
         <Typography variant="h4" sx={styles.searchText}>
           Search for hotels above...
