@@ -92,10 +92,13 @@ const HotelListPage = () => {
             key={hotel.id}
             id={hotel.id}
             name={hotel.name}
+            city={hotel.city}
+            description={hotel.description}
             country={hotel.country}
             state={hotel.state}
             hotel_dp={hotel.hotel_dp}
             address={hotel.address}
+            features={hotel.features}
             check_in_date={searchedCheckInDate.substring(1, 11)}
             check_out_date={searchedCheckOutDate.substring(1, 11)}
             ratings={hotel.ratings}

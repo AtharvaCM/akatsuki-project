@@ -18,6 +18,7 @@ const PaddingZeroStyle = {
 };
 
 const HotelDetailsTabs = (props) => {
+  console.log(props);
   const [navTabValue, setNavTabValue] = useState("1");
   const handleTabChange = (event, newValue) => {
     setNavTabValue(newValue);
@@ -47,8 +48,9 @@ const HotelDetailsTabs = (props) => {
             />
           </TabPanel>
           <TabPanel style={PaddingZeroStyle} value="3">
-            <RoomTypeCard price={350} room_type={"Double Room"} />
-            <RoomTypeCard price={600} room_type={"Premium Room"} />
+            {/* <RoomTypeCard price={350} room_type={"Double Room"} />
+            <RoomTypeCard price={600} room_type={"Premium Room"} /> */}
+            <RoomTypeCard />
           </TabPanel>
           <TabPanel style={PaddingZeroStyle} value="4">
             <AddReview />
@@ -62,6 +64,7 @@ const HotelDetailsTabs = (props) => {
 };
 
 HotelDetailsTabs.propTypes = {
+  id: PropTypes.number,
   description: PropTypes.string,
   features: PropTypes.array,
   amenities: PropTypes.array,

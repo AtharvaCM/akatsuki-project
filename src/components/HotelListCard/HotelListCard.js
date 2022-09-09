@@ -184,6 +184,7 @@ HotelListCard.propTypes = {
   id: PropTypes.number,
   name: PropTypes.string,
   hotel_dp: PropTypes.string,
+  city: PropTypes.string,
   state: PropTypes.string,
   country: PropTypes.string,
   address: PropTypes.string,
