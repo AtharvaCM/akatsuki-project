@@ -67,7 +67,9 @@ const HotelBookingCard = () => {
   const [roomPrice, setRoomPrice] = useState(0);
   // const [roomsCount, setRoomsCount] = useState(1);
   const [extraFeatureAmount, setExtraFeatureAmount] = useState(0);
-  const [numberOfDays, setNumberOfDays] = useState(1);
+  const [numberOfDays, setNumberOfDays] = useState(
+    dayjs(checkOutDate).diff(dayjs(checkInDate), "day")
+  );
   const [totalAmount, setTotalAmount] = useState(roomPrice * numberOfDays);
 
   const decrementGuestCount = () => {
@@ -111,15 +113,11 @@ const HotelBookingCard = () => {
 
   const ExtraFeaturesChangeHandler = (e) => {
     if (e.target.checked) {
-      setExtraFeatureAmount(
-        (prevState) => prevState + +e.target.name * numberOfDays
-      );
-      setTotalAmount((prevState) => prevState + +e.target.name * numberOfDays);
+      setExtraFeatureAmount((prevState) => prevState + +e.target.name);
+      setTotalAmount((prevState) => prevState + +e.target.name);
     } else {
-      setExtraFeatureAmount(
-        (prevState) => prevState - +e.target.name * numberOfDays
-      );
-      setTotalAmount((prevState) => prevState - +e.target.name * numberOfDays);
+      setExtraFeatureAmount((prevState) => prevState - +e.target.name);
+      setTotalAmount((prevState) => prevState - +e.target.name);
     }
   };
 
@@ -142,7 +140,7 @@ const HotelBookingCard = () => {
       setNumberOfDays(days);
     }
     console.log("days", days);
-    setExtraFeatureAmount(extraFeatureAmount * numberOfDays);
+    setExtraFeatureAmount(extraFeatureAmount);
     setTotalAmount(
       roomPrice * (isNaN(days) ? 1 : days) * roomsCount + extraFeatureAmount
     );
