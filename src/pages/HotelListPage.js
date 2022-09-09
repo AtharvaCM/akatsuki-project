@@ -83,7 +83,7 @@ const HotelListPage = () => {
             address={hotel.address}
             check_in_date={searchedCheckInDate.substring(1, 11)}
             check_out_date={searchedCheckOutDate.substring(1, 11)}
-            ratings={hotel.rating}
+            ratings={hotel.ratings}
             reviews_count={234}
             departure="Kochi"
             price={720}
