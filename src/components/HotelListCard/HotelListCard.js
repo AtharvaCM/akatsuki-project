@@ -17,8 +17,8 @@ import Grid from "@mui/material/Grid";
 // MUI icons
 import StarIcon from "@mui/icons-material/Star";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-import FlightOutlinedIcon from "@mui/icons-material/FlightOutlined";
+// import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
+// import FlightOutlinedIcon from "@mui/icons-material/FlightOutlined";
 import WifiOutlinedIcon from "@mui/icons-material/WifiOutlined";
 import DirectionsCarOutlinedIcon from "@mui/icons-material/DirectionsCarOutlined";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
@@ -93,20 +93,20 @@ const HotelListCard = (props) => {
                 </address>
               </Grid>
               {/* Dates */}
-              <Grid item md={5} className={styles.alignCenter}>
+              {/* <Grid item md={5} className={styles.alignCenter}>
                 <DateRangeOutlinedIcon className={styles.icon} />
                 <Typography variant="body1" className={styles.iconLabels}>
                   {props.check_in_date} - {props.check_out_date}
                 </Typography>
-              </Grid>
+              </Grid> */}
             </Grid>
             {/* Departure */}
-            <span className={styles.departure}>
+            {/* <span className={styles.departure}>
               <FlightOutlinedIcon className={styles.icon} />
               <Typography variant="body1" className={styles.iconLabels}>
                 Departure from {props.departure}
               </Typography>
-            </span>
+            </span> */}
 
             <Grid container>
               {/* Hotel features */}
@@ -186,7 +186,10 @@ HotelListCard.propTypes = {
   hotel_dp: PropTypes.string,
   state: PropTypes.string,
   country: PropTypes.string,
+  city: PropTypes.string,
   address: PropTypes.string,
+  description: PropTypes.string,
+  features: PropTypes.array,
   check_in_date: PropTypes.string,
   check_out_date: PropTypes.string,
   ratings: PropTypes.number,

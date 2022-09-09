@@ -29,7 +29,9 @@ const HotelFeatures = (props) => {
                 }}
               >
                 {FEATURES_ICONS[feature]}
-                <Typography variant="caption">{feature}</Typography>
+                <Typography variant="caption" sx={{ marginLeft: "0.5em" }}>
+                  {feature}
+                </Typography>
               </Grid>
             </React.Fragment>
           ))}

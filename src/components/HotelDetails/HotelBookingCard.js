@@ -48,9 +48,21 @@ const HotelBookingCard = () => {
     { feature: "Parking", price: 5 },
     { feature: "Extra Pillow", price: 0 },
   ];
+
+  // selctor
+  const {
+    checkInDate: searchedCheckInDate,
+    checkOutDate: searchedCheckOutDate,
+  } = useSelector((state) => state.searchHotel);
+
   // React Hooks
-  const [checkInDate, setCheckInDate] = useState(null);
-  const [checkOutDate, setCheckOutDate] = useState(null);
+  const [checkInDate, setCheckInDate] = useState(
+    searchedCheckInDate ? JSON.parse(searchedCheckInDate) : null
+  );
+  const [checkOutDate, setCheckOutDate] = useState(
+    searchedCheckOutDate ? JSON.parse(searchedCheckOutDate) : null
+  );
+
   const [guestsCount, setGuestsCount] = useState(1);
   const [roomPrice, setRoomPrice] = useState(0);
   // const [roomsCount, setRoomsCount] = useState(1);
@@ -151,6 +163,10 @@ const HotelBookingCard = () => {
       (selectedRoomPrice ?? 0) * numberOfDays + extraFeatureAmount
     );
   }, [selectedRoomPrice, numberOfDays]);
+
+  console.log("checkInDate: ", checkInDate);
+  console.log("checkOutDate: ", checkOutDate);
+  console.log("selectedRoomPrice: ", selectedRoomPrice);
 
   return (
     <>
@@ -339,6 +355,7 @@ const HotelBookingCard = () => {
                 size="large"
                 color="primary"
                 className={styles["booknow_btn"]}
+                disabled={selectedRoomPrice === undefined ? true : false}
               >
                 Book Now
               </Button>

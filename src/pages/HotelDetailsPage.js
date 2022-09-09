@@ -97,6 +97,7 @@ const HotelDetailsPage = () => {
               description={hotel.description}
               features={hotel.features}
               amenities={amenities}
+              id={hotel.id}
             />
           </Grid>
           <Grid item xs={12} md={1}></Grid>
