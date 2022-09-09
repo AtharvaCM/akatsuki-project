@@ -20,7 +20,7 @@ import { useAxios } from "../hooks/useAxios";
 // paths
 import { ROUTES } from "../utils/constants/routingPathConstants";
 
-const hotelListURL = `${process.env.REACT_APP_FLASK_DOMAIN}api/v1/hotels/`;
+const hotelListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/`;
 
 const HotelListPage = () => {
   const {
