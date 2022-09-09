@@ -93,12 +93,12 @@ const HotelListCard = (props) => {
                 </address>
               </Grid>
               {/* Dates */}
-              <Grid item md={5} className={styles.alignCenter}>
+              {/* <Grid item md={5} className={styles.alignCenter}>
                 <DateRangeOutlinedIcon className={styles.icon} />
                 <Typography variant="body1" className={styles.iconLabels}>
                   {props.check_in_date} - {props.check_out_date}
                 </Typography>
-              </Grid>
+              </Grid> */}
             </Grid>
             {/* Departure */}
             <span className={styles.departure}>
