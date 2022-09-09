@@ -30,12 +30,14 @@ import { updateSearchParams } from "../../store/searchHotelSlice";
 // custom Hooks
 import { useAxios } from "../../hooks/useAxios";
 
+import Loader from "../Loader";
+
 const locationListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/locations`;
 
 const SearchWidget = () => {
   const dispatch = useDispatch();
 
-  const { error, loaded, data, callAPI } = useAxios();
+  const { error, loaded, data, isLoading, callAPI } = useAxios();
 
   const {
     location: searchedLocation,
@@ -83,7 +85,7 @@ const SearchWidget = () => {
   useEffect(() => {
     // get list of locations
     callAPI(locationListURL);
-  }, []);
+  }, [location]);
 
   if (error) {
     console.log("error: ", error);
@@ -97,8 +99,9 @@ const SearchWidget = () => {
             <Grid container spacing={3} rowSpacing={2}>
               <Grid item xs={12} md={4}>
                 <Autocomplete
+                  loading={isLoading}
                   disablePortal
-                  options={loaded ? data.data : []}
+                  options={isLoading ? [] : data.data}
                   value={location}
                   className={styles["input"]}
                   onChange={(event, value) => {

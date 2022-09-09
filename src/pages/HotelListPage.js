@@ -13,12 +13,14 @@ import { useSelector } from "react-redux";
 import HotelListCard from "../components/HotelListCard/HotelListCard";
 import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
 import SearchWidget from "../components/SearchWidget/SearchWidget";
+import Loader from "../components/Loader";
 
 // custom hooks for API
 import { useAxios } from "../hooks/useAxios";
 
 // paths
-import { ROUTES } from "../utils/constants/routingPathConstants";
+// import { ROUTES } from "../utils/constants/routingPathConstants";
+import Typography from "@mui/material/Typography";
 
 const hotelListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/`;
 
@@ -38,32 +40,30 @@ const HotelListPage = () => {
     data: hotel_list_data,
     error,
     loaded,
+    isLoading,
     callAPI,
     setLoaded,
   } = useAxios();
 
   useEffect(() => {
-    if (searchedLocation === null) {
-      navigate(ROUTES.HOME);
-    } else {
-      (async () => {
-        setLoaded(false);
-        callAPI(`${hotelListURL}?location=${searchedLocation}`);
-      })();
+    callAPI(`${hotelListURL}?location=${searchedLocation}`);
+
+    if (hotel_list_data) {
+      setHotelList(hotel_list_data.data);
     }
-  }, [searchedLocation]);
+  }, [searchedLocation, hotel_list_data]);
 
   if (error) {
     console.log(error);
   }
 
-  // if API call finished
-  useEffect(() => {
-    if (loaded) {
-      console.log("hotelList: ", hotel_list_data);
-      setHotelList(hotel_list_data.data);
-    }
-  }, [loaded]);
+  // // if API call finished
+  // useEffect(() => {
+  //   if (!isLoading) {
+  //     console.log("hotelList: ", hotel_list_data);
+
+  //   }
+  // }, [isLoading, searchedLocation, hotel_list_data]);
 
   return (
     <Container sx={{ mb: 5 }}>
@@ -71,7 +71,22 @@ const HotelListPage = () => {
       <SearchWidget />
 
       {/* hotels map */}
-      {hotelList &&
+      {isLoading && <Loader />}
+      {searchedLocation == null && (
+        <Typography
+          variant="h4"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "2%",
+          }}
+        >
+          Search for hotels above...
+        </Typography>
+      )}
+      {!isLoading &&
+        hotelList &&
         hotelList.map((hotel) => (
           <HotelListCard
             key={hotel.id}
@@ -93,11 +108,13 @@ const HotelListPage = () => {
         ))}
 
       {/* View More Button */}
-      <Box sx={styles.box} component="div">
-        <Button variant="outlined" style={styles.ViewAllButton}>
-          View More
-        </Button>
-      </Box>
+      {searchedLocation !== null && (
+        <Box sx={styles.box} component="div">
+          <Button variant="outlined" style={styles.ViewAllButton}>
+            View More
+          </Button>
+        </Box>
+      )}
     </Container>
   );
 };

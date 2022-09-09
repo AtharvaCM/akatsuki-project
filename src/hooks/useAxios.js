@@ -8,6 +8,7 @@ export const useAxios = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const controllerRef = useRef(new AbortController());
   const cancel = () => {
@@ -26,9 +27,9 @@ export const useAxios = () => {
     } catch (error) {
       setError(error.message);
     } finally {
-      setLoaded(true);
+      setIsLoading(false);
     }
   };
 
-  return { cancel, data, error, loaded, callAPI, setLoaded };
+  return { cancel, data, error, loaded, isLoading, callAPI, setLoaded };
 };
