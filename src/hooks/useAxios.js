@@ -1,6 +1,6 @@
 // a custom hook for making http requests
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import axios from "axios";
 
@@ -30,9 +30,5 @@ export const useAxios = () => {
     }
   };
 
-  useEffect(() => {
-    (async () => {})();
-  }, []);
-
-  return { cancel, data, error, loaded, callAPI };
+  return { cancel, data, error, loaded, callAPI, setLoaded };
 };

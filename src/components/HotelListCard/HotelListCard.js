@@ -38,11 +38,11 @@ const HotelListCard = (props) => {
 
   const handleBookNow = () => {
     // Redirect to hotel detail page
-    navigate(`${ROUTES.HOTEL_DETAILS}/${props.id}`);
+    navigate(`${ROUTES.HOTEL_DETAILS}/${props.id}`, { state: props });
   };
 
   return (
-    <Card sx={{ borderRadius: "24px" }}>
+    <Card sx={{ borderRadius: "24px", marginY: "2rem" }}>
       <Grid container>
         {/* Hotel Image */}
         <Grid item md={5}>
@@ -50,8 +50,8 @@ const HotelListCard = (props) => {
             component="img"
             height="467"
             width="410"
-            image={props.img_src}
-            alt={props.hotel_name}
+            image={props.hotel_dp}
+            alt={props.name}
           />
         </Grid>
 
@@ -73,13 +73,13 @@ const HotelListCard = (props) => {
               gutterBottom
               fontWeight={"bolder"}
             >
-              {props.hotel_name}
+              {props.name}
             </Typography>
             {/* Ratings */}
             <span className={styles.ratingsSpan}>
               <StarIcon className={styles.ratingsIcon} />
               <Typography variant="body1" className={styles.iconLabels}>
-                {props.rating} ({props.reviews_count} reviews)
+                {props.ratings} ({props.reviews_count} reviews)
               </Typography>
             </span>
             <Grid container>
@@ -182,18 +182,19 @@ const HotelListCard = (props) => {
 // prop types
 HotelListCard.propTypes = {
   id: PropTypes.number,
-  hotel_name: PropTypes.string,
-  img_src: PropTypes.string,
+  name: PropTypes.string,
+  hotel_dp: PropTypes.string,
   state: PropTypes.string,
   country: PropTypes.string,
   address: PropTypes.string,
   check_in_date: PropTypes.string,
   check_out_date: PropTypes.string,
-  rating: PropTypes.number,
+  ratings: PropTypes.number,
   reviews_count: PropTypes.number,
   departure: PropTypes.string,
   price: PropTypes.number,
   capacity: PropTypes.string,
+  room_images: PropTypes.array,
 };
 
 export default HotelListCard;
