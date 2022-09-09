@@ -16,8 +16,12 @@ import LocalLaundryServiceOutlinedIcon from "@mui/icons-material/LocalLaundrySer
 import DeckOutlinedIcon from "@mui/icons-material/DeckOutlined";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import RestaurantOutlinedIcon from "@mui/icons-material/RestaurantOutlined";
+import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
+import WineBarIcon from "@mui/icons-material/WineBar";
+import LocalParkingOutlinedIcon from "@mui/icons-material/LocalParkingOutlined";
 
 export const FEATURES_ICONS = {
+  "Free Wifi": <WifiIcon />,
   "Wi-fi": <WifiIcon />,
   "Infinity Pool": <PoolIcon />,
   "Golf Course": <GolfCourseIcon />,
@@ -33,7 +37,10 @@ export const FEATURES_ICONS = {
   "Smart TV": <LiveTvOutlinedIcon />,
   "Laundary Service": <LocalLaundryServiceOutlinedIcon />,
   Deck: <DeckOutlinedIcon />,
+  Bar: <WineBarIcon />,
+  "Free Parking": <LocalParkingOutlinedIcon />,
   "Duty free": <LocalMallOutlinedIcon />,
   "Breakfast included": <RestaurantOutlinedIcon />,
+  Restaurant: <RestaurantMenuIcon />,
   "Covid safety kit": <CoronavirusOutlinedIcon />,
 };

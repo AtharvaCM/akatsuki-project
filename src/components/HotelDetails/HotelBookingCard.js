@@ -48,14 +48,28 @@ const HotelBookingCard = () => {
     { feature: "Parking", price: 5 },
     { feature: "Extra Pillow", price: 0 },
   ];
+
+  // selctor
+  const {
+    checkInDate: searchedCheckInDate,
+    checkOutDate: searchedCheckOutDate,
+  } = useSelector((state) => state.searchHotel);
+
   // React Hooks
-  const [checkInDate, setCheckInDate] = useState(null);
-  const [checkOutDate, setCheckOutDate] = useState(null);
+  const [checkInDate, setCheckInDate] = useState(
+    searchedCheckInDate ? JSON.parse(searchedCheckInDate) : null
+  );
+  const [checkOutDate, setCheckOutDate] = useState(
+    searchedCheckOutDate ? JSON.parse(searchedCheckOutDate) : null
+  );
+
   const [guestsCount, setGuestsCount] = useState(1);
   const [roomPrice, setRoomPrice] = useState(0);
   // const [roomsCount, setRoomsCount] = useState(1);
   const [extraFeatureAmount, setExtraFeatureAmount] = useState(0);
-  const [numberOfDays, setNumberOfDays] = useState(1);
+  const [numberOfDays, setNumberOfDays] = useState(
+    dayjs(checkOutDate).diff(dayjs(checkInDate), "day")
+  );
   const [totalAmount, setTotalAmount] = useState(roomPrice * numberOfDays);
 
   const decrementGuestCount = () => {
@@ -99,15 +113,11 @@ const HotelBookingCard = () => {
 
   const ExtraFeaturesChangeHandler = (e) => {
     if (e.target.checked) {
-      setExtraFeatureAmount(
-        (prevState) => prevState + +e.target.name * numberOfDays
-      );
-      setTotalAmount((prevState) => prevState + +e.target.name * numberOfDays);
+      setExtraFeatureAmount((prevState) => prevState + +e.target.name);
+      setTotalAmount((prevState) => prevState + +e.target.name);
     } else {
-      setExtraFeatureAmount(
-        (prevState) => prevState - +e.target.name * numberOfDays
-      );
-      setTotalAmount((prevState) => prevState - +e.target.name * numberOfDays);
+      setExtraFeatureAmount((prevState) => prevState - +e.target.name);
+      setTotalAmount((prevState) => prevState - +e.target.name);
     }
   };
 
@@ -130,7 +140,7 @@ const HotelBookingCard = () => {
       setNumberOfDays(days);
     }
     console.log("days", days);
-    setExtraFeatureAmount(extraFeatureAmount * numberOfDays);
+    setExtraFeatureAmount(extraFeatureAmount);
     setTotalAmount(
       roomPrice * (isNaN(days) ? 1 : days) * roomsCount + extraFeatureAmount
     );
@@ -151,6 +161,10 @@ const HotelBookingCard = () => {
       (selectedRoomPrice ?? 0) * numberOfDays + extraFeatureAmount
     );
   }, [selectedRoomPrice, numberOfDays]);
+
+  console.log("checkInDate: ", checkInDate);
+  console.log("checkOutDate: ", checkOutDate);
+  console.log("selectedRoomPrice: ", selectedRoomPrice);
 
   return (
     <>
@@ -339,6 +353,7 @@ const HotelBookingCard = () => {
                 size="large"
                 color="primary"
                 className={styles["booknow_btn"]}
+                disabled={selectedRoomPrice === undefined ? true : false}
               >
                 Book Now
               </Button>

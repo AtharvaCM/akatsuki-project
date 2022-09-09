@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 // MUI
@@ -10,6 +10,10 @@ import HotelFeatures from "./HotelFeatures";
 import AddReview from "./AddReview";
 import ViewReview from "./ViewReview";
 import RoomTypeCard from "./RoomTypeCard";
+import Loader from "../UI/Loader";
+
+// custom hooks
+import { useAxios } from "../../hooks/useAxios";
 
 const PaddingZeroStyle = {
   whiteSpace: "pre-line",
@@ -19,9 +23,25 @@ const PaddingZeroStyle = {
 
 const HotelDetailsTabs = (props) => {
   const [navTabValue, setNavTabValue] = useState("1");
+
+  const { data, error, loaded, callAPI } = useAxios();
+
+  const roomListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${props.id}/rooms`;
+
   const handleTabChange = (event, newValue) => {
     setNavTabValue(newValue);
   };
+
+  useEffect(() => {
+    (async () => {
+      callAPI(roomListURL);
+    })();
+  }, []);
+
+  if (error) {
+    console.log("error: ", error);
+  }
+
   return (
     <>
       <Box sx={{ width: "100%", typography: "body1" }}>
@@ -47,8 +67,15 @@ const HotelDetailsTabs = (props) => {
             />
           </TabPanel>
           <TabPanel style={PaddingZeroStyle} value="3">
-            <RoomTypeCard price={350} room_type={"Double Room"} />
-            <RoomTypeCard price={600} room_type={"Premium Room"} />
+            {!loaded && <Loader />}
+            {loaded &&
+              data.data.map((room) => (
+                <RoomTypeCard
+                  key={room.id}
+                  price={room.cost}
+                  room_type={room.room_type}
+                />
+              ))}
           </TabPanel>
           <TabPanel style={PaddingZeroStyle} value="4">
             <AddReview />
@@ -62,6 +89,7 @@ const HotelDetailsTabs = (props) => {
 };
 
 HotelDetailsTabs.propTypes = {
+  id: PropTypes.number,
   description: PropTypes.string,
   features: PropTypes.array,
   amenities: PropTypes.array,
