@@ -30,7 +30,7 @@ import { updateSearchParams } from "../../store/searchHotelSlice";
 // custom Hooks
 import { useAxios } from "../../hooks/useAxios";
 
-const locationListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/locations`;
+const locationListURL = `${process.env.REACT_APP_FLASK_DOMAIN}api/v1/hotels/locations`;
 
 const SearchWidget = () => {
   const dispatch = useDispatch();
