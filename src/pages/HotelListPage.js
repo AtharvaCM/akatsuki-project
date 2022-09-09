@@ -4,21 +4,18 @@ import React, { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
-// react router
-import { useNavigate } from "react-router-dom";
+// redux
 import { useSelector } from "react-redux";
+
+// custom hooks for API
+import { useAxios } from "../hooks/useAxios";
 
 // custom components
 import HotelListCard from "../components/HotelListCard/HotelListCard";
 import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
 import SearchWidget from "../components/SearchWidget/SearchWidget";
-
-// custom hooks for API
-import { useAxios } from "../hooks/useAxios";
-
-// paths
-import { ROUTES } from "../utils/constants/routingPathConstants";
 
 const hotelListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/`;
 
@@ -31,9 +28,6 @@ const HotelListPage = () => {
 
   const [hotelList, setHotelList] = useState(null);
 
-  // get the state from prev page
-  const navigate = useNavigate();
-
   const {
     data: hotel_list_data,
     error,
@@ -43,9 +37,7 @@ const HotelListPage = () => {
   } = useAxios();
 
   useEffect(() => {
-    if (searchedLocation === null) {
-      navigate(ROUTES.HOME);
-    } else {
+    if (searchedLocation !== null) {
       (async () => {
         setLoaded(false);
         callAPI(`${hotelListURL}?location=${searchedLocation}`);
@@ -70,6 +62,19 @@ const HotelListPage = () => {
       <BreadCrumbs activePage="Hotel List" />
       <SearchWidget />
 
+      {searchedLocation == null && (
+        <Typography
+          variant="h4"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "2%",
+          }}
+        >
+          Search for hotels above...
+        </Typography>
+      )}
       {/* hotels map */}
       {hotelList &&
         hotelList.map((hotel) => (
