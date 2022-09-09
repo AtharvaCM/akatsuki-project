@@ -30,11 +30,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   const onChangeHandler = () => {
-    setIsLogin(true);
-  };
-
-  const redirectToHome = () => {
-    navigate(ROUTES.HOME);
+    // setIsLogin(true);
+    navigate(ROUTES.LOGIN_PAGE);
   };
 
   return (
@@ -47,9 +44,8 @@ const Header = () => {
           alt="Img"
           src={Logo}
           style={styles.brandLogo}
-          onClick={redirectToHome}
         />
-        <Typography variant="h6" style={styles.brand} onClick={redirectToHome}>
+        <Typography variant="h6" style={styles.brand} >
           Hotel Guide
         </Typography>
         <Typography color="text.secondary" style={styles.appRegion}>
