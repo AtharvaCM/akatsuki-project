@@ -42,7 +42,7 @@ const HotelListCard = (props) => {
   };
 
   return (
-    <Card sx={{ borderRadius: "24px", marginY: "2rem" }}>
+    <Card sx={{ borderRadius: "24px", marginBottom: "2rem" }}>
       <Grid container>
         {/* Hotel Image */}
         <Grid item md={5}>

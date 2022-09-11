@@ -5,6 +5,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 
 // redux
 import { useSelector } from "react-redux";
@@ -17,6 +18,7 @@ import HotelListCard from "../components/HotelListCard/HotelListCard";
 import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
 import SearchWidget from "../components/SearchWidget/SearchWidget";
 import Loader from "../components/UI/Loader";
+import HotelListFilters from "../components/HotelListFilters/HotelListFilters";
 
 const hotelListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/`;
 
@@ -80,30 +82,38 @@ const HotelListPage = () => {
           Search for hotels above...
         </Typography>
       )}
-      {/* hotels map */}
-      {hotelList.length > 0 &&
-        hotelList.map((hotel) => (
-          <HotelListCard
-            key={hotel.id}
-            id={hotel.id}
-            name={hotel.name}
-            country={hotel.country}
-            state={hotel.state}
-            city={hotel.city}
-            hotel_dp={hotel.hotel_dp}
-            address={hotel.address}
-            description={hotel.description}
-            features={hotel.features}
-            check_in_date={searchedCheckInDate.substring(1, 11)}
-            check_out_date={searchedCheckOutDate.substring(1, 11)}
-            ratings={hotel.ratings}
-            reviews_count={234}
-            departure="Kochi"
-            price={720}
-            capacity="Two"
-            room_images={hotel.room_images}
-          />
-        ))}
+      <Grid container>
+        <Grid item xs={12} md={3}>
+          <HotelListFilters />
+        </Grid>
+        <Grid item xs={12} md={1}></Grid>
+        <Grid item xs={12} md={8}>
+          {/* hotels map */}
+          {hotelList.length > 0 &&
+            hotelList.map((hotel) => (
+              <HotelListCard
+                key={hotel.id}
+                id={hotel.id}
+                name={hotel.name}
+                country={hotel.country}
+                state={hotel.state}
+                city={hotel.city}
+                hotel_dp={hotel.hotel_dp}
+                address={hotel.address}
+                description={hotel.description}
+                features={hotel.features}
+                check_in_date={searchedCheckInDate.substring(1, 11)}
+                check_out_date={searchedCheckOutDate.substring(1, 11)}
+                ratings={hotel.ratings}
+                reviews_count={234}
+                departure="Kochi"
+                price={720}
+                capacity="Two"
+                room_images={hotel.room_images}
+              />
+            ))}
+        </Grid>
+      </Grid>
 
       {/* View More Button */}
       {hotelList.length !== 0 && hotel_list_data.has_next && (
