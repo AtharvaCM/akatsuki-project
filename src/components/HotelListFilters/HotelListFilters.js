@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import {
   Autocomplete,
   TextField,
-  FormGroup,
-  Button,
   Divider,
   Checkbox,
   Box,
@@ -36,7 +34,7 @@ const FACILITIES = [
 ];
 
 const HotelListFilters = () => {
-  const [priceRange, setPriceRange] = React.useState([50, 500]);
+  const [priceRange, setPriceRange] = useState([50, 500]);
 
   const priceRangeChangeHandler = (event, newValue) => {
     setPriceRange(newValue);
