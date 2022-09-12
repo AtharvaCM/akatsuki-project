@@ -36,7 +36,7 @@ const HotelDetailsTabs = (props) => {
     (async () => {
       callAPI(roomListURL);
     })();
-  }, []);
+  });
 
   if (error) {
     console.log("error: ", error);

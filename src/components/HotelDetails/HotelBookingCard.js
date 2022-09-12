@@ -33,7 +33,7 @@ const roomsCount = 1;
 
 const HotelBookingCard = () => {
   const navigate = useNavigate();
-  const { roomPrice: selectedRoomPrice } = useSelector(
+  const { roomPrice: selectedRoomPrice, roomOriginalPrice } = useSelector(
     (state) => state.roomPrice
   );
 
@@ -68,7 +68,9 @@ const HotelBookingCard = () => {
   // const [roomsCount, setRoomsCount] = useState(1);
   const [extraFeatureAmount, setExtraFeatureAmount] = useState(0);
   const [numberOfDays, setNumberOfDays] = useState(
-    dayjs(checkOutDate).diff(dayjs(checkInDate), "day")
+    checkOutDate !== null
+      ? dayjs(checkOutDate).diff(dayjs(checkInDate), "day")
+      : 0
   );
   const [totalAmount, setTotalAmount] = useState(roomPrice * numberOfDays);
 
@@ -127,7 +129,7 @@ const HotelBookingCard = () => {
       // If Check-In date crosses check-Out date
       // Then set Check-Out date tommorow of Check-in Date
       var days = dayjs(newDate).diff(dayjs(checkOutDate), "day");
-      console.log("days", days);
+
       if (days >= 0) {
         setCheckOutDate(dayjs(newDate).add(1, "day"));
         days = 1;
@@ -139,7 +141,7 @@ const HotelBookingCard = () => {
       setCheckOutDate(newDate);
       setNumberOfDays(days);
     }
-    console.log("days", days);
+
     setExtraFeatureAmount(extraFeatureAmount);
     setTotalAmount(
       roomPrice * (isNaN(days) ? 1 : days) * roomsCount + extraFeatureAmount
@@ -155,16 +157,13 @@ const HotelBookingCard = () => {
   };
 
   useEffect(() => {
-    console.log("In effect");
-    setRoomPrice(selectedRoomPrice);
+    console.log(selectedRoomPrice);
+    setRoomPrice(selectedRoomPrice === undefined ? 0 : selectedRoomPrice);
     setTotalAmount(
-      (selectedRoomPrice ?? 0) * numberOfDays + extraFeatureAmount
+      (selectedRoomPrice === undefined ? 0 : selectedRoomPrice) * numberOfDays +
+        extraFeatureAmount
     );
-  }, [selectedRoomPrice, numberOfDays]);
-
-  console.log("checkInDate: ", checkInDate);
-  console.log("checkOutDate: ", checkOutDate);
-  console.log("selectedRoomPrice: ", selectedRoomPrice);
+  });
 
   return (
     <>
@@ -186,18 +185,22 @@ const HotelBookingCard = () => {
                 <span className={styles["night_text"]}>/night</span>
               </Typography>
             </Grid>
-            <Grid item xs={3} md={3}>
-              <Typography className={styles["discounted_price"]}>
-                $576
-              </Typography>
-            </Grid>
-            <Grid item xs={3} md={3}>
-              <Chip
-                label="20% OFF"
-                color="primary"
-                className={styles["discount_chip"]}
-              />
-            </Grid>
+            {roomOriginalPrice > 0 && (
+              <>
+                <Grid item xs={3} md={3}>
+                  <Typography className={styles["discounted_price"]}>
+                    <s>${roomOriginalPrice}/night</s>
+                  </Typography>
+                </Grid>
+                <Grid item xs={3} md={3}>
+                  <Chip
+                    label="10% OFF"
+                    color="primary"
+                    className={styles["discount_chip"]}
+                  />
+                </Grid>
+              </>
+            )}
           </Grid>
         </Box>
         <Divider />
@@ -353,9 +356,15 @@ const HotelBookingCard = () => {
                 size="large"
                 color="primary"
                 className={styles["booknow_btn"]}
-                disabled={selectedRoomPrice === undefined ? true : false}
+                disabled={
+                  selectedRoomPrice === undefined || selectedRoomPrice === 0
+                    ? true
+                    : false
+                }
               >
-                Book Now
+                {selectedRoomPrice === undefined || selectedRoomPrice === 0
+                  ? "Select Room"
+                  : "Book Now"}
               </Button>
             </Grid>
           </Grid>

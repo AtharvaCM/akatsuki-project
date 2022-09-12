@@ -19,7 +19,6 @@ const Router = () => {
     <Routes>
       <Route index exact path={ROUTES.HOME} element={<HomePage />} />
       <Route index path={ROUTES.HOTEL_LIST} element={<HotelListPage />} />
-      <Route exact path={ROUTES.HOTEL_DETAILS} element={<HotelDetailsPage />} />
       <Route
         exact
         path={`${ROUTES.HOTEL_DETAILS}/:id`}

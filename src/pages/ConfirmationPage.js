@@ -9,12 +9,20 @@ import Button from "@mui/material/Button";
 import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
 import { ROUTES } from "../utils/constants/routingPathConstants";
 
+// react router
+import { useNavigate } from "react-router-dom";
+
 const BreadCrumbsData = [
   { label: "Hotel List", route: ROUTES.HOTEL_LIST },
   { label: "Hotel Details", route: ROUTES.HOTEL_DETAILS },
 ];
 
 const ConfirmationPage = () => {
+  const navigate = useNavigate();
+  const onClickHome = () => {
+    navigate(`${ROUTES.HOME}`);
+  };
+
   const roomCount = 1;
   const bookingDate = "September 15 - 22 2022";
   const NoOfPassenagers = 4;
@@ -103,7 +111,7 @@ const ConfirmationPage = () => {
           </Grid>
         </Grid>
       </div>
-      <Button variant="contained" sx={styles.backButton}>
+      <Button variant="contained" sx={styles.backButton} onClick={onClickHome}>
         Back to Home page
       </Button>
     </div>

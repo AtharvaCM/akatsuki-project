@@ -19,10 +19,13 @@ import RestaurantOutlinedIcon from "@mui/icons-material/RestaurantOutlined";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import WineBarIcon from "@mui/icons-material/WineBar";
 import LocalParkingOutlinedIcon from "@mui/icons-material/LocalParkingOutlined";
+import SpaIcon from "@mui/icons-material/Spa";
 
 export const FEATURES_ICONS = {
   "Free Wifi": <WifiIcon />,
+  "Free WiFi": <WifiIcon />,
   "Wi-fi": <WifiIcon />,
+  Spa: <SpaIcon />,
   "Infinity Pool": <PoolIcon />,
   "Golf Course": <GolfCourseIcon />,
   "Airport Shuttle": <AirportShuttleOutlinedIcon />,

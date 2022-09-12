@@ -29,12 +29,13 @@ const RoomTypeCard = (props) => {
     (state) => state.roomPrice
   );
 
-  const onClickSelect = (roomPrice) => {
-    console.log(roomPrice);
+  const onClickSelect = (original_price, roomPrice) => {
+    console.log(original_price);
     //store in redux
     dispatch(
       updateRoomPrice({
         roomType: roomType,
+        roomOriginalPrice: original_price,
         roomPrice: roomPrice,
       })
     );
@@ -119,6 +120,7 @@ const RoomTypeCard = (props) => {
                 }`}
                 onClick={() =>
                   onClickSelect(
+                    price,
                     price - Math.round((price * offerPercentage) / 100)
                   )
                 }
