@@ -30,15 +30,30 @@ import { ReactComponent as DatabaseIcon } from "../../assets/images/database_ico
 // styles
 import styles from "./HotelListCard.module.css";
 
+// redux
+import { useDispatch } from "react-redux";
+
 // Routes
 import { ROUTES } from "../../utils/constants/routingPathConstants";
 
+// actions
+
+import { updateRoomPrice } from "../../store/roomTypeSlice";
+
 const HotelListCard = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleBookNow = () => {
+    dispatch(
+      updateRoomPrice({
+        roomType: "",
+        roomPrice: 0,
+      })
+    );
+
     // Redirect to hotel detail page
-    navigate(`${ROUTES.HOTEL_DETAILS}/${props.id}`, { state: props });
+    navigate(`${ROUTES.HOTEL_DETAILS}/${props.id}`);
   };
 
   return (

@@ -57,7 +57,7 @@ const SearchWidget = () => {
   // Functions
   const searchSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(location, checkInDate, checkOutDate);
+
     dispatch(
       updateSearchParams({
         location: location,

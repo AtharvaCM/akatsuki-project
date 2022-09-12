@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 // MUI
 import { Grid } from "@mui/material";
@@ -11,49 +11,18 @@ import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
 
 // path constants
 import { ROUTES } from "../utils/constants/routingPathConstants";
-
 import { useLocation } from "react-router-dom";
+// redux
+import { useDispatch } from "react-redux";
+// redux
+import { useSelector } from "react-redux";
 
-// const hotel = {
-//   hotel_name: "The Leela Kovalam Kerala",
-//   rating: 4.19,
-//   number_of_reviews: 234,
-//   address: "Beach Road, Kovalam 695527 India",
-//   city: "Kovalam",
-//   state: "Kerala",
-//   images: [
-//     "https://res.cloudinary.com/difrv1tb6/image/upload/v1662047011/HotelBookingAppAssets/hotel_img_1_iraxyq.png",
-//     "https://res.cloudinary.com/difrv1tb6/image/upload/v1662047010/HotelBookingAppAssets/hotel_img_2_ohbigi.png",
-//     "https://res.cloudinary.com/difrv1tb6/image/upload/v1662047010/HotelBookingAppAssets/hotel_img_3_rv2rar.png",
-//     "https://res.cloudinary.com/difrv1tb6/image/upload/v1662047010/HotelBookingAppAssets/hotel_img_4_opv5np.png",
-//   ],
-//   description:
-//     "The Raviz Kovalam sits on a cliff, offering panoramic views of the Kovalam shoreline and the Arabian Sea. It is steps away from a private beach, and features a spa.\n Rooms at The Raviz Kovalam Beach combine wooden décor with modern amenities like a flat-screen TV and tea/coffee making facilities. Each room provides views of the garden or the sea.\n The outdoor pool and the fitness centre both overlook the sea. The Raviz Kovalam also has a game room and tennis court. Travel services include tour and ticketing arrangements and car rental.",
+// custom hooks
+import { useAxios } from "../hooks/useAxios";
 
-//   features: [
-//     "Wi-fi",
-//     "Infinity Pool",
-//     "Golf Course",
-//     "Airport Shuttle",
-//     "On Call Doctor",
-//     "Covid safety Protocols",
-//   ],
-
-//   amenities: [
-//     "Kins bed",
-//     "Bath tub",
-//     "Fire Extinguisher",
-//     "Complimentary drink",
-//     "Baby changing station",
-//     "Room Service",
-//     "Smart TV",
-//     "Laundary Service",
-//     "Deck",
-//     "Duty free",
-//     "Breakfast included",
-//     "Covid safety kit",
-//   ],
-// };
+// actions
+import { setHotelDetails } from "../store/hotelDetailsSlice";
+import Loader from "../components/UI/Loader";
 
 const amenities = [
   "Kins bed",
@@ -73,39 +42,82 @@ const amenities = [
 const BreadCrumbsData = [{ label: "Hotel List", route: ROUTES.HOTEL_LIST }];
 
 const HotelDetailsPage = () => {
+  const dispatch = useDispatch();
+  const { data, error, loaded, callAPI } = useAxios();
   const location = useLocation();
+  const hotel_id = location.pathname.split("/").at(-1);
+  // .toString()[-1]
 
-  const hotel = location.state;
-  console.log("hotel: ", hotel);
+  const HotelDetailsURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${hotel_id}`;
+
+  const {
+    id,
+    hotel_name,
+    state,
+    city,
+    address,
+    description,
+    features,
+    ratings,
+    reviews_count,
+    room_images,
+    // amenities,
+  } = useSelector((state) => state.hotelDetails);
+
+  useEffect(() => {
+    callAPI(HotelDetailsURL);
+  }, []);
+
+  useEffect(() => {
+    if (loaded) {
+      dispatch(
+        setHotelDetails({
+          id: data.data.id,
+          name: data.data.name,
+          state: data.data.state,
+          city: data.data.city,
+          address: data.data.address,
+          description: data.data.description,
+          features: data.data.features,
+          ratings: data.data.ratings,
+          reviews_count: 234,
+          room_images: data.data.room_images,
+        })
+      );
+    }
+  }, [loaded]);
 
   return (
     <>
-      <div style={{ padding: "2%" }}>
-        <BreadCrumbs data={BreadCrumbsData} activePage="Hotel Details" />
-        <HotelHeader
-          name={hotel.name}
-          ratings={hotel.ratings}
-          number_of_reviews={224}
-          address={hotel.address}
-          city={hotel.city}
-          state={hotel.state}
-          room_images={hotel.room_images}
-        />
-        <Grid container>
-          <Grid item xs={12} md={7}>
-            <HotelDetailsTabs
-              description={hotel.description}
-              features={hotel.features}
-              amenities={amenities}
-              id={hotel.id}
-            />
+      {!loaded && <Loader />}
+      {loaded && data.data && (
+        <div style={{ padding: "2%" }}>
+          <BreadCrumbs data={BreadCrumbsData} activePage="Hotel Details" />
+          <HotelHeader
+            name={hotel_name}
+            ratings={ratings}
+            number_of_reviews={reviews_count}
+            address={address}
+            city={city}
+            state={state}
+            room_images={room_images}
+          />
+          <Grid container>
+            <Grid item xs={12} md={7}>
+              <HotelDetailsTabs
+                description={description}
+                features={features}
+                amenities={amenities}
+                id={+id}
+              />
+            </Grid>
+            <Grid item xs={12} md={1}></Grid>
+            <Grid item xs={12} md={4}>
+              <HotelBookingCard />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={1}></Grid>
-          <Grid item xs={12} md={4}>
-            <HotelBookingCard />
-          </Grid>
-        </Grid>
-      </div>
+        </div>
+      )}
     </>
   );
 };
