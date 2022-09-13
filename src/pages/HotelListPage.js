@@ -43,6 +43,7 @@ const HotelListPage = () => {
 
   useEffect(() => {
     setIsViewMoreClicked(false);
+    setPage(1);
     if (searchedLocation !== null) {
       setLoaded(false);
       callAPI(`${hotelListURL}?location=${searchedLocation}`);
