@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 //MUI
 import {
   Typography,
@@ -31,23 +32,11 @@ import styles from "./HotelBookingCard.module.css";
 
 const roomsCount = 1;
 
-const HotelBookingCard = () => {
+const HotelBookingCard = (props) => {
   const navigate = useNavigate();
   const { roomPrice: selectedRoomPrice, roomOriginalPrice } = useSelector(
     (state) => state.roomPrice
   );
-
-  // Dummy data
-  // const roomPrice = 720;
-  const extraFeatures = [
-    {
-      feature: "Allow to bring pet",
-      price: 15,
-    },
-    { feature: "Lunch per person per day", price: 24 },
-    { feature: "Parking", price: 5 },
-    { feature: "Extra Pillow", price: 0 },
-  ];
 
   // selctor
   const {
@@ -157,7 +146,6 @@ const HotelBookingCard = () => {
   };
 
   useEffect(() => {
-    console.log(selectedRoomPrice);
     setRoomPrice(selectedRoomPrice === undefined ? 0 : selectedRoomPrice);
     setTotalAmount(
       (selectedRoomPrice === undefined ? 0 : selectedRoomPrice) * numberOfDays +
@@ -316,9 +304,9 @@ const HotelBookingCard = () => {
             Extra Features
           </Typography>
           <Box>
-            {extraFeatures.map((extraFeature) => (
+            {props.extraFeatures.map((extraFeature) => (
               <Grid
-                key={extraFeature.feature}
+                key={extraFeature.id}
                 container
                 className={styles["card_header"]}
                 sx={{ marginBottom: "0" }}
@@ -326,15 +314,15 @@ const HotelBookingCard = () => {
                 <Grid item xs={2} md={2}>
                   <Checkbox
                     disabled={checkOutDate === null}
-                    name={extraFeature.price.toString()}
+                    name={extraFeature.cost.toString()}
                     onChange={ExtraFeaturesChangeHandler}
                   ></Checkbox>
                 </Grid>
                 <Grid item xs={8} md={8}>
-                  {extraFeature.feature}
+                  {extraFeature.name}
                 </Grid>
                 <Grid className={styles["night_text"]} item xs={2} md={2}>
-                  ${extraFeature.price}
+                  ${extraFeature.cost}
                 </Grid>
               </Grid>
             ))}
@@ -357,7 +345,9 @@ const HotelBookingCard = () => {
                 color="primary"
                 className={styles["booknow_btn"]}
                 disabled={
-                  selectedRoomPrice === undefined || selectedRoomPrice === 0
+                  selectedRoomPrice === undefined ||
+                  selectedRoomPrice === 0 ||
+                  checkOutDate === null
                     ? true
                     : false
                 }
@@ -375,6 +365,10 @@ const HotelBookingCard = () => {
       </Card>
     </>
   );
+};
+
+HotelBookingCard.propTypes = {
+  extraFeatures: PropTypes.array,
 };
 
 export default HotelBookingCard;

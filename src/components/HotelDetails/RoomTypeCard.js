@@ -30,7 +30,6 @@ const RoomTypeCard = (props) => {
   );
 
   const onClickSelect = (original_price, roomPrice) => {
-    console.log(original_price);
     //store in redux
     dispatch(
       updateRoomPrice({
