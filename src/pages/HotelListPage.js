@@ -30,6 +30,7 @@ const HotelListPage = () => {
   } = useSelector((state) => state.searchHotel);
 
   const [hotelList, setHotelList] = useState([]);
+  const [isViewMoreClicked, setIsViewMoreClicked] = useState(false);
   const [page, setPage] = useState(1);
 
   const {
@@ -41,11 +42,12 @@ const HotelListPage = () => {
   } = useAxios();
 
   useEffect(() => {
+    setIsViewMoreClicked(false);
     if (searchedLocation !== null) {
-      (async () => {
-        setLoaded(false);
-        callAPI(`${hotelListURL}?location=${searchedLocation}`);
-      })();
+      setLoaded(false);
+      callAPI(`${hotelListURL}?location=${searchedLocation}`);
+    } else {
+      setLoaded(false);
     }
   }, [searchedLocation]);
 
@@ -55,17 +57,23 @@ const HotelListPage = () => {
 
   // if API call finished
   useEffect(() => {
-    if (loaded) {
-      setHotelList((prevState) => [...prevState, ...hotel_list_data.data]);
+    if (!isViewMoreClicked) {
+      setHotelList([]);
+      if (loaded) {
+        setHotelList([...hotel_list_data.data]);
+      }
+    } else {
+      if (loaded) {
+        setHotelList((prevState) => [...prevState, ...hotel_list_data.data]);
+      }
     }
   }, [loaded]);
 
   const handleViewMore = () => {
     // call api with next page count
-    (async () => {
-      callAPI(`${hotelListURL}?location=${searchedLocation}&page=${page + 1}`);
-      setLoaded(false);
-    })();
+    setIsViewMoreClicked(true);
+    callAPI(`${hotelListURL}?location=${searchedLocation}&page=${page + 1}`);
+    setLoaded(false);
     // increment page count
     setPage((prevState) => prevState + 1);
   };
@@ -75,9 +83,10 @@ const HotelListPage = () => {
       <BreadCrumbs activePage="Hotel List" />
       <SearchWidget />
 
-      {searchedLocation == null && loaded && <Loader />}
-      {!loaded && <Loader />}
-      {searchedLocation == null && (
+      {!loaded && searchedLocation !== null && (
+        <Loader text="Finding best hotels for you !" />
+      )}
+      {searchedLocation === null && (
         <Typography variant="h4" sx={styles.searchText}>
           Search for hotels above...
         </Typography>
@@ -114,9 +123,11 @@ const HotelListPage = () => {
             ))}
         </Grid>
       </Grid>
-
+      {!loaded && searchedLocation !== null && (
+        <Loader text="Loading more hotels !" />
+      )}
       {/* View More Button */}
-      {hotelList.length !== 0 && hotel_list_data.has_next && (
+      {hotelList.length > 0 && hotel_list_data.has_next && (
         <Box sx={styles.box} component="div">
           <Button
             variant="outlined"
