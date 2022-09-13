@@ -43,7 +43,7 @@ const BreadCrumbsData = [{ label: "Hotel List", route: ROUTES.HOTEL_LIST }];
 
 const HotelDetailsPage = () => {
   const dispatch = useDispatch();
-  const { data, error, loaded, callAPI } = useAxios();
+  const { data, loaded, callAPI } = useAxios();
   const location = useLocation();
   const hotel_id = location.pathname.split("/").at(-1);
   // .toString()[-1]
