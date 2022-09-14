@@ -36,6 +36,7 @@ const RoomTypeCard = (props) => {
         roomType: roomType,
         roomOriginalPrice: original_price,
         roomPrice: roomPrice,
+        room_id: props.id,
       })
     );
   };
@@ -142,6 +143,7 @@ const RoomTypeCard = (props) => {
 };
 
 RoomTypeCard.propTypes = {
+  id: PropTypes.number,
   price: PropTypes.number,
   room_type: PropTypes.string,
 };

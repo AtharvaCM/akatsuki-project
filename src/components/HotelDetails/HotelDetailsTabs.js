@@ -77,6 +77,7 @@ const HotelDetailsTabs = (props) => {
                   key={room.id}
                   price={room.cost}
                   room_type={room.room_type}
+                  id={room.id}
                 />
               ))}
           </TabPanel>

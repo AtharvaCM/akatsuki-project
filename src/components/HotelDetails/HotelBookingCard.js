@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+
 //MUI
-import {
-  Typography,
-  TextField,
-  Divider,
-  Card,
-  Chip,
-  Grid,
-  Box,
-  Checkbox,
-  Button,
-} from "@mui/material";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Divider from "@mui/material/Divider";
+import Card from "@mui/material/Card";
+import Chip from "@mui/material/Chip";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import Button from "@mui/material/Button";
 
 // import AddBoxIcon from "@mui/icons-material/AddBox";
 // import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
@@ -21,27 +20,43 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 
-import { useSelector } from "react-redux";
+// redux
+import { useDispatch, useSelector } from "react-redux";
+
+// path constants
 import { ROUTES } from "../../utils/constants/routingPathConstants";
+
 // react router
 import { useNavigate } from "react-router-dom";
 
 // CSS
 import styles from "./HotelBookingCard.module.css";
 
+// actions
+import { setBookingDetails } from "../../store/bookingDetailsSlice";
+
 const roomsCount = 1;
 
 const HotelBookingCard = (props) => {
   const navigate = useNavigate();
-  const { roomPrice: selectedRoomPrice, roomOriginalPrice } = useSelector(
-    (state) => state.roomPrice
-  );
 
-  // selctor
+  const dispatch = useDispatch();
+
+  // get hotel id from url
+  const hotel_id = location.pathname.split("/").at(-1);
+
+  // selctors
   const {
     checkInDate: searchedCheckInDate,
     checkOutDate: searchedCheckOutDate,
   } = useSelector((state) => state.searchHotel);
+
+  const {
+    roomPrice: selectedRoomPrice,
+    roomOriginalPrice,
+    roomType: selectedRoomType,
+    room_id: selectedRoomId,
+  } = useSelector((state) => state.roomPrice);
 
   // React Hooks
   const [checkInDate, setCheckInDate] = useState(
@@ -138,6 +153,21 @@ const HotelBookingCard = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    // POST booking request
+
+    // set booking details in redux
+    const payload = {
+      user_id: 2,
+      room_type: selectedRoomType,
+      check_in_date: JSON.parse(searchedCheckInDate).substring(0, 10),
+      check_out_date: JSON.parse(searchedCheckOutDate).substring(0, 10),
+      amount: totalAmount,
+      number_of_rooms: 1,
+      hotel_id: hotel_id,
+      room_id: selectedRoomId,
+    };
+    dispatch(setBookingDetails(payload));
+
     // Redirect to booking confirmation page
     if (checkInDate !== null && checkOutDate !== null) {
       navigate(`${ROUTES.BOOKING_CONFIRMATION}`);
@@ -190,10 +220,13 @@ const HotelBookingCard = (props) => {
             )}
           </Grid>
         </Box>
+
         <Divider />
+
         <form onSubmit={submitHandler}>
           <Box className={styles["dates_container"]} sx={{ flexGrow: 1 }}>
             <Grid container className={styles["card_header"]}>
+              {/* Check in date */}
               <Grid item xs={5} md={5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
@@ -214,6 +247,7 @@ const HotelBookingCard = (props) => {
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={2} md={2}></Grid>
+              {/* Check out date */}
               <Grid item xs={5} md={5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
@@ -302,6 +336,7 @@ const HotelBookingCard = (props) => {
             </Grid> */}
           </Box>
 
+          {/* Extra Features */}
           <Typography className={styles["night_text"]}>
             Extra Features
           </Typography>
@@ -329,15 +364,19 @@ const HotelBookingCard = (props) => {
               </Grid>
             ))}
           </Box>
+          {/* Extra Features END */}
+
           <Grid container alignItems="center">
             <Grid item xs={9}>
               <Typography className={styles["night_text"]}>
                 Total Payment (for {numberOfDays} days)
               </Typography>
             </Grid>
+            {/* Total Amount */}
             <Grid item xs={3}>
               <Typography variant="h6">${totalAmount}</Typography>
             </Grid>
+            {/* Book now button */}
             <Grid item xs={12}>
               <Button
                 sx={{ width: "100%", margin: "5% auto" }}

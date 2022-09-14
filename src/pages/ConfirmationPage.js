@@ -12,17 +12,39 @@ import { ROUTES } from "../utils/constants/routingPathConstants";
 // react router
 import { useNavigate } from "react-router-dom";
 
-const BreadCrumbsData = [
-  { label: "Hotel List", route: ROUTES.HOTEL_LIST },
-  { label: "Hotel Details", route: ROUTES.HOTEL_DETAILS },
-];
+// redux
+import { useSelector } from "react-redux";
 
 const ConfirmationPage = () => {
   const navigate = useNavigate();
+
   const onClickHome = () => {
     navigate(`${ROUTES.HOME}`);
   };
 
+  // selector
+  // {
+  //   user_id,
+  //   room_type,
+  //   check_in_date,
+  //   check_out_date,
+  //   amount,
+  //   number_of_rooms,
+  //   hotel_id,
+  //   room_id,
+  // }
+  const bookingState = useSelector((state) => state.bookingDetails);
+  console.log("bookingState: ", bookingState);
+
+  const BreadCrumbsData = [
+    { label: "Hotel List", route: ROUTES.HOTEL_LIST },
+    {
+      label: "Hotel Details",
+      route: `${ROUTES.HOTEL_DETAILS}/${bookingState.hotel_id}`,
+    },
+  ];
+
+  // static data
   const roomCount = 1;
   const bookingDate = "September 15 - 22 2022";
   const NoOfPassenagers = 4;
