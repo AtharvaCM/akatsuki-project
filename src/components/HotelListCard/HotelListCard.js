@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // router
@@ -9,10 +9,9 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
-
 import Typography from "@mui/material/Typography";
-
 import Grid from "@mui/material/Grid";
+import CircularProgress from "@mui/material/CircularProgress";
 
 // MUI icons
 import StarIcon from "@mui/icons-material/Star";
@@ -37,10 +36,24 @@ import { useDispatch } from "react-redux";
 import { ROUTES } from "../../utils/constants/routingPathConstants";
 
 // actions
-
 import { updateRoomPrice } from "../../store/roomTypeSlice";
 
+// Custom hooks
+import { useAxios } from "../../hooks/useAxios";
+
 const HotelListCard = (props) => {
+  const {
+    loaded: priceLoaded,
+    data: priceListData,
+    error: priceError,
+    callAPI: callPriceAPI,
+  } = useAxios();
+
+  const [roomPrice, setRoomPrice] = useState(0);
+  const [roomCapacity, setRoomCapacity] = useState(0);
+
+  const callPriceURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${props.id}/room-prices`;
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -55,6 +68,23 @@ const HotelListCard = (props) => {
     // Redirect to hotel detail page
     navigate(`${ROUTES.HOTEL_DETAILS}/${props.id}`);
   };
+
+  // when the page is loaded, get room prices
+  useEffect(() => {
+    callPriceAPI(callPriceURL);
+  }, []);
+
+  // when api response is available, set price and capacity in state
+  useEffect(() => {
+    if (priceLoaded) {
+      setRoomPrice(priceListData.data[0].cost);
+      setRoomCapacity(priceListData.data[0].capacity_per_room);
+    }
+  }, [priceLoaded]);
+
+  if (priceError) {
+    console.log("priceError: ", priceError);
+  }
 
   return (
     <Card sx={{ borderRadius: "24px", marginBottom: "2rem" }}>
@@ -166,10 +196,15 @@ const HotelListCard = (props) => {
                   <Chip
                     label={
                       <span className={styles.priceChipSpan}>
-                        <Typography variant="h6">${props.price}</Typography>
-                        <Typography variant="caption">
-                          For {props.capacity}
-                        </Typography>
+                        {!priceLoaded && <CircularProgress />}
+                        {priceLoaded && (
+                          <>
+                            <Typography variant="h6">${roomPrice}</Typography>
+                            <Typography variant="caption">
+                              For {roomCapacity}
+                            </Typography>
+                          </>
+                        )}
                       </span>
                     }
                   />
@@ -210,8 +245,6 @@ HotelListCard.propTypes = {
   ratings: PropTypes.number,
   reviews_count: PropTypes.number,
   departure: PropTypes.string,
-  price: PropTypes.number,
-  capacity: PropTypes.string,
   room_images: PropTypes.array,
 };
 
