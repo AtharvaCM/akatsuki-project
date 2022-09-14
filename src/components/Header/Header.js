@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React from "react";
 
 // For Icons
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
@@ -20,32 +20,27 @@ import Button from "@mui/material/Button";
 // react router
 import { useNavigate } from "react-router-dom";
 
+// redux
+import { useSelector } from "react-redux";
+
 // path constants
 import { ROUTES } from "../../utils/constants/routingPathConstants";
 
-
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  // selector
+  const { isAuthenticated, username } = useSelector((state) => state.login);
 
   const navigate = useNavigate();
 
-  const onChangeHandler = () => {
-    // setIsLogin(true);
+  const handleLoginClick = () => {
     navigate(ROUTES.LOGIN_PAGE);
   };
 
   return (
-
-    <AppBar color="default" position="sticky" style={{boxShadow:"none"}}>
-
+    <AppBar color="default" position="sticky" style={{ boxShadow: "none" }}>
       <Toolbar>
-        <Box
-          component="img"
-          alt="Img"
-          src={Logo}
-          style={styles.brandLogo}
-        />
-        <Typography variant="h6" style={styles.brand} >
+        <Box component="img" alt="Img" src={Logo} style={styles.brandLogo} />
+        <Typography variant="h6" style={styles.brand}>
           Hotel Guide
         </Typography>
         <Typography color="text.secondary" style={styles.appRegion}>
@@ -59,13 +54,13 @@ const Header = () => {
           flexItem
           style={{ marginLeft: 10, marginRight: 10 }}
         />
-        {isLogin ? (
+        {isAuthenticated ? (
           <>
             <Avatar style={{ marginRight: 12 }} src={Profile}></Avatar>
-            <Typography>Adam Grant</Typography>
+            <Typography>{username}</Typography>
           </>
         ) : (
-          <Button variant="contained" size="medium" onClick={onChangeHandler}>
+          <Button variant="contained" size="medium" onClick={handleLoginClick}>
             Login
           </Button>
         )}

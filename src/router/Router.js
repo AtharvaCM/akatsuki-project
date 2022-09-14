@@ -30,6 +30,7 @@ const Router = () => {
         path={ROUTES.BOOKING_CONFIRMATION}
         element={<ConfirmationPage />}
       />
+      <Route path={ROUTES.LOGIN_PAGE} element={<LoginPage />} />
       <Route path="/redux" element={<ReduxDemo />}></Route>
       <Route path="/axios" element={<AxiosDemo />}></Route>
     </Routes>
