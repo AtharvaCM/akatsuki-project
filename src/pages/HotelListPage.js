@@ -44,6 +44,7 @@ const HotelListPage = () => {
   useEffect(() => {
     setIsViewMoreClicked(false);
     setPage(1);
+
     if (searchedLocation !== null) {
       setLoaded(false);
       callAPI(`${hotelListURL}?location=${searchedLocation}`);
@@ -60,6 +61,7 @@ const HotelListPage = () => {
   useEffect(() => {
     if (!isViewMoreClicked) {
       setHotelList([]);
+
       if (loaded) {
         setHotelList([...hotel_list_data.data]);
       }
@@ -70,8 +72,8 @@ const HotelListPage = () => {
     }
   }, [loaded]);
 
+  // call api with next page count
   const handleViewMore = () => {
-    // call api with next page count
     setIsViewMoreClicked(true);
     callAPI(`${hotelListURL}?location=${searchedLocation}&page=${page + 1}`);
     setLoaded(false);
@@ -117,8 +119,8 @@ const HotelListPage = () => {
                 ratings={hotel.ratings}
                 reviews_count={234}
                 departure="Kochi"
-                price={720}
-                capacity="Two"
+                // price={720}
+                // capacity="Two"
                 room_images={hotel.room_images}
               />
             ))}
