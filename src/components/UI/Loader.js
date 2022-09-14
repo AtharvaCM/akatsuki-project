@@ -17,7 +17,7 @@ const Loader = (props) => {
           margin: "2%",
         }}
       >
-        <CircularProgress />
+        <CircularProgress sx={{ marginRight: "20px" }} />
         <Typography variant="h4">{props.text ?? "Loading"}</Typography>
       </Box>
     </>
