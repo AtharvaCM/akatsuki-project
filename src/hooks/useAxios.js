@@ -21,6 +21,9 @@ export const useAxios = () => {
         signal: controllerRef.current.signal,
         method,
         url,
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       setData(response.data);
     } catch (error) {

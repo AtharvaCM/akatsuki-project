@@ -1,4 +1,5 @@
-import React from "react";
+// Author: AtharvaCM
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // router
@@ -9,16 +10,15 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
-
 import Typography from "@mui/material/Typography";
-
 import Grid from "@mui/material/Grid";
+import CircularProgress from "@mui/material/CircularProgress";
 
 // MUI icons
 import StarIcon from "@mui/icons-material/Star";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-import FlightOutlinedIcon from "@mui/icons-material/FlightOutlined";
+// import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
+// import FlightOutlinedIcon from "@mui/icons-material/FlightOutlined";
 import WifiOutlinedIcon from "@mui/icons-material/WifiOutlined";
 import DirectionsCarOutlinedIcon from "@mui/icons-material/DirectionsCarOutlined";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
@@ -30,19 +30,65 @@ import { ReactComponent as DatabaseIcon } from "../../assets/images/database_ico
 // styles
 import styles from "./HotelListCard.module.css";
 
+// redux
+import { useDispatch } from "react-redux";
+
 // Routes
 import { ROUTES } from "../../utils/constants/routingPathConstants";
 
+// actions
+import { updateRoomPrice } from "../../store/roomTypeSlice";
+
+// Custom hooks
+import { useAxios } from "../../hooks/useAxios";
+
 const HotelListCard = (props) => {
+  const {
+    loaded: priceLoaded,
+    data: priceListData,
+    error: priceError,
+    callAPI: callPriceAPI,
+  } = useAxios();
+
+  const [roomPrice, setRoomPrice] = useState(0);
+  const [roomCapacity, setRoomCapacity] = useState(0);
+
+  const callPriceURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${props.id}/room-prices`;
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleBookNow = () => {
+    dispatch(
+      updateRoomPrice({
+        roomType: "",
+        roomPrice: 0,
+      })
+    );
+
     // Redirect to hotel detail page
-    navigate(`${ROUTES.HOTEL_DETAILS}/${props.id}`, { state: props });
+    navigate(`${ROUTES.HOTEL_DETAILS}/${props.id}`);
   };
 
+  // when the page is loaded, get room prices
+  useEffect(() => {
+    callPriceAPI(callPriceURL);
+  }, []);
+
+  // when api response is available, set price and capacity in state
+  useEffect(() => {
+    if (priceLoaded) {
+      setRoomPrice(priceListData.data[0].cost);
+      setRoomCapacity(priceListData.data[0].capacity_per_room);
+    }
+  }, [priceLoaded]);
+
+  if (priceError) {
+    console.log("priceError: ", priceError);
+  }
+
   return (
-    <Card sx={{ borderRadius: "24px", marginY: "2rem" }}>
+    <Card sx={{ borderRadius: "24px", marginBottom: "2rem" }}>
       <Grid container>
         {/* Hotel Image */}
         <Grid item md={5}>
@@ -93,20 +139,20 @@ const HotelListCard = (props) => {
                 </address>
               </Grid>
               {/* Dates */}
-              <Grid item md={5} className={styles.alignCenter}>
+              {/* <Grid item md={5} className={styles.alignCenter}>
                 <DateRangeOutlinedIcon className={styles.icon} />
                 <Typography variant="body1" className={styles.iconLabels}>
                   {props.check_in_date} - {props.check_out_date}
                 </Typography>
-              </Grid>
+              </Grid> */}
             </Grid>
             {/* Departure */}
-            <span className={styles.departure}>
+            {/* <span className={styles.departure}>
               <FlightOutlinedIcon className={styles.icon} />
               <Typography variant="body1" className={styles.iconLabels}>
                 Departure from {props.departure}
               </Typography>
-            </span>
+            </span> */}
 
             <Grid container>
               {/* Hotel features */}
@@ -151,10 +197,15 @@ const HotelListCard = (props) => {
                   <Chip
                     label={
                       <span className={styles.priceChipSpan}>
-                        <Typography variant="h6">${props.price}</Typography>
-                        <Typography variant="caption">
-                          For {props.capacity}
-                        </Typography>
+                        {!priceLoaded && <CircularProgress />}
+                        {priceLoaded && (
+                          <>
+                            <Typography variant="h6">${roomPrice}</Typography>
+                            <Typography variant="caption">
+                              For {roomCapacity}
+                            </Typography>
+                          </>
+                        )}
                       </span>
                     }
                   />
@@ -186,14 +237,15 @@ HotelListCard.propTypes = {
   hotel_dp: PropTypes.string,
   state: PropTypes.string,
   country: PropTypes.string,
+  city: PropTypes.string,
   address: PropTypes.string,
+  description: PropTypes.string,
+  features: PropTypes.array,
   check_in_date: PropTypes.string,
   check_out_date: PropTypes.string,
   ratings: PropTypes.number,
   reviews_count: PropTypes.number,
   departure: PropTypes.string,
-  price: PropTypes.number,
-  capacity: PropTypes.string,
   room_images: PropTypes.array,
 };
 

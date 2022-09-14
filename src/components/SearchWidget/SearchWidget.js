@@ -57,7 +57,7 @@ const SearchWidget = () => {
   // Functions
   const searchSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(location, checkInDate, checkOutDate);
+
     dispatch(
       updateSearchParams({
         location: location,
@@ -65,7 +65,7 @@ const SearchWidget = () => {
         checkOutDate: JSON.stringify(checkOutDate) ?? null,
       })
     );
-    // call API
+
     navigate(ROUTES.HOTEL_LIST, {
       replace: false,
     });
@@ -98,6 +98,7 @@ const SearchWidget = () => {
               <Grid item xs={12} md={4}>
                 <Autocomplete
                   disablePortal
+                  loading={!loaded}
                   options={loaded ? data.data : []}
                   value={location}
                   className={styles["input"]}

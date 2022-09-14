@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 //MUI
 import {
   Typography,
@@ -8,19 +9,19 @@ import {
   Chip,
   Grid,
   Box,
-  IconButton,
   Checkbox,
   Button,
 } from "@mui/material";
 
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
+// import AddBoxIcon from "@mui/icons-material/AddBox";
+// import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
 
 // Date Imports
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 
+import { useSelector } from "react-redux";
 import { ROUTES } from "../../utils/constants/routingPathConstants";
 // react router
 import { useNavigate } from "react-router-dom";
@@ -30,37 +31,46 @@ import styles from "./HotelBookingCard.module.css";
 
 const roomsCount = 1;
 
-const HotelBookingCard = () => {
+const HotelBookingCard = (props) => {
   const navigate = useNavigate();
-  // Dummy data
-  const roomPrice = 720;
-  const extraFeatures = [
-    {
-      feature: "Allow to bring pet",
-      price: 15,
-    },
-    { feature: "Lunch per person per day", price: 24 },
-    { feature: "Parking", price: 5 },
-    { feature: "Extra Pillow", price: 0 },
-  ];
+  const { roomPrice: selectedRoomPrice, roomOriginalPrice } = useSelector(
+    (state) => state.roomPrice
+  );
+
+  // selctor
+  const {
+    checkInDate: searchedCheckInDate,
+    checkOutDate: searchedCheckOutDate,
+  } = useSelector((state) => state.searchHotel);
+
   // React Hooks
-  const [checkInDate, setCheckInDate] = useState(null);
-  const [checkOutDate, setCheckOutDate] = useState(null);
-  const [guestsCount, setGuestsCount] = useState(1);
+  const [checkInDate, setCheckInDate] = useState(
+    searchedCheckInDate ? JSON.parse(searchedCheckInDate) : null
+  );
+  const [checkOutDate, setCheckOutDate] = useState(
+    searchedCheckOutDate ? JSON.parse(searchedCheckOutDate) : null
+  );
+
+  // const [guestsCount, setGuestsCount] = useState(1);
+  const [roomPrice, setRoomPrice] = useState(0);
   // const [roomsCount, setRoomsCount] = useState(1);
   const [extraFeatureAmount, setExtraFeatureAmount] = useState(0);
-  const [numberOfDays, setNumberOfDays] = useState(1);
+  const [numberOfDays, setNumberOfDays] = useState(
+    checkOutDate !== null
+      ? dayjs(checkOutDate).diff(dayjs(checkInDate), "day")
+      : 0
+  );
   const [totalAmount, setTotalAmount] = useState(roomPrice * numberOfDays);
 
-  const decrementGuestCount = () => {
-    if (guestsCount > 1) {
-      setGuestsCount((prevState) => +prevState - 1);
-    }
-  };
+  // const decrementGuestCount = () => {
+  //   if (guestsCount > 1) {
+  //     setGuestsCount((prevState) => +prevState - 1);
+  //   }
+  // };
 
-  const incrementGuestCount = () => {
-    setGuestsCount((prevState) => +prevState + 1);
-  };
+  // const incrementGuestCount = () => {
+  //   setGuestsCount((prevState) => +prevState + 1);
+  // };
 
   // Do NOT TOUCH THIS COMMENTED CODE . IT WILL BE ADDED IN NEXT SPRINT
   // const decrementRoomsCount = () => {
@@ -85,23 +95,19 @@ const HotelBookingCard = () => {
   //   );
   // };
 
-  const guestsInputOnChangeHandler = (e) => {
-    setGuestsCount(
-      e.target.value.length === 0 || e.target.value < 1 ? "" : e.target.value
-    );
-  };
+  // const guestsInputOnChangeHandler = (e) => {
+  //   setGuestsCount(
+  //     e.target.value.length === 0 || e.target.value < 1 ? "" : e.target.value
+  //   );
+  // };
 
   const ExtraFeaturesChangeHandler = (e) => {
     if (e.target.checked) {
-      setExtraFeatureAmount(
-        (prevState) => prevState + +e.target.name * numberOfDays
-      );
-      setTotalAmount((prevState) => prevState + +e.target.name * numberOfDays);
+      setExtraFeatureAmount((prevState) => prevState + +e.target.name);
+      setTotalAmount((prevState) => prevState + +e.target.name);
     } else {
-      setExtraFeatureAmount(
-        (prevState) => prevState - +e.target.name * numberOfDays
-      );
-      setTotalAmount((prevState) => prevState - +e.target.name * numberOfDays);
+      setExtraFeatureAmount((prevState) => prevState - +e.target.name);
+      setTotalAmount((prevState) => prevState - +e.target.name);
     }
   };
 
@@ -111,8 +117,10 @@ const HotelBookingCard = () => {
       // If Check-In date crosses check-Out date
       // Then set Check-Out date tommorow of Check-in Date
       var days = dayjs(newDate).diff(dayjs(checkOutDate), "day");
+
       if (days >= 0) {
         setCheckOutDate(dayjs(newDate).add(1, "day"));
+        days = 1;
       }
       days = days >= 0 || !isNaN(days) ? Math.abs(days) : 1;
       setNumberOfDays(days);
@@ -121,6 +129,8 @@ const HotelBookingCard = () => {
       setCheckOutDate(newDate);
       setNumberOfDays(days);
     }
+
+    setExtraFeatureAmount(extraFeatureAmount);
     setTotalAmount(
       roomPrice * (isNaN(days) ? 1 : days) * roomsCount + extraFeatureAmount
     );
@@ -129,8 +139,18 @@ const HotelBookingCard = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     // Redirect to booking confirmation page
-    navigate(`${ROUTES.BOOKING_CONFIRMATION}`);
+    if (checkInDate !== null && checkOutDate !== null) {
+      navigate(`${ROUTES.BOOKING_CONFIRMATION}`);
+    }
   };
+
+  useEffect(() => {
+    setRoomPrice(selectedRoomPrice === undefined ? 0 : selectedRoomPrice);
+    setTotalAmount(
+      (selectedRoomPrice === undefined ? 0 : selectedRoomPrice) * numberOfDays +
+        extraFeatureAmount
+    );
+  });
 
   return (
     <>
@@ -148,22 +168,26 @@ const HotelBookingCard = () => {
           <Grid container className={styles["card_header"]}>
             <Grid item xs={6} md={6}>
               <Typography variant="h6">
-                ${roomPrice}
+                ${roomPrice ?? 0}
                 <span className={styles["night_text"]}>/night</span>
               </Typography>
             </Grid>
-            <Grid item xs={3} md={3}>
-              <Typography className={styles["discounted_price"]}>
-                $576
-              </Typography>
-            </Grid>
-            <Grid item xs={3} md={3}>
-              <Chip
-                label="20% OFF"
-                color="primary"
-                className={styles["discount_chip"]}
-              />
-            </Grid>
+            {roomOriginalPrice > 0 && (
+              <>
+                <Grid item xs={3} md={3}>
+                  <Typography className={styles["discounted_price"]}>
+                    <s>${roomOriginalPrice}/night</s>
+                  </Typography>
+                </Grid>
+                <Grid item xs={3} md={3}>
+                  <Chip
+                    label="10% OFF"
+                    color="primary"
+                    className={styles["discount_chip"]}
+                  />
+                </Grid>
+              </>
+            )}
           </Grid>
         </Box>
         <Divider />
@@ -213,7 +237,8 @@ const HotelBookingCard = () => {
           </Box>
 
           <Box>
-            <Grid container className={styles["card_header"]}>
+            {/* No of guests */}
+            {/* <Grid container className={styles["card_header"]}>
               <Grid item xs={2}>
                 <IconButton onClick={decrementGuestCount}>
                   <IndeterminateCheckBoxIcon
@@ -238,7 +263,9 @@ const HotelBookingCard = () => {
                   <AddBoxIcon fontSize="large" color="info"></AddBoxIcon>
                 </IconButton>
               </Grid>
-            </Grid>
+            </Grid> */}
+            {/* No of guests END */}
+
             {/* // Do NOT TOUCH THIS COMMENTED CODE . IT WILL BE ADDED IN NEXT SPRINT */}
             {/* <Grid container className={styles["card_header"]}>
               <Grid item xs={2}>
@@ -279,24 +306,25 @@ const HotelBookingCard = () => {
             Extra Features
           </Typography>
           <Box>
-            {extraFeatures.map((extraFeature) => (
+            {props.extraFeatures.map((extraFeature) => (
               <Grid
-                key={extraFeature.feature}
+                key={extraFeature.id}
                 container
                 className={styles["card_header"]}
                 sx={{ marginBottom: "0" }}
               >
                 <Grid item xs={2} md={2}>
                   <Checkbox
-                    name={extraFeature.price.toString()}
+                    disabled={checkOutDate === null}
+                    name={extraFeature.cost.toString()}
                     onChange={ExtraFeaturesChangeHandler}
                   ></Checkbox>
                 </Grid>
                 <Grid item xs={8} md={8}>
-                  {extraFeature.feature}
+                  {extraFeature.name}
                 </Grid>
                 <Grid className={styles["night_text"]} item xs={2} md={2}>
-                  ${extraFeature.price}
+                  ${extraFeature.cost}
                 </Grid>
               </Grid>
             ))}
@@ -318,8 +346,17 @@ const HotelBookingCard = () => {
                 size="large"
                 color="primary"
                 className={styles["booknow_btn"]}
+                disabled={
+                  selectedRoomPrice === undefined ||
+                  selectedRoomPrice === 0 ||
+                  checkOutDate === null
+                    ? true
+                    : false
+                }
               >
-                Book Now
+                {selectedRoomPrice === undefined || selectedRoomPrice === 0
+                  ? "Select Room"
+                  : "Book Now"}
               </Button>
             </Grid>
           </Grid>
@@ -330,6 +367,10 @@ const HotelBookingCard = () => {
       </Card>
     </>
   );
+};
+
+HotelBookingCard.propTypes = {
+  extraFeatures: PropTypes.array,
 };
 
 export default HotelBookingCard;

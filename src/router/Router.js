@@ -15,14 +15,11 @@ import LoginPage from "../pages/LoginPage";
 // paths
 import { ROUTES } from "../utils/constants/routingPathConstants";
 
-
 const Router = () => {
   return (
     <Routes>
       <Route index exact path={ROUTES.HOME} element={<HomePage />} />
       <Route index path={ROUTES.HOTEL_LIST} element={<HotelListPage />} />
-      <Route exact path={ROUTES.HOTEL_DETAILS} element={<HotelDetailsPage />} />
-      <Route exact path={ROUTES.LOGIN_PAGE} element={<LoginPage />}/>
       <Route
         exact
         path={`${ROUTES.HOTEL_DETAILS}/:id`}
