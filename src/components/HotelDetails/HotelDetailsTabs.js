@@ -7,10 +7,10 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 // Custom Components
 import HotelFeatures from "./HotelFeatures";
-import AddReview from "./AddReview";
-import ViewReview from "./ViewReview";
+
 import RoomTypeCard from "./RoomTypeCard";
 import Loader from "../UI/Loader";
+import ReviewTab from "./Tabs/ReviewTab";
 
 // custom hooks
 import { useAxios } from "../../hooks/useAxios";
@@ -26,12 +26,14 @@ const HotelDetailsTabs = (props) => {
 
   const { data, error, loaded, callAPI } = useAxios();
 
-  const roomListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${props.id}/rooms`;
+  // const roomListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${props.id}/rooms`;
+  const roomListURL = `http://127.0.0.1:5000/api/v1/hotels/${props.id}/rooms`;
 
   const handleTabChange = (event, newValue) => {
     setNavTabValue(newValue);
   };
 
+  // When the page is loaded, fetch room details for current hotel
   useEffect(() => {
     callAPI(roomListURL);
   }, [props]);
@@ -55,15 +57,18 @@ const HotelDetailsTabs = (props) => {
               <Tab label="Review" value="4" />
             </TabList>
           </Box>
+          {/* Description */}
           <TabPanel style={PaddingZeroStyle} value="1">
             {props.description}
           </TabPanel>
+          {/* Features */}
           <TabPanel style={PaddingZeroStyle} value="2">
             <HotelFeatures
               features={props.features}
               amenities={props.amenities}
             />
           </TabPanel>
+          {/* Room & Price */}
           <TabPanel style={PaddingZeroStyle} value="3">
             {!loaded && <Loader />}
             {loaded &&
@@ -75,10 +80,9 @@ const HotelDetailsTabs = (props) => {
                 />
               ))}
           </TabPanel>
+          {/* Review */}
           <TabPanel style={PaddingZeroStyle} value="4">
-            <AddReview />
-            <ViewReview />
-            <ViewReview />
+            <ReviewTab hotel_id={props.id} />
           </TabPanel>
         </TabContext>
       </Box>

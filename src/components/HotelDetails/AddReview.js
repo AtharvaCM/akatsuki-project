@@ -1,14 +1,82 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
+// MUI
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Card";
 import Rating from "@mui/material/Rating";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 
-const AddReview = () => {
-  const [value, setValue] = useState(3);
+// MUI Icons
+import SendIcon from "@mui/icons-material/Send";
+
+// Custom Hooks
+import { useAxios } from "../../hooks/useAxios";
+
+const AddReview = (props) => {
+  // get hotel id from url
+  const hotel_id = location.pathname.split("/").at(-1);
+
+  const { data, loaded, error, callAPI } = useAxios();
+
+  const [loadingDisabled, setLoadingDisabled] = useState(true);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // POST review on send button click
+  const handleSubmitClick = () => {
+    setLoading(true);
+
+    const addReviewURL = `http://127.0.0.1:5000/api/v1/hotels/${hotel_id}/reviews`;
+    const reqBody = JSON.stringify({
+      rating: rating,
+      comment: comment,
+      user_id: 2,
+    });
+    callAPI(addReviewURL, "POST", reqBody);
+  };
+
+  // discard the inputs
+  const handleCancelClick = () => {
+    setComment("");
+    setRating(3);
+  };
+
+  const handleRatingChange = (event) => {
+    const ratingValue = +event.target.value;
+
+    setRating(ratingValue);
+
+    if (ratingValue > 0) {
+      setLoadingDisabled(false);
+    }
+  };
+
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
+  };
+
+  useEffect(() => {
+    // when API call is successful, stop loading button and show Snackbar
+    if (loaded) {
+      setLoading(false);
+      props.onOpen(true);
+
+      if (data.status === "Review added successfully") {
+        // notify parent that review is present now
+        props.onReviewAdd();
+      }
+    }
+
+    if (error) {
+      console.log("error: ", error);
+    }
+  }, [loaded, error]);
+
   return (
     <div>
       <Box
@@ -19,13 +87,11 @@ const AddReview = () => {
         <Typography sx={styles.header}>Attach your Review</Typography>
         <Rating
           name="simple-controlled"
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue);
-            console.log(newValue);
-          }}
+          value={rating}
+          onChange={handleRatingChange}
         />
       </Box>
+      {/* Input */}
       <Card variant="outlined" sx={styles.ReviewCard}>
         <TextareaAutosize
           aria-label="minimum height"
@@ -34,18 +100,40 @@ const AddReview = () => {
           placeholder="Write your detailed review here........"
           style={styles.textAreaCard}
           maxLength={600}
+          value={comment}
+          onChange={handleCommentChange}
         />
       </Card>
+      {/* Actions */}
       <Box display={"flex"} alignItems="center" justifyContent={"right"}>
-        <Button variant="outlined" sx={styles.cancelButton}>
+        <Button
+          variant="outlined"
+          sx={styles.cancelButton}
+          onClick={handleCancelClick}
+        >
           Cancel
         </Button>
-        <Button variant="contained" sx={styles.submitButton}>
-          Submit
-        </Button>
+        <LoadingButton
+          size="medium"
+          disabled={loadingDisabled}
+          onClick={handleSubmitClick}
+          endIcon={<SendIcon />}
+          loading={loading}
+          loadingPosition="end"
+          variant="contained"
+          color="primary"
+          sx={styles.submitButton}
+        >
+          Send
+        </LoadingButton>
       </Box>
     </div>
   );
+};
+
+AddReview.propTypes = {
+  onReviewAdd: PropTypes.func,
+  onOpen: PropTypes.func,
 };
 
 const styles = {
@@ -86,4 +174,5 @@ const styles = {
     borderBottom: "none",
   },
 };
+
 export default AddReview;

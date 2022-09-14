@@ -58,8 +58,8 @@ const HotelDetailsPage = () => {
   } = useAxios();
 
   const location = useLocation();
+  // get hotel id from url
   const hotel_id = location.pathname.split("/").at(-1);
-  // .toString()[-1]
 
   const HotelDetailsURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${hotel_id}`;
   const HotelExtraFeaturesURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${hotel_id}/extrafeatures`;
@@ -74,13 +74,13 @@ const HotelDetailsPage = () => {
     ratings,
     reviews_count,
     room_images,
-    // amenities,
   } = useSelector((state) => state.hotelDetails);
 
   useEffect(() => {
     callAPIHotelDetails(HotelDetailsURL);
   }, []);
 
+  // When API call is successful, dispatch hotel details to redux
   useEffect(() => {
     callAPIHotelExtraFeatures(HotelExtraFeaturesURL);
   }, []);
@@ -118,6 +118,7 @@ const HotelDetailsPage = () => {
       {loadedHotelDetails && dataHotelDetails.data && (
         <div style={{ padding: "2%" }}>
           <BreadCrumbs data={BreadCrumbsData} activePage="Hotel Details" />
+
           <HotelHeader
             name={hotel_name}
             ratings={ratings}
@@ -127,6 +128,7 @@ const HotelDetailsPage = () => {
             state={state}
             room_images={room_images}
           />
+
           <Grid container>
             <Grid item xs={12} md={7}>
               <HotelDetailsTabs
