@@ -9,13 +9,12 @@ import {
   Chip,
   Grid,
   Box,
-  IconButton,
   Checkbox,
   Button,
 } from "@mui/material";
 
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
+// import AddBoxIcon from "@mui/icons-material/AddBox";
+// import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
 
 // Date Imports
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
@@ -52,7 +51,7 @@ const HotelBookingCard = (props) => {
     searchedCheckOutDate ? JSON.parse(searchedCheckOutDate) : null
   );
 
-  const [guestsCount, setGuestsCount] = useState(1);
+  // const [guestsCount, setGuestsCount] = useState(1);
   const [roomPrice, setRoomPrice] = useState(0);
   // const [roomsCount, setRoomsCount] = useState(1);
   const [extraFeatureAmount, setExtraFeatureAmount] = useState(0);
@@ -63,15 +62,15 @@ const HotelBookingCard = (props) => {
   );
   const [totalAmount, setTotalAmount] = useState(roomPrice * numberOfDays);
 
-  const decrementGuestCount = () => {
-    if (guestsCount > 1) {
-      setGuestsCount((prevState) => +prevState - 1);
-    }
-  };
+  // const decrementGuestCount = () => {
+  //   if (guestsCount > 1) {
+  //     setGuestsCount((prevState) => +prevState - 1);
+  //   }
+  // };
 
-  const incrementGuestCount = () => {
-    setGuestsCount((prevState) => +prevState + 1);
-  };
+  // const incrementGuestCount = () => {
+  //   setGuestsCount((prevState) => +prevState + 1);
+  // };
 
   // Do NOT TOUCH THIS COMMENTED CODE . IT WILL BE ADDED IN NEXT SPRINT
   // const decrementRoomsCount = () => {
@@ -96,11 +95,11 @@ const HotelBookingCard = (props) => {
   //   );
   // };
 
-  const guestsInputOnChangeHandler = (e) => {
-    setGuestsCount(
-      e.target.value.length === 0 || e.target.value < 1 ? "" : e.target.value
-    );
-  };
+  // const guestsInputOnChangeHandler = (e) => {
+  //   setGuestsCount(
+  //     e.target.value.length === 0 || e.target.value < 1 ? "" : e.target.value
+  //   );
+  // };
 
   const ExtraFeaturesChangeHandler = (e) => {
     if (e.target.checked) {
@@ -238,7 +237,8 @@ const HotelBookingCard = (props) => {
           </Box>
 
           <Box>
-            <Grid container className={styles["card_header"]}>
+            {/* No of guests */}
+            {/* <Grid container className={styles["card_header"]}>
               <Grid item xs={2}>
                 <IconButton onClick={decrementGuestCount}>
                   <IndeterminateCheckBoxIcon
@@ -263,7 +263,9 @@ const HotelBookingCard = (props) => {
                   <AddBoxIcon fontSize="large" color="info"></AddBoxIcon>
                 </IconButton>
               </Grid>
-            </Grid>
+            </Grid> */}
+            {/* No of guests END */}
+
             {/* // Do NOT TOUCH THIS COMMENTED CODE . IT WILL BE ADDED IN NEXT SPRINT */}
             {/* <Grid container className={styles["card_header"]}>
               <Grid item xs={2}>

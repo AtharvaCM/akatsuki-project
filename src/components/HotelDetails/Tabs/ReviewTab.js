@@ -8,6 +8,7 @@ import Loader from "../../UI/Loader";
 
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import Typography from "@mui/material/Typography";
 
 // Custom Alert Component
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -103,12 +104,15 @@ const ReviewTab = (props) => {
 
       {/* If the user has already submitted a review, dont display the form*/}
       {reviewPresent && userReview !== null && loaded && (
-        <ViewReview
-          comment={userReview.comment}
-          rating={userReview.rating}
-          review_date={userReview.review_date}
-          username={userReview.username}
-        />
+        <>
+          <Typography variant="h5">Your review</Typography>
+          <ViewReview
+            comment={userReview.comment}
+            rating={userReview.rating}
+            review_date={userReview.review_date}
+            username={userReview.username}
+          />
+        </>
       )}
       {!reviewPresent && userReview === null && loaded && (
         <AddReview onReviewAdd={handleReviewAdd} onOpen={setOpen} />
@@ -117,6 +121,7 @@ const ReviewTab = (props) => {
       <hr />
 
       {/* Display reviews list */}
+      <Typography variant="h5">All reviews</Typography>
       {reviewsList &&
         reviewsList.map((review) => (
           <ViewReview
@@ -127,6 +132,9 @@ const ReviewTab = (props) => {
             username={review.username}
           />
         ))}
+      {reviewsList === null && (
+        <Typography variant="h5">No reviews found</Typography>
+      )}
     </>
   );
 };
