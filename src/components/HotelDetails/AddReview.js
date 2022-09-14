@@ -22,7 +22,8 @@ const AddReview = (props) => {
 
   const { data, loaded, error, callAPI } = useAxios();
 
-  const [rating, setRating] = useState(3);
+  const [loadingDisabled, setLoadingDisabled] = useState(true);
+  const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -46,7 +47,13 @@ const AddReview = (props) => {
   };
 
   const handleRatingChange = (event) => {
-    setRating(+event.target.value);
+    const ratingValue = +event.target.value;
+
+    setRating(ratingValue);
+
+    if (ratingValue > 0) {
+      setLoadingDisabled(false);
+    }
   };
 
   const handleCommentChange = (event) => {
@@ -108,6 +115,7 @@ const AddReview = (props) => {
         </Button>
         <LoadingButton
           size="medium"
+          disabled={loadingDisabled}
           onClick={handleSubmitClick}
           endIcon={<SendIcon />}
           loading={loading}
