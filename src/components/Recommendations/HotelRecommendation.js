@@ -1,5 +1,8 @@
-import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
+
+import  Box from "@mui/material/Box";
+import Typography  from "@mui/material/Typography";
+
 import HotelRecommendationCard from "./HotelRecommendationCard";
 
 const HotelRecommendation = () => {
@@ -24,6 +27,7 @@ const HotelRecommendation = () => {
       >
         <HotelRecommendationCard />
         <HotelRecommendationCard />
+        
         
       </Box>
     </Box>
