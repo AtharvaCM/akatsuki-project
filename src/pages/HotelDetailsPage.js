@@ -44,16 +44,27 @@ const BreadCrumbsData = [{ label: "Hotel List", route: ROUTES.HOTEL_LIST }];
 const HotelDetailsPage = () => {
   const dispatch = useDispatch();
 
-  const { data, loaded, callAPI } = useAxios();
+  const {
+    data: dataHotelDetails,
+    error: errorHotelDetails,
+    loaded: loadedHotelDetails,
+    callAPI: callAPIHotelDetails,
+  } = useAxios();
+  const {
+    data: dataHotelExtraFeatures,
+    error: errorHotelExtraFeatures,
+    loaded: loadedHotelExtraFeatures,
+    callAPI: callAPIHotelExtraFeatures,
+  } = useAxios();
 
   const location = useLocation();
   // get hotel id from url
   const hotel_id = location.pathname.split("/").at(-1);
 
   const HotelDetailsURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${hotel_id}`;
+  const HotelExtraFeaturesURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${hotel_id}/extrafeatures`;
 
   const {
-    id,
     hotel_name,
     state,
     city,
@@ -66,35 +77,45 @@ const HotelDetailsPage = () => {
   } = useSelector((state) => state.hotelDetails);
 
   useEffect(() => {
-    callAPI(HotelDetailsURL);
+    callAPIHotelDetails(HotelDetailsURL);
   }, []);
 
   // When API call is successful, dispatch hotel details to redux
   useEffect(() => {
-    if (loaded) {
+    callAPIHotelExtraFeatures(HotelExtraFeaturesURL);
+  }, []);
+
+  useEffect(() => {
+    if (loadedHotelDetails) {
       dispatch(
         setHotelDetails({
-          id: data.data.id,
-          name: data.data.name,
-          state: data.data.state,
-          city: data.data.city,
-          address: data.data.address,
-          description: data.data.description,
-          features: data.data.features,
-          ratings: data.data.ratings,
+          id: dataHotelDetails.data.id,
+          name: dataHotelDetails.data.name,
+          state: dataHotelDetails.data.state,
+          city: dataHotelDetails.data.city,
+          address: dataHotelDetails.data.address,
+          description: dataHotelDetails.data.description,
+          features: dataHotelDetails.data.features,
+          ratings: dataHotelDetails.data.ratings,
           reviews_count: 234,
-          room_images: data.data.room_images,
+          room_images: dataHotelDetails.data.room_images,
         })
       );
     }
-  }, [loaded]);
+  }, [loadedHotelDetails]);
+
+  if (errorHotelExtraFeatures) {
+    console.log(errorHotelExtraFeatures);
+  }
+
+  if (errorHotelDetails) {
+    console.log(errorHotelDetails);
+  }
 
   return (
     <>
-      {/* Loading... */}
-      {!loaded && <Loader />}
-      {/* Loaded and data is present */}
-      {loaded && data.data && (
+      {!loadedHotelDetails && <Loader />}
+      {loadedHotelDetails && dataHotelDetails.data && (
         <div style={{ padding: "2%" }}>
           <BreadCrumbs data={BreadCrumbsData} activePage="Hotel Details" />
 
@@ -114,14 +135,16 @@ const HotelDetailsPage = () => {
                 description={description}
                 features={features}
                 amenities={amenities}
-                id={+id}
+                id={+hotel_id}
               />
             </Grid>
             <Grid item xs={12} md={1}></Grid>
-
-            <Grid item xs={12} md={4}>
-              <HotelBookingCard />
-            </Grid>
+            {!loadedHotelExtraFeatures && <Loader />}
+            {loadedHotelExtraFeatures && (
+              <Grid item xs={12} md={4}>
+                <HotelBookingCard extraFeatures={dataHotelExtraFeatures.data} />
+              </Grid>
+            )}
           </Grid>
         </div>
       )}

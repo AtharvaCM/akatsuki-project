@@ -35,10 +35,8 @@ const HotelDetailsTabs = (props) => {
 
   // When the page is loaded, fetch room details for current hotel
   useEffect(() => {
-    (async () => {
-      callAPI(roomListURL);
-    })();
-  }, []);
+    callAPI(roomListURL);
+  }, [props]);
 
   if (error) {
     console.log("error: ", error);
