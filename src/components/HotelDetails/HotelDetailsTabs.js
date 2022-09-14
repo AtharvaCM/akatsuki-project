@@ -26,8 +26,8 @@ const HotelDetailsTabs = (props) => {
 
   const { data, error, loaded, callAPI } = useAxios();
 
-  // const roomListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${props.id}/rooms`;
-  const roomListURL = `http://127.0.0.1:5000/api/v1/hotels/${props.id}/rooms`;
+  const roomListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${props.id}/rooms`;
+  // const roomListURL = `http://127.0.0.1:5000/api/v1/hotels/${props.id}/rooms`;
 
   const handleTabChange = (event, newValue) => {
     setNavTabValue(newValue);

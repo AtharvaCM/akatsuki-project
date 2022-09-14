@@ -31,7 +31,8 @@ const AddReview = (props) => {
   const handleSubmitClick = () => {
     setLoading(true);
 
-    const addReviewURL = `http://127.0.0.1:5000/api/v1/hotels/${hotel_id}/reviews`;
+    // const addReviewURL = `http://127.0.0.1:5000/api/v1/hotels/${hotel_id}/reviews`;
+    const addReviewURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${hotel_id}/reviews`;
     const reqBody = JSON.stringify({
       rating: rating,
       comment: comment,

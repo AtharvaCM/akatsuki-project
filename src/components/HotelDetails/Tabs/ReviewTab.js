@@ -33,10 +33,14 @@ const ReviewTab = (props) => {
   const [userReview, setUserReview] = useState(null);
   const [reviewsList, setReviewsList] = useState(null);
 
-  const checkReviewURL = `http://127.0.0.1:5000/api/v1/hotels/${
+  // const checkReviewURL = `http://127.0.0.1:5000/api/v1/hotels/${
+  //   props.hotel_id
+  // }/reviews/check-review?user_id=${2}`;
+  // const reviewsListURL = `http://127.0.0.1:5000/api/v1/hotels/${props.hotel_id}/reviews`;
+  const checkReviewURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${
     props.hotel_id
   }/reviews/check-review?user_id=${2}`;
-  const reviewsListURL = `http://127.0.0.1:5000/api/v1/hotels/${props.hotel_id}/reviews`;
+  const reviewsListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${props.hotel_id}/reviews`;
 
   // on load, chcek if the user has already posted a review
   // on load get the list of reviews if any
