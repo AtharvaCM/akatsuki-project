@@ -19,6 +19,7 @@ const services = [
 
 // const room_type = "Double Room";
 const offerPercentage = 10;
+const isDiscountApplied = false;
 
 const RoomTypeCard = (props) => {
   const price = props.price;
@@ -35,7 +36,7 @@ const RoomTypeCard = (props) => {
       updateRoomPrice({
         roomType: roomType,
         roomOriginalPrice: original_price,
-        roomPrice: roomPrice,
+        roomPrice: isDiscountApplied ? roomPrice : original_price,
       })
     );
   };
@@ -93,25 +94,31 @@ const RoomTypeCard = (props) => {
             <Grid item xs={3} textAlign={"right"}>
               <div>
                 <Typography variant="h6">
-                  ${price - Math.round((price * offerPercentage) / 100)}
+                  {isDiscountApplied
+                    ? price - Math.round((price * offerPercentage) / 100)
+                    : price}
                   <span style={{ color: "#A4A2A2", fontSize: "16px" }}>
                     /night
                   </span>
                 </Typography>
               </div>
-              <Typography
-                style={{
-                  color: "#FF9C09",
-                  fontSize: "16px",
-                  fontWeight: 600,
-                  lineHeight: "21.78px",
-                }}
-              >
-                Save ${Math.round((price * offerPercentage) / 100)}
-              </Typography>
-              <Typography style={{ color: "#A4A2A2", fontSize: "12px" }}>
-                <s>${price}/night</s>
-              </Typography>
+              {isDiscountApplied && (
+                <>
+                  <Typography
+                    style={{
+                      color: "#FF9C09",
+                      fontSize: "16px",
+                      fontWeight: 600,
+                      lineHeight: "21.78px",
+                    }}
+                  >
+                    Save ${Math.round((price * offerPercentage) / 100)}
+                  </Typography>
+                  <Typography style={{ color: "#A4A2A2", fontSize: "12px" }}>
+                    <s>${price}/night</s>
+                  </Typography>
+                </>
+              )}
               <Button
                 type="button"
                 color={`${

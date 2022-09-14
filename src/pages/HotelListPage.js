@@ -50,7 +50,7 @@ const HotelListPage = () => {
     } else {
       setLoaded(false);
     }
-  }, [searchedLocation]);
+  }, [searchedLocation, searchedCheckInDate, searchedCheckOutDate]);
 
   if (error) {
     console.log(error);

@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit/";
+import dayjs from "dayjs";
 
 export const searchHotelSlice = createSlice({
   name: "searchHotel",
   initialState: {
     location: null,
-    checkInDate: null,
-    CheckOutDate: null,
+    checkInDate: JSON.stringify(dayjs().add(1, "day")),
+    checkOutDate: JSON.stringify(dayjs().add(3, "day")),
   },
   reducers: {
     updateSearchParams: (state, action) => {

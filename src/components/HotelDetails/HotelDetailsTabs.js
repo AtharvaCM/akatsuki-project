@@ -12,6 +12,8 @@ import RoomTypeCard from "./RoomTypeCard";
 import Loader from "../UI/Loader";
 import ReviewTab from "./Tabs/ReviewTab";
 
+import { useSelector } from "react-redux";
+
 // custom hooks
 import { useAxios } from "../../hooks/useAxios";
 
@@ -22,24 +24,44 @@ const PaddingZeroStyle = {
 };
 
 const HotelDetailsTabs = (props) => {
+  // selctor
+  const { checkInDate, checkOutDate } = useSelector(
+    (state) => state.searchHotel
+  );
+
   const [navTabValue, setNavTabValue] = useState("1");
 
-  const { data, error, loaded, callAPI } = useAxios();
+  const {
+    data: dataRoomList,
+    error: errorRoomList,
+    loaded: loadedRoomList,
+    callAPI: callAPIRoomList,
+  } = useAxios();
 
-  const roomListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${props.id}/rooms`;
+  const roomListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${
+    props.id
+  }/rooms?check_in_date=${checkInDate.slice(
+    1,
+    11
+  )}&check_out_date=${checkOutDate.slice(1, 11)}`;
   // const roomListURL = `http://127.0.0.1:5000/api/v1/hotels/${props.id}/rooms`;
 
+  console.log(checkInDate);
   const handleTabChange = (event, newValue) => {
     setNavTabValue(newValue);
   };
 
   // When the page is loaded, fetch room details for current hotel
   useEffect(() => {
-    callAPI(roomListURL);
-  }, [props]);
+    callAPIRoomList(roomListURL);
+  }, [props.id]);
 
-  if (error) {
-    console.log("error: ", error);
+  if (loadedRoomList) {
+    console.log(dataRoomList);
+  }
+
+  if (errorRoomList) {
+    console.log("error: ", errorRoomList);
   }
 
   return (
@@ -70,12 +92,16 @@ const HotelDetailsTabs = (props) => {
           </TabPanel>
           {/* Room & Price */}
           <TabPanel style={PaddingZeroStyle} value="3">
-            {!loaded && <Loader />}
-            {loaded &&
-              data.data.map((room) => (
+            {!loadedRoomList && <Loader />}
+            {loadedRoomList &&
+              dataRoomList.data.map((room) => (
                 <RoomTypeCard
                   key={room.id}
-                  price={room.cost}
+                  price={
+                    dataRoomList.isHiked
+                      ? room.cost + Math.round(room.cost * 0.2)
+                      : room.cost
+                  }
                   room_type={room.room_type}
                 />
               ))}

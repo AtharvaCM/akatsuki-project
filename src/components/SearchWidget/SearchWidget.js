@@ -43,6 +43,7 @@ const SearchWidget = () => {
     checkOutDate: searchedCheckOutDate,
   } = useSelector((state) => state.searchHotel);
 
+  console.log(searchedCheckOutDate);
   // React Hooks
   const [location, setLocation] = useState(searchedLocation);
   const [checkInDate, setCheckInDate] = useState(
