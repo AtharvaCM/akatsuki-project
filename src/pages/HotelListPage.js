@@ -32,6 +32,7 @@ const HotelListPage = () => {
   const [hotelList, setHotelList] = useState([]);
   const [isViewMoreClicked, setIsViewMoreClicked] = useState(false);
   const [page, setPage] = useState(1);
+  let hotelNameList = [];
 
   const {
     data: hotel_list_data,
@@ -70,6 +71,10 @@ const HotelListPage = () => {
     }
   }, [loaded]);
 
+  if (loaded) {
+    hotelList.map((hotel) => hotelNameList.push(hotel.name));
+  }
+
   const handleViewMore = () => {
     // call api with next page count
     setIsViewMoreClicked(true);
@@ -94,7 +99,7 @@ const HotelListPage = () => {
       )}
       <Grid container>
         <Grid item xs={12} md={3}>
-          <HotelListFilters />
+          <HotelListFilters hotelNameList={hotelNameList} />
         </Grid>
         <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={8}>

@@ -18,11 +18,16 @@ const services = [
 ];
 
 // const room_type = "Double Room";
-const offerPercentage = 10;
-const isDiscountApplied = false;
 
 const RoomTypeCard = (props) => {
-  const price = props.price;
+  const offerPercentage = 10;
+  const hikePercentage = 20;
+  const isHiked = props.isHiked;
+  const hikedPrice =
+    props.price + Math.round((props.price * hikePercentage) / 100);
+  const price = isHiked ? hikedPrice : props.price;
+  const isDiscountApplied = props.isDiscountApplied;
+  const discountedPrice = price - Math.round((price * offerPercentage) / 100);
   const roomType = props.room_type;
 
   const dispatch = useDispatch();
@@ -30,13 +35,15 @@ const RoomTypeCard = (props) => {
     (state) => state.roomPrice
   );
 
-  const onClickSelect = (original_price, roomPrice) => {
+  const onClickSelect = () => {
     //store in redux
     dispatch(
       updateRoomPrice({
         roomType: roomType,
-        roomOriginalPrice: original_price,
-        roomPrice: isDiscountApplied ? roomPrice : original_price,
+        available_rooms: props.available_rooms,
+        roomOriginalPrice: price,
+        roomPrice: isDiscountApplied ? discountedPrice : price,
+        isDiscountApplied: isDiscountApplied,
       })
     );
   };
@@ -65,7 +72,7 @@ const RoomTypeCard = (props) => {
               <Typography
                 style={{ fontSize: 12, color: "#89898C", margin: "7px 0px" }}
               >
-                Offer Conditions
+                Capacity per room : {props.capacity} people
               </Typography>
               <Box sx={{ flexGrow: 1 }}>
                 <Grid
@@ -94,9 +101,7 @@ const RoomTypeCard = (props) => {
             <Grid item xs={3} textAlign={"right"}>
               <div>
                 <Typography variant="h6">
-                  {isDiscountApplied
-                    ? price - Math.round((price * offerPercentage) / 100)
-                    : price}
+                  {isDiscountApplied ? discountedPrice : price}
                   <span style={{ color: "#A4A2A2", fontSize: "16px" }}>
                     /night
                   </span>
@@ -124,12 +129,7 @@ const RoomTypeCard = (props) => {
                 color={`${
                   selectedRoomType === roomType ? "success" : "primary"
                 }`}
-                onClick={() =>
-                  onClickSelect(
-                    price,
-                    price - Math.round((price * offerPercentage) / 100)
-                  )
-                }
+                onClick={onClickSelect}
                 variant="contained"
                 style={{
                   marginTop: 7,
@@ -150,7 +150,12 @@ const RoomTypeCard = (props) => {
 
 RoomTypeCard.propTypes = {
   price: PropTypes.number,
+  isHiked: PropTypes.bool,
+  isDiscountApplied: PropTypes.bool,
   room_type: PropTypes.string,
+  available_rooms: PropTypes.number,
+  total_rooms: PropTypes.number,
+  capacity: PropTypes.number,
 };
 
 export default RoomTypeCard;

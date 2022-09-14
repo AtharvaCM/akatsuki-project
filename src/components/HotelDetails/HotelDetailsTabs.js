@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 // MUI
-import { Box, Tab } from "@mui/material";
+import { Alert, Box, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 // Custom Components
@@ -13,7 +13,7 @@ import Loader from "../UI/Loader";
 import ReviewTab from "./Tabs/ReviewTab";
 
 import { useSelector } from "react-redux";
-
+import dayjs from "dayjs";
 // custom hooks
 import { useAxios } from "../../hooks/useAxios";
 
@@ -35,30 +35,29 @@ const HotelDetailsTabs = (props) => {
     data: dataRoomList,
     error: errorRoomList,
     loaded: loadedRoomList,
+    setLoaded: setLoadedRoomList,
     callAPI: callAPIRoomList,
   } = useAxios();
 
-  const roomListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${
-    props.id
-  }/rooms?check_in_date=${checkInDate.slice(
-    1,
-    11
-  )}&check_out_date=${checkOutDate.slice(1, 11)}`;
   // const roomListURL = `http://127.0.0.1:5000/api/v1/hotels/${props.id}/rooms`;
 
-  console.log(checkInDate);
   const handleTabChange = (event, newValue) => {
     setNavTabValue(newValue);
   };
 
   // When the page is loaded, fetch room details for current hotel
   useEffect(() => {
-    callAPIRoomList(roomListURL);
-  }, [props.id]);
+    setLoadedRoomList(false);
+    if (checkInDate !== null && checkOutDate !== null) {
+      const roomListURL = `${
+        process.env.REACT_APP_FLASK_DOMAIN
+      }/api/v1/hotels/${props.id}/rooms?check_in_date=${checkInDate
+        .toString()
+        .slice(1, 11)}&check_out_date=${checkOutDate.slice(1, 11)}`;
 
-  if (loadedRoomList) {
-    console.log(dataRoomList);
-  }
+      callAPIRoomList(roomListURL);
+    }
+  }, [props.id, checkInDate, checkOutDate]);
 
   if (errorRoomList) {
     console.log("error: ", errorRoomList);
@@ -92,19 +91,35 @@ const HotelDetailsTabs = (props) => {
           </TabPanel>
           {/* Room & Price */}
           <TabPanel style={PaddingZeroStyle} value="3">
-            {!loadedRoomList && <Loader />}
-            {loadedRoomList &&
-              dataRoomList.data.map((room) => (
-                <RoomTypeCard
-                  key={room.id}
-                  price={
-                    dataRoomList.isHiked
-                      ? room.cost + Math.round(room.cost * 0.2)
-                      : room.cost
-                  }
-                  room_type={room.room_type}
-                />
-              ))}
+            {checkInDate === null || checkOutDate === null ? (
+              <Alert severity="error">
+                Please enter Check In and Check Out dates first !
+              </Alert>
+            ) : (
+              <>
+                {!loadedRoomList && <Loader />}
+                {loadedRoomList &&
+                  loadedRoomList &&
+                  dataRoomList.data.map((room) => (
+                    <RoomTypeCard
+                      key={room.id}
+                      price={room.cost}
+                      isHiked={dataRoomList.isHiked}
+                      isDiscountApplied={
+                        !dataRoomList.isHiked &&
+                        dayjs(JSON.parse(checkInDate)).diff(dayjs(), "day") ===
+                          1
+                          ? true
+                          : false
+                      }
+                      room_type={room.room_type}
+                      total_rooms={room.total_rooms}
+                      available_rooms={room.available_rooms}
+                      capacity={room.capacity_per_room}
+                    />
+                  ))}
+              </>
+            )}
           </TabPanel>
           {/* Review */}
           <TabPanel style={PaddingZeroStyle} value="4">
