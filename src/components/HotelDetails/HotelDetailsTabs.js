@@ -33,10 +33,8 @@ const HotelDetailsTabs = (props) => {
   };
 
   useEffect(() => {
-    (async () => {
-      callAPI(roomListURL);
-    })();
-  });
+    callAPI(roomListURL);
+  }, [props]);
 
   if (error) {
     console.log("error: ", error);
