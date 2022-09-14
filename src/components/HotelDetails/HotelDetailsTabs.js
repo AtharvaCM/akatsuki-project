@@ -51,10 +51,12 @@ const HotelDetailsTabs = (props) => {
     if (checkInDate !== null && checkOutDate !== null) {
       const roomListURL = `${
         process.env.REACT_APP_FLASK_DOMAIN
-      }/api/v1/hotels/${props.id}/rooms?check_in_date=${checkInDate
-        .toString()
-        .slice(1, 11)}&check_out_date=${checkOutDate.slice(1, 11)}`;
-
+      }/api/v1/hotels/${props.id}/rooms?check_in_date=${JSON.stringify(
+        dayjs(JSON.parse(checkInDate)).add(1, "day")
+      ).slice(1, 11)}&check_out_date=${JSON.stringify(
+        dayjs(JSON.parse(checkOutDate)).add(1, "day")
+      ).slice(1, 11)}`;
+      console.log(roomListURL);
       callAPIRoomList(roomListURL);
     }
   }, [props.id, checkInDate, checkOutDate]);
