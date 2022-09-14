@@ -43,10 +43,12 @@ const BreadCrumbsData = [{ label: "Hotel List", route: ROUTES.HOTEL_LIST }];
 
 const HotelDetailsPage = () => {
   const dispatch = useDispatch();
+
   const { data, loaded, callAPI } = useAxios();
+
   const location = useLocation();
+  // get hotel id from url
   const hotel_id = location.pathname.split("/").at(-1);
-  // .toString()[-1]
 
   const HotelDetailsURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${hotel_id}`;
 
@@ -61,13 +63,13 @@ const HotelDetailsPage = () => {
     ratings,
     reviews_count,
     room_images,
-    // amenities,
   } = useSelector((state) => state.hotelDetails);
 
   useEffect(() => {
     callAPI(HotelDetailsURL);
   }, []);
 
+  // When API call is successful, dispatch hotel details to redux
   useEffect(() => {
     if (loaded) {
       dispatch(
@@ -89,10 +91,13 @@ const HotelDetailsPage = () => {
 
   return (
     <>
+      {/* Loading... */}
       {!loaded && <Loader />}
+      {/* Loaded and data is present */}
       {loaded && data.data && (
         <div style={{ padding: "2%" }}>
           <BreadCrumbs data={BreadCrumbsData} activePage="Hotel Details" />
+
           <HotelHeader
             name={hotel_name}
             ratings={ratings}
@@ -102,6 +107,7 @@ const HotelDetailsPage = () => {
             state={state}
             room_images={room_images}
           />
+
           <Grid container>
             <Grid item xs={12} md={7}>
               <HotelDetailsTabs
@@ -112,6 +118,7 @@ const HotelDetailsPage = () => {
               />
             </Grid>
             <Grid item xs={12} md={1}></Grid>
+
             <Grid item xs={12} md={4}>
               <HotelBookingCard />
             </Grid>

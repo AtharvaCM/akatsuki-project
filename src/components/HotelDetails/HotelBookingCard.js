@@ -157,7 +157,6 @@ const HotelBookingCard = () => {
   };
 
   useEffect(() => {
-    console.log(selectedRoomPrice);
     setRoomPrice(selectedRoomPrice === undefined ? 0 : selectedRoomPrice);
     setTotalAmount(
       (selectedRoomPrice === undefined ? 0 : selectedRoomPrice) * numberOfDays +
