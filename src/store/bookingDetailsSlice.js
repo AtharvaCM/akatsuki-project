@@ -11,6 +11,7 @@ export const BookingDetailsSlice = createSlice({
     number_of_rooms: null,
     hotel_id: null,
     room_id: null,
+    booking_code: null,
   },
   reducers: {
     setBookingDetails: (state, action) => {
@@ -24,11 +25,15 @@ export const BookingDetailsSlice = createSlice({
       state.hotel_id = action.payload.hotel_id;
       state.room_id = action.payload.room_id;
     },
+    setBookingCode: (state, action) => {
+      state.booking_code = action.payload.booking_code;
+    },
   },
 });
 
 // this is for dispatch
-export const { setBookingDetails } = BookingDetailsSlice.actions;
+export const { setBookingDetails, setBookingCode } =
+  BookingDetailsSlice.actions;
 
 // this is for configureStore
 export default BookingDetailsSlice.reducer;

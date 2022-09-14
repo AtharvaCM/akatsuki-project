@@ -10,7 +10,8 @@ import Chip from "@mui/material/Chip";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
+// import Button from "@mui/material/Button";
 
 // import AddBoxIcon from "@mui/icons-material/AddBox";
 // import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
@@ -33,14 +34,28 @@ import { useNavigate } from "react-router-dom";
 import styles from "./HotelBookingCard.module.css";
 
 // actions
-import { setBookingDetails } from "../../store/bookingDetailsSlice";
+import {
+  setBookingCode,
+  setBookingDetails,
+} from "../../store/bookingDetailsSlice";
+
+// Custom hooks
+import { useAxios } from "../../hooks/useAxios";
 
 const roomsCount = 1;
+const bookingURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/bookings/`;
 
 const HotelBookingCard = (props) => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  const {
+    loaded: bookingLoaded,
+    error: bookingError,
+    data: bookingData,
+    callAPI: callBookingAPI,
+  } = useAxios();
 
   // get hotel id from url
   const hotel_id = location.pathname.split("/").at(-1);
@@ -65,7 +80,6 @@ const HotelBookingCard = (props) => {
   const [checkOutDate, setCheckOutDate] = useState(
     searchedCheckOutDate ? JSON.parse(searchedCheckOutDate) : null
   );
-
   // const [guestsCount, setGuestsCount] = useState(1);
   const [roomPrice, setRoomPrice] = useState(0);
   // const [roomsCount, setRoomsCount] = useState(1);
@@ -76,6 +90,7 @@ const HotelBookingCard = (props) => {
       : 0
   );
   const [totalAmount, setTotalAmount] = useState(roomPrice * numberOfDays);
+  const [loading, setLoading] = useState(false);
 
   // const decrementGuestCount = () => {
   //   if (guestsCount > 1) {
@@ -153,7 +168,8 @@ const HotelBookingCard = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // POST booking request
+    // show loader in button
+    setLoading(true);
 
     // set booking details in redux
     const payload = {
@@ -168,12 +184,32 @@ const HotelBookingCard = (props) => {
     };
     dispatch(setBookingDetails(payload));
 
-    // Redirect to booking confirmation page
-    if (checkInDate !== null && checkOutDate !== null) {
-      navigate(`${ROUTES.BOOKING_CONFIRMATION}`);
-    }
+    // POST booking request
+    callBookingAPI(bookingURL, "POST", payload);
   };
 
+  // when booking api response is received
+  useEffect(() => {
+    if (bookingLoaded) {
+      // stop showing loader in button
+      setLoading(false);
+
+      // if booking was successful, Redirect to booking confirmation page
+      if (
+        bookingData.status == "Booking successful" &&
+        checkInDate !== null &&
+        checkOutDate !== null
+      ) {
+        dispatch(setBookingCode({ booking_code: bookingData.booking_code }));
+        navigate(`${ROUTES.BOOKING_CONFIRMATION}`);
+      } else {
+        // display error
+        console.log("something went wrong");
+      }
+    }
+  }, [bookingLoaded]);
+
+  // to recalculate prices after updates
   useEffect(() => {
     setRoomPrice(selectedRoomPrice === undefined ? 0 : selectedRoomPrice);
     setTotalAmount(
@@ -181,6 +217,10 @@ const HotelBookingCard = (props) => {
         extraFeatureAmount
     );
   });
+
+  if (bookingError) {
+    console.log("bookingError: ", bookingError);
+  }
 
   return (
     <>
@@ -378,7 +418,7 @@ const HotelBookingCard = (props) => {
             </Grid>
             {/* Book now button */}
             <Grid item xs={12}>
-              <Button
+              {/* <Button
                 sx={{ width: "100%", margin: "5% auto" }}
                 type="submit"
                 variant="contained"
@@ -396,7 +436,28 @@ const HotelBookingCard = (props) => {
                 {selectedRoomPrice === undefined || selectedRoomPrice === 0
                   ? "Select Room"
                   : "Book Now"}
-              </Button>
+              </Button> */}
+              <LoadingButton
+                size="medium"
+                disabled={
+                  selectedRoomPrice === undefined ||
+                  selectedRoomPrice === 0 ||
+                  checkOutDate === null
+                    ? true
+                    : false
+                }
+                type="submit"
+                loading={loading}
+                loadingPosition="center"
+                variant="contained"
+                color="primary"
+                sx={{ width: "100%", margin: "5% auto" }}
+                className={styles["booknow_btn"]}
+              >
+                {selectedRoomPrice === undefined || selectedRoomPrice === 0
+                  ? "Select Room"
+                  : "Book Now"}
+              </LoadingButton>
             </Grid>
           </Grid>
         </form>
