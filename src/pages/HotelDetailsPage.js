@@ -142,7 +142,10 @@ const HotelDetailsPage = () => {
             {!loadedHotelExtraFeatures && <Loader />}
             {loadedHotelExtraFeatures && (
               <Grid item xs={12} md={4}>
-                <HotelBookingCard extraFeatures={dataHotelExtraFeatures.data} />
+                <HotelBookingCard
+                  extraFeatures={dataHotelExtraFeatures.data}
+                  hotel_name={hotel_name}
+                />
               </Grid>
             )}
           </Grid>

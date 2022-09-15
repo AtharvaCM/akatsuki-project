@@ -95,14 +95,29 @@ const ConfirmationPage = () => {
         <BreadCrumbs data={BreadCrumbsData} activePage="Congratulations" />
         <Typography
           sx={{ fontSize: "20px", fontWeight: 600, lineHeight: "29px" }}
+          gutterBottom
         >
           Congratulations!
         </Typography>
-        <Typography sx={{ fontWeight: 600, lineHeight: "58px" }} variant={"h4"}>
+        <Typography
+          sx={{ fontSize: "48px", fontWeight: 600, lineHeight: "58px" }}
+          variant={"h4"}
+          gutterBottom
+        >
           Your trip has been booked!
         </Typography>
+        {/* Hotel Name */}
+        <Typography
+          sx={{ fontSize: "32px", fontWeight: 700, lineHeight: "38px" }}
+          variant={"h4"}
+          gutterBottom
+        >
+          {bookingState.hotel_name}
+        </Typography>
+        {/* Room count */}
         <Typography
           sx={{ fontSize: "13px", fontWeight: 600, lineHeight: "15px" }}
+          gutterBottom
         >
           ({roomCount} {bookingState.room_type})
         </Typography>

@@ -202,7 +202,7 @@ const HotelListCard = (props) => {
                           <>
                             <Typography variant="h6">${roomPrice}</Typography>
                             <Typography variant="caption">
-                              For {roomCapacity}
+                              For {roomCapacity} people
                             </Typography>
                           </>
                         )}

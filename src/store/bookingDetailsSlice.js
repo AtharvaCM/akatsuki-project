@@ -12,6 +12,7 @@ export const BookingDetailsSlice = createSlice({
     hotel_id: null,
     room_id: null,
     booking_code: null,
+    hotel_name: null,
   },
   reducers: {
     setBookingDetails: (state, action) => {
@@ -24,6 +25,7 @@ export const BookingDetailsSlice = createSlice({
       state.number_of_rooms = action.payload.number_of_rooms;
       state.hotel_id = action.payload.hotel_id;
       state.room_id = action.payload.room_id;
+      state.hotel_name = action.payload.hotel_name;
     },
     setBookingCode: (state, action) => {
       state.booking_code = action.payload.booking_code;
