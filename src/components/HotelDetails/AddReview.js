@@ -13,6 +13,9 @@ import LoadingButton from "@mui/lab/LoadingButton";
 // MUI Icons
 import SendIcon from "@mui/icons-material/Send";
 
+// redux
+import { useSelector } from "react-redux";
+
 // Custom Hooks
 import { useAxios } from "../../hooks/useAxios";
 
@@ -22,6 +25,10 @@ const AddReview = (props) => {
 
   const { data, loaded, error, callAPI } = useAxios();
 
+  // selector
+  const { token } = useSelector((state) => state.login);
+
+  // states
   const [loadingDisabled, setLoadingDisabled] = useState(true);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -38,7 +45,7 @@ const AddReview = (props) => {
       comment: comment,
       user_id: 2,
     });
-    callAPI(addReviewURL, "POST", reqBody);
+    callAPI(addReviewURL, "POST", reqBody, { "x-access-token": token });
   };
 
   // discard the inputs
