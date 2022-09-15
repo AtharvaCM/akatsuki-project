@@ -182,7 +182,7 @@ const HotelBookingCard = (props) => {
       hotel_id: hotel_id,
       room_id: selectedRoomId,
     };
-    dispatch(setBookingDetails(payload));
+    dispatch(setBookingDetails({ ...payload, hotel_name: props.hotel_name }));
 
     // POST booking request
     callBookingAPI(bookingURL, "POST", payload);
@@ -471,6 +471,7 @@ const HotelBookingCard = (props) => {
 
 HotelBookingCard.propTypes = {
   extraFeatures: PropTypes.array,
+  hotel_name: PropTypes.string,
 };
 
 export default HotelBookingCard;
