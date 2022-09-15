@@ -222,7 +222,7 @@ const HotelBookingCard = (props) => {
       check_in_date: JSON.parse(searchedCheckInDate).substring(0, 10),
       check_out_date: JSON.parse(searchedCheckOutDate).substring(0, 10),
       amount: totalAmount,
-      number_of_rooms: 1,
+      number_of_rooms: roomsCount,
       hotel_id: hotel_id,
       room_id: selectedRoomId,
     };

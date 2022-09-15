@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import dayjs from "dayjs";
+
 //Custom UI
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -68,8 +70,15 @@ const ConfirmationPage = () => {
 
   // static data
   const roomCount = 1;
-  const bookingDate = `${bookingState.check_in_date} - ${bookingState.check_out_date}`;
+
+  const bookingDate = `${JSON.stringify(
+    dayjs(bookingState.check_in_date).add(1, "day")
+  ).slice(1, 11)} - ${JSON.stringify(
+    dayjs(bookingState.check_out_date).add(1, "day")
+  ).slice(1, 11)}`;
+
   const NoOfPassenagers = 2;
+
   const Details = [
     bookingState.booking_code,
     today,

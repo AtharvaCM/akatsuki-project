@@ -7,12 +7,13 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 // Custom Components
 import HotelFeatures from "./HotelFeatures";
-
 import RoomTypeCard from "./RoomTypeCard";
-import Loader from "../UI/Loader";
 import ReviewTab from "./Tabs/ReviewTab";
+import Loader from "../UI/Loader";
 
+//redux
 import { useSelector } from "react-redux";
+
 import dayjs from "dayjs";
 // custom hooks
 import { useAxios } from "../../hooks/useAxios";
