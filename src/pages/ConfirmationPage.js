@@ -77,6 +77,7 @@ const ConfirmationPage = () => {
     "Credit card",
   ];
 
+  const hote_name = "The Leela Kovalam Kerala";
   return (
     <>
       {/* Alert */}
@@ -101,8 +102,12 @@ const ConfirmationPage = () => {
         <Typography sx={{ fontWeight: 600, lineHeight: "58px" }} variant={"h4"}>
           Your trip has been booked!
         </Typography>
+        <Typography sx={{ fontWeight: 500, fontSize: "25px" }}>
+          {hote_name}
+        </Typography>
+
         <Typography
-          sx={{ fontSize: "13px", fontWeight: 600, lineHeight: "15px" }}
+          sx={{ fontSize: "13px", fontWeight: 500, lineHeight: "15px" }}
         >
           ({roomCount} {bookingState.room_type})
         </Typography>
