@@ -5,6 +5,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 
 // redux
 import { useSelector } from "react-redux";
@@ -17,6 +18,7 @@ import HotelListCard from "../components/HotelListCard/HotelListCard";
 import BreadCrumbs from "../components/BreadCrumbs/BreadCrumbs";
 import SearchWidget from "../components/SearchWidget/SearchWidget";
 import Loader from "../components/UI/Loader";
+import HotelListFilters from "../components/HotelListFilters/HotelListFilters";
 
 const hotelListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/`;
 
@@ -28,7 +30,9 @@ const HotelListPage = () => {
   } = useSelector((state) => state.searchHotel);
 
   const [hotelList, setHotelList] = useState([]);
+  const [isViewMoreClicked, setIsViewMoreClicked] = useState(false);
   const [page, setPage] = useState(1);
+  let hotelNameList = [];
 
   const {
     data: hotel_list_data,
@@ -39,13 +43,21 @@ const HotelListPage = () => {
   } = useAxios();
 
   useEffect(() => {
+    setIsViewMoreClicked(false);
+    setPage(1);
+
     if (searchedLocation !== null) {
-      (async () => {
-        setLoaded(false);
-        callAPI(`${hotelListURL}?location=${searchedLocation}`);
-      })();
+      setLoaded(false);
+      callAPI(
+        `${hotelListURL}?location=${searchedLocation}&check_in_date=${searchedCheckInDate.substring(
+          1,
+          11
+        )}&check_out_date=${searchedCheckOutDate.substring(1, 11)}`
+      );
+    } else {
+      setLoaded(false);
     }
-  }, [searchedLocation]);
+  }, [searchedLocation, searchedCheckInDate, searchedCheckOutDate]);
 
   if (error) {
     console.log(error);
@@ -53,17 +65,35 @@ const HotelListPage = () => {
 
   // if API call finished
   useEffect(() => {
-    if (loaded) {
-      setHotelList((prevState) => [...prevState, ...hotel_list_data.data]);
+    if (!isViewMoreClicked) {
+      setHotelList([]);
+
+      if (loaded) {
+        setHotelList([...hotel_list_data.data]);
+      }
+    } else {
+      if (loaded) {
+        setHotelList((prevState) => [...prevState, ...hotel_list_data.data]);
+      }
     }
   }, [loaded]);
 
+  if (loaded) {
+    hotelList.map((hotel) => hotelNameList.push(hotel.name));
+  }
+
   const handleViewMore = () => {
     // call api with next page count
-    (async () => {
-      callAPI(`${hotelListURL}?location=${searchedLocation}&page=${page + 1}`);
-      setLoaded(false);
-    })();
+    setIsViewMoreClicked(true);
+    callAPI(
+      `${hotelListURL}?location=${searchedLocation}&check_in_date=${searchedCheckInDate.substring(
+        1,
+        11
+      )}&check_out_date=${searchedCheckOutDate.substring(1, 11)}&page=${
+        page + 1
+      }`
+    );
+    setLoaded(false);
     // increment page count
     setPage((prevState) => prevState + 1);
   };
@@ -73,40 +103,51 @@ const HotelListPage = () => {
       <BreadCrumbs activePage="Hotel List" />
       <SearchWidget />
 
-      {searchedLocation == null && loaded && <Loader />}
-      {!loaded && <Loader />}
-      {searchedLocation == null && (
+      {!loaded && searchedLocation !== null && (
+        <Loader text="Finding best hotels for you !" />
+      )}
+      {searchedLocation === null && (
         <Typography variant="h4" sx={styles.searchText}>
           Search for hotels above...
         </Typography>
       )}
-      {/* hotels map */}
-      {hotelList.length > 0 &&
-        hotelList.map((hotel) => (
-          <HotelListCard
-            key={hotel.id}
-            id={hotel.id}
-            name={hotel.name}
-            country={hotel.country}
-            state={hotel.state}
-            city={hotel.city}
-            hotel_dp={hotel.hotel_dp}
-            address={hotel.address}
-            description={hotel.description}
-            features={hotel.features}
-            check_in_date={searchedCheckInDate.substring(1, 11)}
-            check_out_date={searchedCheckOutDate.substring(1, 11)}
-            ratings={hotel.ratings}
-            reviews_count={234}
-            departure="Kochi"
-            price={720}
-            capacity="Two"
-            room_images={hotel.room_images}
-          />
-        ))}
-
+      <Grid container>
+        <Grid item xs={12} md={3}>
+          <HotelListFilters hotelNameList={hotelNameList} />
+        </Grid>
+        <Grid item xs={12} md={1}></Grid>
+        <Grid item xs={12} md={8}>
+          {/* hotels map */}
+          {hotelList.length > 0 &&
+            hotelList.map((hotel) => (
+              <HotelListCard
+                key={hotel.id}
+                id={hotel.id}
+                name={hotel.name}
+                country={hotel.country}
+                state={hotel.state}
+                city={hotel.city}
+                hotel_dp={hotel.hotel_dp}
+                address={hotel.address}
+                description={hotel.description}
+                features={hotel.features}
+                check_in_date={searchedCheckInDate.substring(1, 11)}
+                check_out_date={searchedCheckOutDate.substring(1, 11)}
+                ratings={hotel.ratings}
+                reviews_count={234}
+                departure="Kochi"
+                // price={720}
+                // capacity="Two"
+                room_images={hotel.room_images}
+              />
+            ))}
+        </Grid>
+      </Grid>
+      {!loaded && searchedLocation !== null && (
+        <Loader text="Loading more hotels !" />
+      )}
       {/* View More Button */}
-      {hotelList.length !== 0 && hotel_list_data.has_next && (
+      {hotelList.length > 0 && hotel_list_data.has_next && (
         <Box sx={styles.box} component="div">
           <Button
             variant="outlined"

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 //custom UI
 import Card from "@mui/material/Card";
@@ -12,14 +13,9 @@ import Button from "@mui/material/Button";
 //Image
 import user from "../../assets/images/user.png";
 
-const ViewReview = () => {
+const ViewReview = (props) => {
   const followers = 67;
   const Reviews = 25;
-  const username = "Adam Grant";
-  const date = "15.09.2021";
-  const reviewText =
-    "We had the most spectacular view. Beautifully appointed rooms.Awesome food and curteous staff. Highly recommend it.";
-  const rating = 4;
 
   return (
     <Card variant="outlined" style={styles.mainCard}>
@@ -29,7 +25,7 @@ const ViewReview = () => {
             <Avatar src={user} style={styles.userImg} />
             <div style={styles.userDetailsDiv}>
               <Typography sx={styles.userName}>
-                <strong>{username}</strong>
+                <strong>{props.username}</strong>
               </Typography>
               <Typography sx={styles.userDetails}>Ireland</Typography>
               <Typography sx={styles.userDetails}>
@@ -42,20 +38,20 @@ const ViewReview = () => {
           <Box display={"flex"} alignItems={"center"}>
             <Rating
               name="half-rating-read"
-              defaultValue={rating}
+              defaultValue={props.rating}
               precision={0.5}
               readOnly
               style={{ paddingRight: "15px" }}
             />
             <Typography sx={styles.userDetails} style={{ fontSize: "15px" }}>
-              {date}
+              {props.review_date.substring(0, 17)}
             </Typography>
           </Box>
           <Typography
             sx={styles.userDetails}
             style={{ marginTop: "10px", marginBottom: "20px" }}
           >
-            {reviewText}
+            {props.comment}
           </Typography>
           <Grid container display={"flex"}>
             <Button style={styles.buttons}>
@@ -72,6 +68,13 @@ const ViewReview = () => {
       </Grid>
     </Card>
   );
+};
+
+ViewReview.propTypes = {
+  username: PropTypes.string,
+  comment: PropTypes.string,
+  review_date: PropTypes.string,
+  rating: PropTypes.number,
 };
 
 const styles = {
@@ -109,4 +112,5 @@ const styles = {
     textTransform: "none",
   },
 };
+
 export default ViewReview;
