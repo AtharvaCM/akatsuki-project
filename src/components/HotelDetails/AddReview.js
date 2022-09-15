@@ -65,10 +65,10 @@ const AddReview = (props) => {
     // when API call is successful, stop loading button and show Snackbar
     if (loaded) {
       setLoading(false);
-      props.onOpen(true);
 
       if (data.status === "Review added successfully") {
         // notify parent that review is present now
+        props.onOpen(true);
         props.onReviewAdd();
       }
     }

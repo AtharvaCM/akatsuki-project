@@ -32,6 +32,7 @@ const HotelListPage = () => {
   const [hotelList, setHotelList] = useState([]);
   const [isViewMoreClicked, setIsViewMoreClicked] = useState(false);
   const [page, setPage] = useState(1);
+  let hotelNameList = [];
 
   const {
     data: hotel_list_data,
@@ -44,13 +45,19 @@ const HotelListPage = () => {
   useEffect(() => {
     setIsViewMoreClicked(false);
     setPage(1);
+
     if (searchedLocation !== null) {
       setLoaded(false);
-      callAPI(`${hotelListURL}?location=${searchedLocation}`);
+      callAPI(
+        `${hotelListURL}?location=${searchedLocation}&check_in_date=${searchedCheckInDate.substring(
+          1,
+          11
+        )}&check_out_date=${searchedCheckOutDate.substring(1, 11)}`
+      );
     } else {
       setLoaded(false);
     }
-  }, [searchedLocation]);
+  }, [searchedLocation, searchedCheckInDate, searchedCheckOutDate]);
 
   if (error) {
     console.log(error);
@@ -60,6 +67,7 @@ const HotelListPage = () => {
   useEffect(() => {
     if (!isViewMoreClicked) {
       setHotelList([]);
+
       if (loaded) {
         setHotelList([...hotel_list_data.data]);
       }
@@ -70,10 +78,21 @@ const HotelListPage = () => {
     }
   }, [loaded]);
 
+  if (loaded) {
+    hotelList.map((hotel) => hotelNameList.push(hotel.name));
+  }
+
   const handleViewMore = () => {
     // call api with next page count
     setIsViewMoreClicked(true);
-    callAPI(`${hotelListURL}?location=${searchedLocation}&page=${page + 1}`);
+    callAPI(
+      `${hotelListURL}?location=${searchedLocation}&check_in_date=${searchedCheckInDate.substring(
+        1,
+        11
+      )}&check_out_date=${searchedCheckOutDate.substring(1, 11)}&page=${
+        page + 1
+      }`
+    );
     setLoaded(false);
     // increment page count
     setPage((prevState) => prevState + 1);
@@ -94,7 +113,7 @@ const HotelListPage = () => {
       )}
       <Grid container>
         <Grid item xs={12} md={3}>
-          <HotelListFilters />
+          <HotelListFilters hotelNameList={hotelNameList} />
         </Grid>
         <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={8}>
@@ -117,8 +136,8 @@ const HotelListPage = () => {
                 ratings={hotel.ratings}
                 reviews_count={234}
                 departure="Kochi"
-                price={720}
-                capacity="Two"
+                // price={720}
+                // capacity="Two"
                 room_images={hotel.room_images}
               />
             ))}
