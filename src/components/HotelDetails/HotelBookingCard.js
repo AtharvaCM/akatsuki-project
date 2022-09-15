@@ -121,7 +121,7 @@ const HotelBookingCard = (props) => {
   const decrementRoomsCount = () => {
     if (roomsCount > 1) {
       setRoomsCount((prevState) => +prevState - 1);
-      setTotalAmount(roomPrice * numberOfDays * (roomsCount - 1));
+      setTotalAmount(roomPrice * numberOfDays * (roomsCount - 1) + extraFeatureAmount);
     }
   };
 
@@ -129,7 +129,7 @@ const HotelBookingCard = (props) => {
   const incrementRoomsCount = () => {
     if (roomsCount <= available_rooms - 1) {
       setRoomsCount((prevState) => +prevState + 1);
-      setTotalAmount(roomPrice * numberOfDays * (roomsCount + 1));
+      setTotalAmount(roomPrice * numberOfDays * (roomsCount + 1) + extraFeatureAmount);
     }
   };
 
