@@ -77,6 +77,7 @@ const ConfirmationPage = () => {
     "Credit card",
   ];
 
+  const hote_name = "The Leela Kovalam Kerala";
   return (
     <>
       {/* Alert */}
