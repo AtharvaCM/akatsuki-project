@@ -3,8 +3,6 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 // Pages
-import AxiosDemo from "../components/AxiosDemo";
-import ReduxDemo from "../components/ReduxDemo";
 import HotelListPage from "../pages/HotelListPage";
 import HomePage from "../pages/HomePage";
 import HotelDetailsPage from "../pages/HotelDetailsPage";
@@ -29,8 +27,6 @@ const Router = () => {
         path={ROUTES.BOOKING_CONFIRMATION}
         element={<ConfirmationPage />}
       />
-      <Route path="/redux" element={<ReduxDemo />}></Route>
-      <Route path="/axios" element={<AxiosDemo />}></Route>
     </Routes>
   );
 };

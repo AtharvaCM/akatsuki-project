@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 import {
   Autocomplete,
@@ -33,7 +34,7 @@ const FACILITIES = [
   "Spa",
 ];
 
-const HotelListFilters = () => {
+const HotelListFilters = (props) => {
   const [priceRange, setPriceRange] = useState([50, 500]);
 
   const priceRangeChangeHandler = (event, newValue) => {
@@ -44,7 +45,7 @@ const HotelListFilters = () => {
       <Typography variant="h6">Search Location or Property</Typography>
       <Autocomplete
         disablePortal
-        options={[]}
+        options={props.hotelNameList}
         sx={styles.input}
         renderInput={(params) => (
           <TextField
@@ -146,6 +147,10 @@ const styles = {
   divider: {
     margin: "5% 0",
   },
+};
+
+HotelListFilters.propTypes = {
+  hotelNameList: PropTypes.array,
 };
 
 export default HotelListFilters;

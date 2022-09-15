@@ -32,6 +32,7 @@ const HotelListPage = () => {
   const [hotelList, setHotelList] = useState([]);
   const [isViewMoreClicked, setIsViewMoreClicked] = useState(false);
   const [page, setPage] = useState(1);
+  let hotelNameList = [];
 
   const {
     data: hotel_list_data,
@@ -56,7 +57,7 @@ const HotelListPage = () => {
     } else {
       setLoaded(false);
     }
-  }, [searchedLocation]);
+  }, [searchedLocation, searchedCheckInDate, searchedCheckOutDate]);
 
   if (error) {
     console.log(error);
@@ -77,8 +78,12 @@ const HotelListPage = () => {
     }
   }, [loaded]);
 
-  // call api with next page count
+  if (loaded) {
+    hotelList.map((hotel) => hotelNameList.push(hotel.name));
+  }
+
   const handleViewMore = () => {
+    // call api with next page count
     setIsViewMoreClicked(true);
     callAPI(
       `${hotelListURL}?location=${searchedLocation}&check_in_date=${searchedCheckInDate.substring(
@@ -92,8 +97,6 @@ const HotelListPage = () => {
     // increment page count
     setPage((prevState) => prevState + 1);
   };
-
-  console.log("searchedCheckInDate: ", searchedCheckInDate.substring(0, 11));
 
   return (
     <Container sx={{ mb: 5 }}>
@@ -110,7 +113,7 @@ const HotelListPage = () => {
       )}
       <Grid container>
         <Grid item xs={12} md={3}>
-          <HotelListFilters />
+          <HotelListFilters hotelNameList={hotelNameList} />
         </Grid>
         <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={8}>
