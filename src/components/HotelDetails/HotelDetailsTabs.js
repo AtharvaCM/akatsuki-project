@@ -57,7 +57,6 @@ const HotelDetailsTabs = (props) => {
       ).slice(1, 11)}&check_out_date=${JSON.stringify(
         dayjs(JSON.parse(checkOutDate)).add(1, "day")
       ).slice(1, 11)}`;
-      console.log(roomListURL);
       callAPIRoomList(roomListURL);
     }
   }, [props.id, checkInDate, checkOutDate]);

@@ -56,7 +56,7 @@ const ConfirmationPage = () => {
   //   room_id,
   // }
   const bookingState = useSelector((state) => state.bookingDetails);
-  console.log("bookingState: ", bookingState);
+  // console.log("bookingState: ", bookingState);
 
   const BreadCrumbsData = [
     { label: "Hotel List", route: ROUTES.HOTEL_LIST },
@@ -66,7 +66,7 @@ const ConfirmationPage = () => {
     },
   ];
 
-  let today = new Date().toLocaleDateString();
+  let today = new Date().toLocaleDateString("eu");
 
   // static data
   const roomCount = 1;

@@ -98,8 +98,6 @@ const HotelListPage = () => {
     setPage((prevState) => prevState + 1);
   };
 
-  console.log("searchedCheckInDate: ", searchedCheckInDate.substring(0, 11));
-
   return (
     <Container sx={{ mb: 5 }}>
       <BreadCrumbs activePage="Hotel List" />

@@ -130,7 +130,11 @@ const SearchWidget = () => {
                       onChangeCheckInDate(newCheckInDate);
                     }}
                     renderInput={(params) => (
-                      <TextField {...params} required={true} />
+                      <TextField
+                        {...params}
+                        autoComplete="off"
+                        required={true}
+                      />
                     )}
                   />
                 </LocalizationProvider>
@@ -149,7 +153,11 @@ const SearchWidget = () => {
                       setCheckOutDate(newCheckOutDate);
                     }}
                     renderInput={(params) => (
-                      <TextField {...params} required={true} />
+                      <TextField
+                        {...params}
+                        autoComplete="off"
+                        required={true}
+                      />
                     )}
                   />
                 </LocalizationProvider>

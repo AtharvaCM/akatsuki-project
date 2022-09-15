@@ -219,8 +219,16 @@ const HotelBookingCard = (props) => {
     const payload = {
       user_id: 2,
       room_type: selectedRoomType,
-      check_in_date: JSON.parse(searchedCheckInDate).substring(0, 10),
-      check_out_date: JSON.parse(searchedCheckOutDate).substring(0, 10),
+      // check_in_date: JSON.parse(searchedCheckInDate).substring(0, 10),
+      // check_out_date: JSON.parse(searchedCheckOutDate).substring(0, 10),
+      check_in_date: JSON.stringify(dayjs(checkInDate).add(1, "day")).slice(
+        1,
+        11
+      ),
+      check_out_date: JSON.stringify(dayjs(checkOutDate).add(1, "day")).slice(
+        1,
+        11
+      ),
       amount: totalAmount,
       number_of_rooms: roomsCount,
       hotel_id: hotel_id,
