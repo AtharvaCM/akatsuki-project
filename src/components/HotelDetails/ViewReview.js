@@ -44,7 +44,7 @@ const ViewReview = (props) => {
               style={{ paddingRight: "15px" }}
             />
             <Typography sx={styles.userDetails} style={{ fontSize: "15px" }}>
-              {props.review_date}
+              {props.review_date.substring(0, 17)}
             </Typography>
           </Box>
           <Typography
