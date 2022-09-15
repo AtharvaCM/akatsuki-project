@@ -48,7 +48,12 @@ const HotelListPage = () => {
 
     if (searchedLocation !== null) {
       setLoaded(false);
-      callAPI(`${hotelListURL}?location=${searchedLocation}`);
+      callAPI(
+        `${hotelListURL}?location=${searchedLocation}&check_in_date=${searchedCheckInDate.substring(
+          1,
+          11
+        )}&check_out_date=${searchedCheckOutDate.substring(1, 11)}`
+      );
     } else {
       setLoaded(false);
     }
@@ -80,11 +85,20 @@ const HotelListPage = () => {
   const handleViewMore = () => {
     // call api with next page count
     setIsViewMoreClicked(true);
-    callAPI(`${hotelListURL}?location=${searchedLocation}&page=${page + 1}`);
+    callAPI(
+      `${hotelListURL}?location=${searchedLocation}&check_in_date=${searchedCheckInDate.substring(
+        1,
+        11
+      )}&check_out_date=${searchedCheckOutDate.substring(1, 11)}&page=${
+        page + 1
+      }`
+    );
     setLoaded(false);
     // increment page count
     setPage((prevState) => prevState + 1);
   };
+
+  console.log("searchedCheckInDate: ", searchedCheckInDate.substring(0, 11));
 
   return (
     <Container sx={{ mb: 5 }}>
