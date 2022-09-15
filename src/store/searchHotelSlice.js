@@ -5,7 +5,7 @@ export const searchHotelSlice = createSlice({
   initialState: {
     location: null,
     checkInDate: null,
-    CheckOutDate: null,
+    checkOutDate: null,
   },
   reducers: {
     updateSearchParams: (state, action) => {

@@ -11,24 +11,29 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import LoadingButton from "@mui/lab/LoadingButton";
+import IconButton from "@mui/material/IconButton";
 // import Button from "@mui/material/Button";
 
-// import AddBoxIcon from "@mui/icons-material/AddBox";
-// import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
 
 // Date Imports
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 
-// redux
 import { useDispatch, useSelector } from "react-redux";
-
-// path constants
+// actions
+import { updateSearchParams } from "../../store/searchHotelSlice";
 import { ROUTES } from "../../utils/constants/routingPathConstants";
 
 // react router
 import { useNavigate } from "react-router-dom";
+
+// actions
+import { updateRoomPrice } from "../../store/roomTypeSlice";
+// custom hooks
+// import { useAxios } from "../../hooks/useAxios";
 
 // CSS
 import styles from "./HotelBookingCard.module.css";
@@ -42,13 +47,11 @@ import {
 // Custom hooks
 import { useAxios } from "../../hooks/useAxios";
 
-const roomsCount = 1;
 const bookingURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/bookings/`;
 
 const HotelBookingCard = (props) => {
-  const navigate = useNavigate();
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     loaded: bookingLoaded,
@@ -62,16 +65,20 @@ const HotelBookingCard = (props) => {
 
   // selctors
   const {
+    roomPrice: selectedRoomPrice,
+    available_rooms,
+    roomOriginalPrice,
+    isDiscountApplied,
+    room_id: selectedRoomId,
+    roomType: selectedRoomType,
+  } = useSelector((state) => state.roomPrice);
+
+  // Importing dates and location from store
+  const {
+    location: searchedLocation,
     checkInDate: searchedCheckInDate,
     checkOutDate: searchedCheckOutDate,
   } = useSelector((state) => state.searchHotel);
-
-  const {
-    roomPrice: selectedRoomPrice,
-    roomOriginalPrice,
-    roomType: selectedRoomType,
-    room_id: selectedRoomId,
-  } = useSelector((state) => state.roomPrice);
 
   // React Hooks
   const [checkInDate, setCheckInDate] = useState(
@@ -80,9 +87,10 @@ const HotelBookingCard = (props) => {
   const [checkOutDate, setCheckOutDate] = useState(
     searchedCheckOutDate ? JSON.parse(searchedCheckOutDate) : null
   );
+
   // const [guestsCount, setGuestsCount] = useState(1);
   const [roomPrice, setRoomPrice] = useState(0);
-  // const [roomsCount, setRoomsCount] = useState(1);
+  const [roomsCount, setRoomsCount] = useState(1);
   const [extraFeatureAmount, setExtraFeatureAmount] = useState(0);
   const [numberOfDays, setNumberOfDays] = useState(
     checkOutDate !== null
@@ -92,6 +100,7 @@ const HotelBookingCard = (props) => {
   const [totalAmount, setTotalAmount] = useState(roomPrice * numberOfDays);
   const [loading, setLoading] = useState(false);
 
+  // Number of Guest Incrementer and Decrementer
   // const decrementGuestCount = () => {
   //   if (guestsCount > 1) {
   //     setGuestsCount((prevState) => +prevState - 1);
@@ -102,35 +111,44 @@ const HotelBookingCard = (props) => {
   //   setGuestsCount((prevState) => +prevState + 1);
   // };
 
-  // Do NOT TOUCH THIS COMMENTED CODE . IT WILL BE ADDED IN NEXT SPRINT
-  // const decrementRoomsCount = () => {
-  //   if (roomsCount > 1) {
-  //     setRoomsCount((prevState) => +prevState - 1);
-  //     setTotalAmount((prevState) => prevState - roomPrice * numberOfDays);
-  //   }
-  // };
-
-  // const incrementRoomsCount = () => {
-  //   setRoomsCount((prevState) => +prevState + 1);
-  //   setTotalAmount((prevState) => prevState + roomPrice * numberOfDays);
-  // };
-
-  // const roomInputOnChangeHandler = (e) => {
-  //   let newRoomsCount =
-  //     e.target.value.length === 0 || e.target.value < 1 ? "" : e.target.value;
-
-  //   setRoomsCount(newRoomsCount);
-  //   setTotalAmount(
-  //     extraFeatureAmount + newRoomsCount * +roomPrice * numberOfDays
-  //   );
-  // };
-
   // const guestsInputOnChangeHandler = (e) => {
   //   setGuestsCount(
   //     e.target.value.length === 0 || e.target.value < 1 ? "" : e.target.value
   //   );
   // };
 
+  // Decrement rooms count by 1 and update total payable amount
+  const decrementRoomsCount = () => {
+    if (roomsCount > 1) {
+      setRoomsCount((prevState) => +prevState - 1);
+      setTotalAmount(roomPrice * numberOfDays * (roomsCount - 1));
+    }
+  };
+
+  // Increment rooms count by 1 and updates total payable amount
+  const incrementRoomsCount = () => {
+    if (roomsCount <= available_rooms - 1) {
+      setRoomsCount((prevState) => +prevState + 1);
+      setTotalAmount(roomPrice * numberOfDays * (roomsCount + 1));
+    }
+  };
+
+  // When manually room count is changed
+  const roomInputOnChangeHandler = (e) => {
+    let newRoomsCount =
+      e.target.value.length === 0 || e.target.value < 1 ? "" : e.target.value;
+
+    if (newRoomsCount > available_rooms) {
+      newRoomsCount = available_rooms;
+    }
+
+    setRoomsCount(newRoomsCount);
+    setTotalAmount(
+      extraFeatureAmount + newRoomsCount * +roomPrice * numberOfDays
+    );
+  };
+
+  // Handles selection of extrafeatures and total amount payable
   const ExtraFeaturesChangeHandler = (e) => {
     if (e.target.checked) {
       setExtraFeatureAmount((prevState) => prevState + +e.target.name);
@@ -141,12 +159,37 @@ const HotelBookingCard = (props) => {
     }
   };
 
+  // calls Rooms list api when dates are changed also updates room types
+  const callRoomListAPI = () => {
+    if (checkInDate !== null && checkOutDate !== null) {
+      dispatch(
+        updateSearchParams({
+          location: searchedLocation,
+          checkInDate: JSON.stringify(checkInDate) ?? null,
+          checkOutDate: JSON.stringify(checkOutDate) ?? null,
+        })
+      );
+      dispatch(
+        updateRoomPrice({
+          roomType: "",
+          available_rooms: 0,
+          roomOriginalPrice: 0,
+          roomPrice: 0,
+        })
+      );
+      setTotalAmount(0);
+      setRoomsCount(1);
+    }
+  };
+
+  // Sets check in and check out date, number of days and total payable amount on dates changed
   const datesChangeHandler = (isCheckIn, newDate) => {
+    var days = 0;
     if (isCheckIn) {
       setCheckInDate(newDate);
       // If Check-In date crosses check-Out date
       // Then set Check-Out date tommorow of Check-in Date
-      var days = dayjs(newDate).diff(dayjs(checkOutDate), "day");
+      days = dayjs(newDate).diff(dayjs(checkOutDate), "day");
 
       if (days >= 0) {
         setCheckOutDate(dayjs(newDate).add(1, "day"));
@@ -166,6 +209,7 @@ const HotelBookingCard = (props) => {
     );
   };
 
+  // Booking confirmation sumit
   const submitHandler = (e) => {
     e.preventDefault();
     // show loader in button
@@ -209,14 +253,19 @@ const HotelBookingCard = (props) => {
     }
   }, [bookingLoaded]);
 
-  // to recalculate prices after updates
+  useEffect(() => {
+    callRoomListAPI();
+  }, [checkInDate, checkOutDate]);
+
   useEffect(() => {
     setRoomPrice(selectedRoomPrice === undefined ? 0 : selectedRoomPrice);
     setTotalAmount(
-      (selectedRoomPrice === undefined ? 0 : selectedRoomPrice) * numberOfDays +
+      (selectedRoomPrice === undefined ? 0 : selectedRoomPrice) *
+        numberOfDays *
+        roomsCount +
         extraFeatureAmount
     );
-  });
+  }, [selectedRoomPrice]);
 
   if (bookingError) {
     console.log("bookingError: ", bookingError);
@@ -234,15 +283,16 @@ const HotelBookingCard = (props) => {
         }}
         className={styles["booking_card"]}
       >
+        {/* Card Header Box */}
         <Box sx={{ flexGrow: 1 }}>
           <Grid container className={styles["card_header"]}>
             <Grid item xs={6} md={6}>
               <Typography variant="h6">
-                ${roomPrice ?? 0}
+                {isDiscountApplied ? roomPrice ?? 0 : roomOriginalPrice ?? 0}
                 <span className={styles["night_text"]}>/night</span>
               </Typography>
             </Grid>
-            {roomOriginalPrice > 0 && (
+            {roomOriginalPrice > 0 && isDiscountApplied && (
               <>
                 <Grid item xs={3} md={3}>
                   <Typography className={styles["discounted_price"]}>
@@ -262,7 +312,7 @@ const HotelBookingCard = (props) => {
         </Box>
 
         <Divider />
-
+        {/* Dates and Number of days */}
         <form onSubmit={submitHandler}>
           <Box className={styles["dates_container"]} sx={{ flexGrow: 1 }}>
             <Grid container className={styles["card_header"]}>
@@ -271,7 +321,7 @@ const HotelBookingCard = (props) => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     clearable={true}
-                    label="Check in"
+                    label="Check In"
                     value={checkInDate}
                     minDate={dayjs().add(1, "day")}
                     inputFormat="DD/MM/YYYY"
@@ -338,14 +388,26 @@ const HotelBookingCard = (props) => {
                 </IconButton>
               </Grid>
             </Grid> */}
-            {/* No of guests END */}
-
-            {/* // Do NOT TOUCH THIS COMMENTED CODE . IT WILL BE ADDED IN NEXT SPRINT */}
-            {/* <Grid container className={styles["card_header"]}>
+            {/* Number of Rooms */}
+            <Typography variant="caption">
+              {selectedRoomPrice === undefined ||
+              selectedRoomPrice === 0 ||
+              checkOutDate === null ||
+              available_rooms > 5
+                ? ""
+                : `Hurry ! Only ${available_rooms} rooms available.`}
+            </Typography>
+            <Grid container className={styles["card_header"]}>
               <Grid item xs={2}>
                 <IconButton
                   onClick={decrementRoomsCount}
-                  disabled={checkOutDate === null}
+                  disabled={
+                    selectedRoomPrice === undefined ||
+                    selectedRoomPrice === 0 ||
+                    checkOutDate === null
+                      ? true
+                      : false
+                  }
                 >
                   <IndeterminateCheckBoxIcon
                     fontSize="large"
@@ -360,7 +422,13 @@ const HotelBookingCard = (props) => {
                   label="Number of Rooms"
                   type="number"
                   value={roomsCount}
-                  disabled={checkOutDate === null}
+                  disabled={
+                    selectedRoomPrice === undefined ||
+                    selectedRoomPrice === 0 ||
+                    checkOutDate === null
+                      ? true
+                      : false
+                  }
                   required
                   onChange={roomInputOnChangeHandler}
                 />
@@ -368,12 +436,18 @@ const HotelBookingCard = (props) => {
               <Grid item xs={2}>
                 <IconButton
                   onClick={incrementRoomsCount}
-                  disabled={checkOutDate === null}
+                  disabled={
+                    selectedRoomPrice === undefined ||
+                    selectedRoomPrice === 0 ||
+                    checkOutDate === null
+                      ? true
+                      : false
+                  }
                 >
                   <AddBoxIcon fontSize="large" color="info"></AddBoxIcon>
                 </IconButton>
               </Grid>
-            </Grid> */}
+            </Grid>
           </Box>
 
           {/* Extra Features */}
@@ -406,6 +480,7 @@ const HotelBookingCard = (props) => {
           </Box>
           {/* Extra Features END */}
 
+          {/* Total payment and Submit */}
           <Grid container alignItems="center">
             <Grid item xs={9}>
               <Typography className={styles["night_text"]}>

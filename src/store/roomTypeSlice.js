@@ -5,8 +5,10 @@ export const roomPriceSlice = createSlice({
   initialState: {
     roomType: "",
     roomOriginalPrice: 0,
+    available_rooms: 0,
     roomPrice: 0,
     room_id: 0,
+    isDiscountApplied: false,
   },
   reducers: {
     updateRoomPrice: (state, action) => {
@@ -15,6 +17,8 @@ export const roomPriceSlice = createSlice({
       state.roomOriginalPrice = action.payload.roomOriginalPrice;
       state.roomPrice = action.payload.roomPrice;
       state.room_id = action.payload.room_id;
+      state.available_rooms = action.payload.available_rooms;
+      state.isDiscountApplied = action.payload.isDiscountApplied;
     },
   },
 });

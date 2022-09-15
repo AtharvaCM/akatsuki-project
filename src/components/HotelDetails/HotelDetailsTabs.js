@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 // MUI
-import { Box, Tab } from "@mui/material";
+import { Alert, Box, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 // Custom Components
@@ -12,6 +12,8 @@ import RoomTypeCard from "./RoomTypeCard";
 import Loader from "../UI/Loader";
 import ReviewTab from "./Tabs/ReviewTab";
 
+import { useSelector } from "react-redux";
+import dayjs from "dayjs";
 // custom hooks
 import { useAxios } from "../../hooks/useAxios";
 
@@ -22,11 +24,21 @@ const PaddingZeroStyle = {
 };
 
 const HotelDetailsTabs = (props) => {
+  // selctor
+  const { checkInDate, checkOutDate } = useSelector(
+    (state) => state.searchHotel
+  );
+
   const [navTabValue, setNavTabValue] = useState("1");
 
-  const { data, error, loaded, callAPI } = useAxios();
+  const {
+    data: dataRoomList,
+    error: errorRoomList,
+    loaded: loadedRoomList,
+    setLoaded: setLoadedRoomList,
+    callAPI: callAPIRoomList,
+  } = useAxios();
 
-  const roomListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${props.id}/rooms`;
   // const roomListURL = `http://127.0.0.1:5000/api/v1/hotels/${props.id}/rooms`;
 
   const handleTabChange = (event, newValue) => {
@@ -35,11 +47,22 @@ const HotelDetailsTabs = (props) => {
 
   // When the page is loaded, fetch room details for current hotel
   useEffect(() => {
-    callAPI(roomListURL);
-  }, [props]);
+    setLoadedRoomList(false);
+    if (checkInDate !== null && checkOutDate !== null) {
+      const roomListURL = `${
+        process.env.REACT_APP_FLASK_DOMAIN
+      }/api/v1/hotels/${props.id}/rooms?check_in_date=${JSON.stringify(
+        dayjs(JSON.parse(checkInDate)).add(1, "day")
+      ).slice(1, 11)}&check_out_date=${JSON.stringify(
+        dayjs(JSON.parse(checkOutDate)).add(1, "day")
+      ).slice(1, 11)}`;
+      console.log(roomListURL);
+      callAPIRoomList(roomListURL);
+    }
+  }, [props.id, checkInDate, checkOutDate]);
 
-  if (error) {
-    console.log("error: ", error);
+  if (errorRoomList) {
+    console.log("error: ", errorRoomList);
   }
 
   return (
@@ -70,16 +93,36 @@ const HotelDetailsTabs = (props) => {
           </TabPanel>
           {/* Room & Price */}
           <TabPanel style={PaddingZeroStyle} value="3">
-            {!loaded && <Loader />}
-            {loaded &&
-              data.data.map((room) => (
-                <RoomTypeCard
-                  key={room.id}
-                  price={room.cost}
-                  room_type={room.room_type}
-                  id={room.id}
-                />
-              ))}
+            {checkInDate === null || checkOutDate === null ? (
+              <Alert severity="error">
+                Please enter Check In and Check Out dates first !
+              </Alert>
+            ) : (
+              <>
+                {!loadedRoomList && <Loader />}
+                {loadedRoomList &&
+                  loadedRoomList &&
+                  dataRoomList.data.map((room) => (
+                    <RoomTypeCard
+                      key={room.id}
+                      price={room.cost}
+                      isHiked={dataRoomList.isHiked}
+                      isDiscountApplied={
+                        !dataRoomList.isHiked &&
+                        dayjs(JSON.parse(checkInDate)).diff(dayjs(), "day") ===
+                          1
+                          ? true
+                          : false
+                      }
+                      room_type={room.room_type}
+                      total_rooms={room.total_rooms}
+                      available_rooms={room.available_rooms}
+                      capacity={room.capacity_per_room}
+                      id={room.id}
+                    />
+                  ))}
+              </>
+            )}
           </TabPanel>
           {/* Review */}
           <TabPanel style={PaddingZeroStyle} value="4">
