@@ -1,6 +1,9 @@
 import React from "react";
+
+// Custom Components
 import SearchWidget from "../components/SearchWidget/SearchWidget";
 import HomeHeadline from "../components/HomeHeadline/HomeHeadline";
+import HotelRecommendation from "../components/Recommendations/HotelRecommendation";
 
 const HomePage = () => {
   return (
@@ -11,6 +14,10 @@ const HomePage = () => {
       <div style={searchWidgetStyle}>
         <SearchWidget />
       </div>
+      {/* Recommendation Section */}
+      <section>
+        <HotelRecommendation />
+      </section>
     </>
   );
 };

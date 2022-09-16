@@ -1,51 +1,64 @@
 import React from "react";
+import PropTypes from "prop-types";
 
+// MUI
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { Button, Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import StarIcon from "@mui/icons-material/Star";
 
-const HotelRecommendationCard = () => {
-  const hotelName = "Santorini, Greece";
-  const avgRating = "4.19";
-  const price = "134";
+// react router
+import { useNavigate } from "react-router-dom";
+
+// path constants
+import { ROUTES } from "../../utils/constants/routingPathConstants";
+
+const HotelRecommendationCard = (props) => {
+  const navigate = useNavigate();
+
+  const handleBookNowClick = () => {
+    // redirect to the hotel
+    navigate(`${ROUTES.HOTEL_DETAILS}/${props.hotelId}`);
+  };
+
   return (
     <div>
       <Box sx={styles.mainCard}>
         <Grid container display={"flex"}>
-          <Grid xs={12} md={6} lg={5} >
+          {/* Hotel Image */}
+          <Grid item xs={12} md={6} lg={5}>
             <Box
               component="img"
               alt="Img"
               height={"130px"}
               width={"150px"}
-              src="https://res.cloudinary.com/difrv1tb6/image/upload/v1662113208/HotelBookingAppAssets/BookingConfirmation_vjenmg.png"
+              src={props.hotelDp}
             />
           </Grid>
-          <Grid xs={12} md={6} lg={7}>
-            <Typography style={styles.hotelName}>{hotelName}</Typography>
+          {/* Hotel Details */}
+          <Grid item xs={12} md={6} lg={7}>
+            <Typography style={styles.hotelName}>{props.hotelName}</Typography>
             <Box
-              container
               display="flex"
               alignItems={"center"}
               style={{ marginBottom: "8px" }}
             >
-              <StarIcon
-                fontSize="small"
-                style={styles.starIcon}
-              />
-              <Typography style={styles.rating}>{avgRating}</Typography>
+              <StarIcon fontSize="small" style={styles.starIcon} />
+              <Typography style={styles.rating}>{props.avgRating}</Typography>
             </Box>
+
             <Box
-              container
               display="flex"
               alignItems={"center"}
               style={{ marginBottom: "8px" }}
             >
-              <Typography style={styles.pricetag}>${price}</Typography>
+              <Typography style={styles.pricetag}>${props.price}</Typography>
               <Typography style={styles.night}>/night</Typography>
             </Box>
-            <Button variant="contained">Book Now</Button>
+            <Button variant="contained" onClick={handleBookNowClick}>
+              Book Now
+            </Button>
           </Grid>
         </Grid>
       </Box>
@@ -53,9 +66,17 @@ const HotelRecommendationCard = () => {
   );
 };
 
+HotelRecommendationCard.propTypes = {
+  hotelId: PropTypes.number.isRequired,
+  hotelName: PropTypes.string.isRequired,
+  avgRating: PropTypes.number.isRequired,
+  price: PropTypes.number.isRequired,
+  hotelDp: PropTypes.string.isRequired,
+};
+
 const styles = {
   mainCard: {
-    backgroundColor:"#ffffff",
+    backgroundColor: "#ffffff",
     borderRadius: "17px",
     margin: "20px",
     padding: "15px",
@@ -67,21 +88,21 @@ const styles = {
     lineHeight: "24px",
     marginBottom: "9px",
   },
-  starIcon:{
+  starIcon: {
     color: "#FF9C09",
-    marginRight: "3px"
+    marginRight: "3px",
   },
-  rating:{
+  rating: {
     fontSize: "13px",
-    fontWeight:"600"
+    fontWeight: "600",
   },
-  night:{
+  night: {
     fontSize: "13px",
-    color:"#878686"
+    color: "#878686",
   },
-  pricetag:{
-    fontWeight:"600"
-  }
+  pricetag: {
+    fontWeight: "600",
+  },
 };
 
 export default HotelRecommendationCard;
