@@ -31,7 +31,7 @@ const SubcriptionCard = () => {
                 >
                   <Grid item xs={10} md={10}>
                     <input
-                      placeholder="Type Your Email Here"
+                      placeholder="Type your email here"
                       className={style.emailFields}
                     ></input>
                   </Grid>
@@ -45,7 +45,7 @@ const SubcriptionCard = () => {
                         textTransform:"capitalize"
                       }}
                     >
-                      Subcribe
+                      Subscribe
                     </Button>
                   </Grid>
                 </Grid>
