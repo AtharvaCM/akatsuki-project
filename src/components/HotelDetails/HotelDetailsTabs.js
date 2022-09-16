@@ -99,8 +99,14 @@ const HotelDetailsTabs = (props) => {
               </Alert>
             ) : (
               <>
+                {loadedRoomList.length === 0 && (
+                  <Alert severity="info">
+                    No Rooms Available,Try changing the dates!
+                  </Alert>
+                )}
                 {!loadedRoomList && <Loader />}
                 {loadedRoomList &&
+                  loadedRoomList.length > 0 &&
                   loadedRoomList &&
                   dataRoomList.data.map((room) => (
                     <RoomTypeCard
