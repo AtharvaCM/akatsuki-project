@@ -31,7 +31,7 @@ import { ReactComponent as DatabaseIcon } from "../../assets/images/database_ico
 import styles from "./HotelListCard.module.css";
 
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // Routes
 import { ROUTES } from "../../utils/constants/routingPathConstants";
@@ -256,6 +256,9 @@ HotelListCard.propTypes = {
   reviews_count: PropTypes.number,
   departure: PropTypes.string,
   room_images: PropTypes.array,
+  // Filter Props
+  showInFilter: PropTypes.bool,
+  isAnyFilterApplied: PropTypes.bool,
 };
 
 export default HotelListCard;

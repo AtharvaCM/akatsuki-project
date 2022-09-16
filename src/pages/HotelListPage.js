@@ -23,6 +23,9 @@ import HotelListFilters from "../components/HotelListFilters/HotelListFilters";
 const hotelListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/`;
 
 const HotelListPage = () => {
+  const { popular_filters } = useSelector((state) => state.hotelFilters);
+  console.log("filters", popular_filters);
+
   const {
     location: searchedLocation,
     checkInDate: searchedCheckInDate,
@@ -31,7 +34,9 @@ const HotelListPage = () => {
 
   const [hotelList, setHotelList] = useState([]);
   const [isViewMoreClicked, setIsViewMoreClicked] = useState(false);
+  const [filteredHotelCount, setfilteredHotelCount] = useState(0);
   const [page, setPage] = useState(1);
+
   let hotelNameList = [];
 
   const {
@@ -43,6 +48,7 @@ const HotelListPage = () => {
   } = useAxios();
 
   useEffect(() => {
+    console.log("1");
     setIsViewMoreClicked(false);
     setPage(1);
 
@@ -65,6 +71,7 @@ const HotelListPage = () => {
 
   // if API call finished
   useEffect(() => {
+    console.log("2");
     if (!isViewMoreClicked) {
       setHotelList([]);
 
@@ -78,7 +85,18 @@ const HotelListPage = () => {
     }
   }, [loaded]);
 
+  useEffect(() => {}, [popular_filters]);
+
   if (loaded) {
+    if (popular_filters.length > 0) {
+      for (const hotel in hotelList.data) {
+        if (
+          popular_filters.some((feature) => hotel.features.includes(feature))
+        ) {
+          setfilteredHotelCount((prevState) => prevState + 1);
+        }
+      }
+    }
     console.log(hotelList);
     hotelList.map((hotel) => hotelNameList.push(hotel.name));
   }
@@ -118,30 +136,42 @@ const HotelListPage = () => {
         </Grid>
         <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={8}>
+          {/* {loaded && popular_filters.length > 0 && filteredHotelCount < 1 && (
+            <Typography variant="h6">
+              No Hotels Found with Current Filters !
+            </Typography>
+          )} */}
           {/* hotels map */}
           {hotelList.length > 0 &&
-            hotelList.map((hotel) => (
-              <HotelListCard
-                key={hotel.id}
-                id={hotel.id}
-                name={hotel.name}
-                country={hotel.country}
-                state={hotel.state}
-                city={hotel.city}
-                hotel_dp={hotel.hotel_dp}
-                address={hotel.address}
-                description={hotel.description}
-                features={hotel.features}
-                check_in_date={searchedCheckInDate.substring(1, 11)}
-                check_out_date={searchedCheckOutDate.substring(1, 11)}
-                ratings={hotel.ratings}
-                reviews_count={234}
-                departure="Kochi"
-                // price={720}
-                // capacity="Two"
-                room_images={hotel.room_images}
-              />
-            ))}
+            hotelList.map(
+              (hotel) =>
+                (popular_filters.length < 1 ||
+                  // filteredHotelCount < 1 ||
+                  popular_filters.some((feature) =>
+                    hotel.features.includes(feature)
+                  )) && (
+                  <HotelListCard
+                    key={hotel.id}
+                    id={hotel.id}
+                    name={hotel.name}
+                    country={hotel.country}
+                    state={hotel.state}
+                    city={hotel.city}
+                    hotel_dp={hotel.hotel_dp}
+                    address={hotel.address}
+                    description={hotel.description}
+                    features={hotel.features}
+                    check_in_date={searchedCheckInDate.substring(1, 11)}
+                    check_out_date={searchedCheckOutDate.substring(1, 11)}
+                    ratings={hotel.ratings}
+                    reviews_count={234}
+                    departure="Kochi"
+                    // price={720}
+                    // capacity="Two"
+                    room_images={hotel.room_images}
+                  />
+                )
+            )}
         </Grid>
       </Grid>
       {!loaded && searchedLocation !== null && (

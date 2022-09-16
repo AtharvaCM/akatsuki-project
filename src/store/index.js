@@ -7,6 +7,7 @@ import searchHotelReducer from "../store/searchHotelSlice";
 import roomPriceReducer from "../store/roomTypeSlice";
 import hotelDetailsReducer from "../store/hotelDetailsSlice";
 import bookingDetailsReducer from "../store/bookingDetailsSlice";
+import hotelFiltersReducer from "../store/hotelFiltersSlice";
 
 export default configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export default configureStore({
     roomPrice: roomPriceReducer,
     hotelDetails: hotelDetailsReducer,
     bookingDetails: bookingDetailsReducer,
+    hotelFilters: hotelFiltersReducer,
   },
 });

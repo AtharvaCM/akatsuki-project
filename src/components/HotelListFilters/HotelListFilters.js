@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import {
@@ -11,12 +11,18 @@ import {
   Typography,
 } from "@mui/material";
 
+// redux
+import { useSelector, useDispatch } from "react-redux";
+
+// actions
+import { setPopularFilter } from "../../store/hotelFiltersSlice";
+
 import Slider from "@mui/material/Slider";
 
 // CSS Imports
 // import styles from "./HotelListFilters.module.css";
 
-const POPULAR_FILTERS = ["Mountain View", "Sound Proof", "Patio"];
+const POPULAR_FILTERS = ["Mountain View", "City View", "Sound Proof", "Patio"];
 
 // const PROPERTY_TYPE = ["Hotels", "Appartments", "Resort"];
 
@@ -29,8 +35,38 @@ const FACILITIES = [
   "Spa",
 ];
 
+// const [selectedPopularFilters, setSelectedPopularFilters] = useState([]);
+
 const HotelListFilters = (props) => {
-  const [priceRange, setPriceRange] = useState([50, 500]);
+  const dispatch = useDispatch();
+
+  // const { popular_filters } = useSelector((state) => state.hotelFilters);
+
+  // console.log("dispatch", popular_filters);
+  const popularFiltersChangeHandler = (e) => {
+    if (e.target.checked) {
+      dispatch(
+        setPopularFilter({
+          add: true,
+          popular_filter: e.target.name,
+        })
+      );
+    } else {
+      dispatch(
+        setPopularFilter({
+          add: false,
+          popular_filter: e.target.name,
+        })
+      );
+    }
+    // console.log("live", selectedPopularFilters);
+  };
+
+  // useEffect(() => {
+
+  // }, [selectedPopularFilters]);
+
+  const [priceRange, setPriceRange] = useState([50, 300]);
 
   const priceRangeChangeHandler = (event, newValue) => {
     setPriceRange(newValue);
@@ -59,7 +95,10 @@ const HotelListFilters = (props) => {
             sx={{ marginBottom: "0%", alignItems: "center" }}
           >
             <Grid item xs={2} md={2}>
-              <Checkbox name={popFilter}></Checkbox>
+              <Checkbox
+                name={popFilter}
+                onChange={popularFiltersChangeHandler}
+              ></Checkbox>
             </Grid>
             <Grid item xs={10} md={10}>
               {popFilter}
@@ -69,7 +108,7 @@ const HotelListFilters = (props) => {
       </Box>
       <Divider sx={styles.divider} />
       <Typography variant="h6" sx={{ marginBottom: "15%" }}>
-        Price Range
+        Price Range Per Night
       </Typography>
       <Slider
         getAriaLabel={() => "Minimum distance"}
