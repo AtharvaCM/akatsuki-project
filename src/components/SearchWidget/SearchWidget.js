@@ -134,6 +134,7 @@ const SearchWidget = () => {
                         {...params}
                         autoComplete="off"
                         required={true}
+                        onKeyDown={(event) => event.preventDefault()}
                       />
                     )}
                   />
@@ -157,6 +158,7 @@ const SearchWidget = () => {
                         {...params}
                         autoComplete="off"
                         required={true}
+                        onKeyDown={(event) => event.preventDefault()}
                       />
                     )}
                   />
