@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+// router
+import { useNavigate } from "react-router-dom";
 
 import {
   Autocomplete,
@@ -14,8 +16,14 @@ import {
 // redux
 import { useSelector, useDispatch } from "react-redux";
 
+// Routes
+import { ROUTES } from "../../utils/constants/routingPathConstants";
+
 // actions
-import { setPopularFilter } from "../../store/hotelFiltersSlice";
+import {
+  setPopularFilter,
+  setPriceRangeFilter,
+} from "../../store/hotelFiltersSlice";
 
 import Slider from "@mui/material/Slider";
 
@@ -39,7 +47,7 @@ const FACILITIES = [
 
 const HotelListFilters = (props) => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   // const { popular_filters } = useSelector((state) => state.hotelFilters);
 
   // console.log("dispatch", popular_filters);
@@ -59,17 +67,23 @@ const HotelListFilters = (props) => {
         })
       );
     }
-    // console.log("live", selectedPopularFilters);
   };
 
-  // useEffect(() => {
-
-  // }, [selectedPopularFilters]);
+  const propertySearchHandler = (hotel_name) => {
+    const hotel_id = props.hotelIdList[props.hotelNameList.indexOf(hotel_name)];
+    // Redirect to hotel detail page
+    navigate(`${ROUTES.HOTEL_DETAILS}/${hotel_id}`);
+  };
 
   const [priceRange, setPriceRange] = useState([50, 300]);
 
   const priceRangeChangeHandler = (event, newValue) => {
     setPriceRange(newValue);
+    dispatch(
+      setPriceRangeFilter({
+        priceRange: { min: newValue[0], max: newValue[1] },
+      })
+    );
   };
   return (
     <>
@@ -78,6 +92,7 @@ const HotelListFilters = (props) => {
         disablePortal
         options={props.hotelNameList}
         sx={styles.input}
+        onChange={(e, value) => propertySearchHandler(value)}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -116,7 +131,7 @@ const HotelListFilters = (props) => {
         onChange={priceRangeChangeHandler}
         valueLabelDisplay="on"
         min={45}
-        max={2000}
+        max={300}
         valueLabelFormat={(value) => <div>{value}</div>}
         // getAriaValueText={valuetext}
         disableSwap
@@ -185,6 +200,7 @@ const styles = {
 
 HotelListFilters.propTypes = {
   hotelNameList: PropTypes.array,
+  hotelIdList: PropTypes.array,
 };
 
 export default HotelListFilters;

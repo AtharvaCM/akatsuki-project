@@ -43,6 +43,8 @@ import { updateRoomPrice } from "../../store/roomTypeSlice";
 import { useAxios } from "../../hooks/useAxios";
 
 const HotelListCard = (props) => {
+  const { priceRange } = useSelector((state) => state.hotelFilters);
+  console.log(priceRange);
   const {
     loaded: priceLoaded,
     data: priceListData,
@@ -88,154 +90,161 @@ const HotelListCard = (props) => {
   }
 
   return (
-    <Card sx={{ borderRadius: "24px", marginBottom: "2rem" }}>
-      <Grid container>
-        {/* Hotel Image */}
-        <Grid item md={5}>
-          <CardMedia
-            component="img"
-            height="467"
-            width="410"
-            image={props.hotel_dp}
-            alt={props.name}
-          />
-        </Grid>
+    roomPrice &&
+    roomPrice >= priceRange.priceRange.min &&
+    roomPrice <= priceRange.priceRange.max && (
+      <Card sx={{ borderRadius: "24px", marginBottom: "2rem" }}>
+        <Grid container>
+          {/* Hotel Image */}
+          <Grid item md={5}>
+            <CardMedia
+              component="img"
+              height="467"
+              width="410"
+              image={props.hotel_dp}
+              alt={props.name}
+            />
+          </Grid>
 
-        {/* Hotel Details */}
-        <Grid item md={7} className={styles.hotelDetailsGridItem}>
-          <CardContent className={styles.hotelDetailsCardContent}>
-            <Typography
-              variant="h4"
-              component="h4"
-              gutterBottom
-              fontWeight={"bolder"}
-              className={styles.hotelLocation}
-            >
-              {props.state}, {props.country}
-            </Typography>
-            <Typography
-              variant="h5"
-              component="h5"
-              gutterBottom
-              fontWeight={"bolder"}
-            >
-              {props.name}
-            </Typography>
-            {/* Ratings */}
-            <span className={styles.ratingsSpan}>
-              <StarIcon className={styles.ratingsIcon} />
-              <Typography variant="body1" className={styles.iconLabels}>
-                {props.ratings} ({props.reviews_count} reviews)
+          {/* Hotel Details */}
+          <Grid item md={7} className={styles.hotelDetailsGridItem}>
+            <CardContent className={styles.hotelDetailsCardContent}>
+              <Typography
+                variant="h4"
+                component="h4"
+                gutterBottom
+                fontWeight={"bolder"}
+                className={styles.hotelLocation}
+              >
+                {props.state}, {props.country}
               </Typography>
-            </span>
-            <Grid container>
-              {/* Address */}
-              <Grid item md={7} className={styles.alignCenter}>
-                <LocationOnOutlinedIcon className={styles.icon} />
-                <address
-                  className={`${styles.iconLabels} ${styles.hotelAddress}`}
-                >
-                  {props.address}
-                </address>
-              </Grid>
-              {/* Dates */}
-              <Grid item md={5} className={styles.alignCenter}>
-                <DateRangeOutlinedIcon className={styles.icon} />
-                <Typography
-                  variant="caption1"
-                  sx={{ fontSize: "12px" }}
-                  className={styles.iconLabels}
-                >
-                  {`${dayjs(props.check_in_date)
-                    .add(1, "day")
-                    .format("DD.MM.YY")} - ${dayjs(props.check_out_date)
-                    .add(1, "day")
-                    .format("DD.MM.YY")}`}
-                  {/* {props.check_in_date} - {props.check_out_date} */}
+              <Typography
+                variant="h5"
+                component="h5"
+                gutterBottom
+                fontWeight={"bolder"}
+              >
+                {props.name}
+              </Typography>
+              {/* Ratings */}
+              <span className={styles.ratingsSpan}>
+                <StarIcon className={styles.ratingsIcon} />
+                <Typography variant="body1" className={styles.iconLabels}>
+                  {props.ratings} ({props.reviews_count} reviews)
                 </Typography>
+              </span>
+              <Grid container>
+                {/* Address */}
+                <Grid item md={7} className={styles.alignCenter}>
+                  <LocationOnOutlinedIcon className={styles.icon} />
+                  <address
+                    className={`${styles.iconLabels} ${styles.hotelAddress}`}
+                  >
+                    {props.address}
+                  </address>
+                </Grid>
+                {/* Dates */}
+                <Grid item md={5} className={styles.alignCenter}>
+                  <DateRangeOutlinedIcon className={styles.icon} />
+                  <Typography
+                    variant="caption1"
+                    sx={{ fontSize: "12px" }}
+                    className={styles.iconLabels}
+                  >
+                    {`${dayjs(props.check_in_date)
+                      .add(1, "day")
+                      .format("DD.MM.YY")} - ${dayjs(props.check_out_date)
+                      .add(1, "day")
+                      .format("DD.MM.YY")}`}
+                    {/* {props.check_in_date} - {props.check_out_date} */}
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-            {/* Departure */}
-            {/* <span className={styles.departure}>
+              {/* Departure */}
+              {/* <span className={styles.departure}>
               <FlightOutlinedIcon className={styles.icon} />
               <Typography variant="body1" className={styles.iconLabels}>
                 Departure from {props.departure}
               </Typography>
             </span> */}
 
-            <Grid container>
-              {/* Hotel features */}
-              <Grid item md={6}>
-                <div className={styles.hotelFeatures}>
-                  <span>
-                    <WifiOutlinedIcon className={styles.icon} />
-                    <Typography variant="body1" className={styles.iconLabels}>
-                      Free Wifi
-                    </Typography>
-                  </span>
-                  <span>
-                    <DirectionsCarOutlinedIcon className={styles.icon} />
-                    <Typography variant="body1" className={styles.iconLabels}>
-                      Free Parking
-                    </Typography>
-                  </span>
-                  <span>
-                    <LocalOfferOutlinedIcon className={styles.icon} />
-                    <Typography variant="body1" className={styles.iconLabels}>
-                      Special Offer
-                    </Typography>
-                  </span>
-                  <span>
-                    <LanguageOutlinedIcon className={styles.icon} />
-                    <Typography variant="body1" className={styles.iconLabels}>
-                      Visit Hotel Website
-                    </Typography>
-                  </span>
-                  <span>
-                    <DatabaseIcon className={styles.dbIcon} />
-                    <Typography variant="body1" className={styles.iconLabels}>
-                      Taking Safety Measures
-                    </Typography>
-                  </span>
-                </div>
-              </Grid>
-              {/* Book Now Buttons */}
-              <Grid item md={6}>
-                <div className={styles.bookNowButtons}>
-                  {/* Price chip */}
-                  <Chip
-                    label={
-                      <span className={styles.priceChipSpan}>
-                        {!priceLoaded && <CircularProgress />}
-                        {priceLoaded && (
-                          <>
-                            <Typography variant="h6">${roomPrice}</Typography>
-                            <Typography variant="caption">
-                              For {roomCapacity} people
-                            </Typography>
-                          </>
-                        )}
-                      </span>
-                    }
-                  />
-                  {/* Book now chip */}
-                  <Chip
-                    color="primary"
-                    sx={{ mt: "15px" }}
-                    label={
-                      <Typography variant="h6" className={styles.bookNowLabel}>
-                        Book Now
+              <Grid container>
+                {/* Hotel features */}
+                <Grid item md={6}>
+                  <div className={styles.hotelFeatures}>
+                    <span>
+                      <WifiOutlinedIcon className={styles.icon} />
+                      <Typography variant="body1" className={styles.iconLabels}>
+                        Free Wifi
                       </Typography>
-                    }
-                    onClick={handleBookNow}
-                  />
-                </div>
+                    </span>
+                    <span>
+                      <DirectionsCarOutlinedIcon className={styles.icon} />
+                      <Typography variant="body1" className={styles.iconLabels}>
+                        Free Parking
+                      </Typography>
+                    </span>
+                    <span>
+                      <LocalOfferOutlinedIcon className={styles.icon} />
+                      <Typography variant="body1" className={styles.iconLabels}>
+                        Special Offer
+                      </Typography>
+                    </span>
+                    <span>
+                      <LanguageOutlinedIcon className={styles.icon} />
+                      <Typography variant="body1" className={styles.iconLabels}>
+                        Visit Hotel Website
+                      </Typography>
+                    </span>
+                    <span>
+                      <DatabaseIcon className={styles.dbIcon} />
+                      <Typography variant="body1" className={styles.iconLabels}>
+                        Taking Safety Measures
+                      </Typography>
+                    </span>
+                  </div>
+                </Grid>
+                {/* Book Now Buttons */}
+                <Grid item md={6}>
+                  <div className={styles.bookNowButtons}>
+                    {/* Price chip */}
+                    <Chip
+                      label={
+                        <span className={styles.priceChipSpan}>
+                          {!priceLoaded && <CircularProgress />}
+                          {priceLoaded && (
+                            <>
+                              <Typography variant="h6">${roomPrice}</Typography>
+                              <Typography variant="caption">
+                                For {roomCapacity} people
+                              </Typography>
+                            </>
+                          )}
+                        </span>
+                      }
+                    />
+                    {/* Book now chip */}
+                    <Chip
+                      color="primary"
+                      sx={{ mt: "15px" }}
+                      label={
+                        <Typography
+                          variant="h6"
+                          className={styles.bookNowLabel}
+                        >
+                          Book Now
+                        </Typography>
+                      }
+                      onClick={handleBookNow}
+                    />
+                  </div>
+                </Grid>
               </Grid>
-            </Grid>
-          </CardContent>
+            </CardContent>
+          </Grid>
         </Grid>
-      </Grid>
-    </Card>
+      </Card>
+    )
   );
 };
 
@@ -256,9 +265,6 @@ HotelListCard.propTypes = {
   reviews_count: PropTypes.number,
   departure: PropTypes.string,
   room_images: PropTypes.array,
-  // Filter Props
-  showInFilter: PropTypes.bool,
-  isAnyFilterApplied: PropTypes.bool,
 };
 
 export default HotelListCard;

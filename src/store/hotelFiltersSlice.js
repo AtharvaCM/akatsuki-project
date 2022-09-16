@@ -6,8 +6,7 @@ export const hotelFiltersSlice = createSlice({
     add: false,
     popular_filters: [],
     filtered_hotel_count: 0,
-    minPrice: 10,
-    maxPrice: 500,
+    priceRange: { min: 10, max: 300 },
   },
   reducers: {
     setPopularFilter: (state, action) => {
@@ -18,8 +17,7 @@ export const hotelFiltersSlice = createSlice({
     },
 
     setPriceRangeFilter: (state, action) => {
-      state.minPrice = action.payload.minPrice;
-      state.maxPrice = action.payload.maxPrice;
+      state.priceRange = action.payload;
     },
   },
 });

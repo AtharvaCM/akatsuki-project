@@ -24,7 +24,6 @@ const hotelListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/`;
 
 const HotelListPage = () => {
   const { popular_filters } = useSelector((state) => state.hotelFilters);
-  console.log("filters", popular_filters);
 
   const {
     location: searchedLocation,
@@ -34,10 +33,11 @@ const HotelListPage = () => {
 
   const [hotelList, setHotelList] = useState([]);
   const [isViewMoreClicked, setIsViewMoreClicked] = useState(false);
-  const [filteredHotelCount, setfilteredHotelCount] = useState(0);
+  // const [filteredHotelCount, setfilteredHotelCount] = useState(0);
   const [page, setPage] = useState(1);
 
   let hotelNameList = [];
+  let hotelIdList = [];
 
   const {
     data: hotel_list_data,
@@ -48,7 +48,6 @@ const HotelListPage = () => {
   } = useAxios();
 
   useEffect(() => {
-    console.log("1");
     setIsViewMoreClicked(false);
     setPage(1);
 
@@ -71,7 +70,6 @@ const HotelListPage = () => {
 
   // if API call finished
   useEffect(() => {
-    console.log("2");
     if (!isViewMoreClicked) {
       setHotelList([]);
 
@@ -88,17 +86,11 @@ const HotelListPage = () => {
   useEffect(() => {}, [popular_filters]);
 
   if (loaded) {
-    if (popular_filters.length > 0) {
-      for (const hotel in hotelList.data) {
-        if (
-          popular_filters.some((feature) => hotel.features.includes(feature))
-        ) {
-          setfilteredHotelCount((prevState) => prevState + 1);
-        }
-      }
-    }
-    console.log(hotelList);
-    hotelList.map((hotel) => hotelNameList.push(hotel.name));
+    hotelList.forEach((hotel) => {
+      hotelNameList.push(hotel.name);
+      hotelIdList.push(hotel.id);
+    });
+    // hotelList.map((hotel) => );
   }
 
   const handleViewMore = () => {
@@ -132,7 +124,10 @@ const HotelListPage = () => {
       )}
       <Grid container>
         <Grid item xs={12} md={3}>
-          <HotelListFilters hotelNameList={hotelNameList} />
+          <HotelListFilters
+            hotelNameList={hotelNameList}
+            hotelIdList={hotelIdList}
+          />
         </Grid>
         <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={8}>
@@ -142,7 +137,8 @@ const HotelListPage = () => {
             </Typography>
           )} */}
           {/* hotels map */}
-          {hotelList.length > 0 &&
+          {hotelList &&
+            hotelList.length > 0 &&
             hotelList.map(
               (hotel) =>
                 (popular_filters.length < 1 ||
@@ -166,9 +162,8 @@ const HotelListPage = () => {
                     ratings={hotel.ratings}
                     reviews_count={234}
                     departure="Kochi"
-                    // price={720}
-                    // capacity="Two"
                     room_images={hotel.room_images}
+                    // filter props
                   />
                 )
             )}
