@@ -11,6 +11,7 @@ import HotelRecommendationCard from "./HotelRecommendationCard";
 
 // Custom Hook
 import { useAxios } from "../../hooks/useAxios";
+import LocationRecommendationCard from "./LocationRecommendationCard";
 
 const HotelRecommendation = () => {
   const { data, loaded, error, callAPI } = useAxios();
@@ -69,19 +70,20 @@ const HotelRecommendation = () => {
               hotelDp={hotel.hotel_dp}
               hotelId={hotel.id}
             />
+            
           ))}
       </Box>
+      
     </Box>
   );
 };
 
 const styles = {
   container: {
-    height: "455px",
-    // backgroundColor: "#EAEAEB",
+    backgroundColor: "#ffffff",
     width: "100%",
-    padding: "5px",
-    marginTop: "150px",
+    padding: "30px",
+    marginTop: "10px",
   },
   cardContainer: {
     display: "flex",

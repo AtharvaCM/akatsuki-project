@@ -2,11 +2,12 @@ import React from "react";
 
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
+import styles from "./LocationRecommendationCard.module.css"
 
 const LocationRecommendationCard = () => {
   const location = "Budapest, Hungary";
   return (
-    <box style={styles.mainCard}>
+    <box className={styles.mainCard}>
       <Box
         component="img"
         alt="Img"
@@ -20,14 +21,4 @@ const LocationRecommendationCard = () => {
   );
 };
 
-const styles = {
-  mainCard: {
-    width: "247px",
-    height: "135px",
-    backgroundColor: "#ffffff",
-    padding: "15px",
-    borderRadius: "6px",
-    margin:"20px"
-  },
-};
 export default LocationRecommendationCard;

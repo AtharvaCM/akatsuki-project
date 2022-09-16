@@ -76,9 +76,9 @@ HotelRecommendationCard.propTypes = {
 
 const styles = {
   mainCard: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#EAEAEB",
     borderRadius: "17px",
-    margin: "20px",
+    margin: "15px",
     padding: "15px",
     width: "440px",
   },
