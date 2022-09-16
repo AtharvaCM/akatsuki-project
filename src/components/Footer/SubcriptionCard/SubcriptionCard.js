@@ -42,6 +42,7 @@ const SubcriptionCard = () => {
                         backgroundColor: "#353945",
                         color: "white",
                         marginTop: "4px",
+                        textTransform:"capitalize"
                       }}
                     >
                       Subcribe

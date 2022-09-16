@@ -171,6 +171,7 @@ const SearchWidget = () => {
                   size="large"
                   color="primary"
                   className={styles["searchbtn"]}
+                  style={{textTransform:"capitalize",fontSize:"20px"}}
                 >
                   Search
                 </Button>
