@@ -16,14 +16,9 @@ import Slider from "@mui/material/Slider";
 // CSS Imports
 // import styles from "./HotelListFilters.module.css";
 
-const POPULAR_FILTERS = [
-  "Hotels",
-  "Breakfast and Dinner",
-  "Free Cancelation",
-  "No Prepayment",
-];
+const POPULAR_FILTERS = ["Mountain View", "Sound Proof", "Patio"];
 
-const PROPERTY_TYPE = ["Hotels", "Appartments", "Resort"];
+// const PROPERTY_TYPE = ["Hotels", "Appartments", "Resort"];
 
 const FACILITIES = [
   "Outdoor Sports",
@@ -88,7 +83,7 @@ const HotelListFilters = (props) => {
         disableSwap
       />
       <Divider sx={styles.divider} />
-      <Typography variant="h6">Property Type</Typography>
+      {/* <Typography variant="h6">Property Type</Typography>
       <Box>
         {PROPERTY_TYPE.map((propertyType) => (
           <Grid
@@ -105,7 +100,7 @@ const HotelListFilters = (props) => {
           </Grid>
         ))}
       </Box>
-      <Divider sx={styles.divider} />
+      <Divider sx={styles.divider} /> */}
       <Typography variant="h6">Facilities</Typography>
       <Box>
         {FACILITIES.map((facility) => (

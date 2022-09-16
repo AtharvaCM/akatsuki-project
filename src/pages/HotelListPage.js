@@ -79,6 +79,7 @@ const HotelListPage = () => {
   }, [loaded]);
 
   if (loaded) {
+    console.log(hotelList);
     hotelList.map((hotel) => hotelNameList.push(hotel.name));
   }
 

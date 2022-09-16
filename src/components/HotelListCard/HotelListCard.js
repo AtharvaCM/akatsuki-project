@@ -1,7 +1,7 @@
 // Author: AtharvaCM
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-
+import dayjs from "dayjs";
 // router
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +17,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 // MUI icons
 import StarIcon from "@mui/icons-material/Star";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-// import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
+import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
 // import FlightOutlinedIcon from "@mui/icons-material/FlightOutlined";
 import WifiOutlinedIcon from "@mui/icons-material/WifiOutlined";
 import DirectionsCarOutlinedIcon from "@mui/icons-material/DirectionsCarOutlined";
@@ -139,12 +139,21 @@ const HotelListCard = (props) => {
                 </address>
               </Grid>
               {/* Dates */}
-              {/* <Grid item md={5} className={styles.alignCenter}>
+              <Grid item md={5} className={styles.alignCenter}>
                 <DateRangeOutlinedIcon className={styles.icon} />
-                <Typography variant="body1" className={styles.iconLabels}>
-                  {props.check_in_date} - {props.check_out_date}
+                <Typography
+                  variant="caption1"
+                  sx={{ fontSize: "12px" }}
+                  className={styles.iconLabels}
+                >
+                  {`${dayjs(props.check_in_date)
+                    .add(1, "day")
+                    .format("DD.MM.YY")} - ${dayjs(props.check_out_date)
+                    .add(1, "day")
+                    .format("DD.MM.YY")}`}
+                  {/* {props.check_in_date} - {props.check_out_date} */}
                 </Typography>
-              </Grid> */}
+              </Grid>
             </Grid>
             {/* Departure */}
             {/* <span className={styles.departure}>
