@@ -9,7 +9,7 @@ import Logout from "@mui/icons-material/Logout";
 // assets
 import Logo from "../../assets/images/logo.png";
 import Flag from "../../assets/images/flag.png";
-import Profile from "../../assets/images/user.png";
+
 
 // MUI
 import AppBar from "@mui/material/AppBar";
@@ -36,7 +36,7 @@ import { ROUTES } from "../../utils/constants/routingPathConstants";
 
 const Header = () => {
   // selector
-  const { isAuthenticated, username } = useSelector((state) => state.login);
+  const { isAuthenticated, username, avatar } = useSelector((state) => state.login);
 
   const navigate = useNavigate();
 
@@ -78,7 +78,7 @@ const Header = () => {
         />
         {isAuthenticated ? (
           <>
-            <Avatar style={{ marginRight: 12 }} src={Profile}></Avatar>
+            <Avatar style={{ marginRight: 12 }} src={avatar}></Avatar>
             <Typography>{username}</Typography>
 
             <Tooltip title="Account settings">

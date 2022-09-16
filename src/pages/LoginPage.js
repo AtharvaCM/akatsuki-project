@@ -72,6 +72,7 @@ const LoginPage = () => {
             username: data.username,
             userId: data.user_id,
             token: data.token,
+            avatar:data.avatar
           })
         );
 

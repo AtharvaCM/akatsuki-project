@@ -7,6 +7,7 @@ export const loginSlice = createSlice({
     token: null,
     userId: null,
     isAuthenticated: false,
+    avatar:null
   },
   reducers: {
     setLogin: (state, action) => {
@@ -14,6 +15,7 @@ export const loginSlice = createSlice({
       state.username = action.payload.username;
       state.userId = action.payload.userId;
       state.token = action.payload.token;
+      state.avatar = action.payload.avatar;
     },
   },
 });
