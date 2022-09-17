@@ -16,12 +16,14 @@ import { ROUTES } from "../utils/constants/routingPathConstants";
 
 // redux
 import { useSelector } from "react-redux";
+import Fallback404 from "../components/UI/Fallback404";
 
 // access only when user is authenticated
 const ProtectedRoute = ({ isAuthenticated, children }) => {
-  if (isAuthenticated === false) {
-    console.log("isAuthenticated: ", isAuthenticated);
-    // navigate(ROUTES.LOGIN_PAGE, { replace: true });
+  // enable body overflow
+  document.body.style.overflow = "auto";
+
+  if (isAuthenticated === false || isAuthenticated === null) {
     return <Navigate to={ROUTES.LOGIN_PAGE} replace />;
   }
 
@@ -36,6 +38,7 @@ const ProtectedRoute = ({ isAuthenticated, children }) => {
 const Router = () => {
   // selector
   const { isAuthenticated } = useSelector((state) => state.login);
+  console.log("isAuthenticated: ", isAuthenticated);
 
   return (
     <Routes>
@@ -58,7 +61,7 @@ const Router = () => {
       </Route>
 
       {/* 404 */}
-      <Route path="*" element={<p>There&apos;s nothing here: 404!</p>} />
+      <Route path="*" element={<Fallback404 />} />
     </Routes>
   );
 };

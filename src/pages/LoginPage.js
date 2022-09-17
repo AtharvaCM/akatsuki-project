@@ -27,8 +27,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const loginURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/auth/login`
-  const loginURL = "http://127.0.0.1:5000/api/v1/auth/login";
+  const loginURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/auth/login`;
+  // const loginURL = "http://127.0.0.1:5000/api/v1/auth/login";
 
   // selector
   const { isAuthenticated } = useSelector((state) => state.login);
@@ -83,6 +83,8 @@ const LoginPage = () => {
         // redirect to home page
         navigate(ROUTES.HOME);
       }
+
+      // check for errors and display feedback
     }
   }, [loaded]);
 
