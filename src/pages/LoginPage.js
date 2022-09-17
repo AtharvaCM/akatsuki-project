@@ -64,7 +64,7 @@ const LoginPage = () => {
       setLoading(false);
 
       //  if login is successful
-      if (data.is_authenticated) {
+      if (data && data.is_authenticated) {
         // save in state
         dispatch(
           setLogin({
@@ -72,9 +72,13 @@ const LoginPage = () => {
             username: data.username,
             userId: data.user_id,
             token: data.token,
-            avatar:data.avatar
+            avatar: data.avatar,
           })
         );
+
+        // set isAuthenticated and token to localstorage
+        localStorage.setItem("isAuthenticated", data.is_authenticated);
+        localStorage.setItem("token", data.token);
 
         // redirect to home page
         navigate(ROUTES.HOME);

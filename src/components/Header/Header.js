@@ -5,11 +5,9 @@ import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsAc
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Logout from "@mui/icons-material/Logout";
 
-
 // assets
 import Logo from "../../assets/images/logo.png";
 import Flag from "../../assets/images/flag.png";
-
 
 // MUI
 import AppBar from "@mui/material/AppBar";
@@ -29,33 +27,62 @@ import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 
 // redux
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+// actions
+import { setLogin } from "../../store/loginSlice";
 
 // path constants
 import { ROUTES } from "../../utils/constants/routingPathConstants";
 
 const Header = () => {
   // selector
-  const { isAuthenticated, username, avatar } = useSelector((state) => state.login);
+  const { isAuthenticated, username, avatar } = useSelector(
+    (state) => state.login
+  );
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLoginClick = () => {
     navigate(ROUTES.LOGIN_PAGE);
   };
 
   //for showing menu we are taking this to identify button is clicked
-  const [isButtonClicked, setIsButtonClicked] = React.useState(null);
-  const open = Boolean(isButtonClicked);
-  
+  const [isMenuButtonClicked, setIsMenuButtonClicked] = React.useState(null);
+
+  const open = Boolean(isMenuButtonClicked);
+
   //click on arrow menu will appear
   const handleClick = (event) => {
-    setIsButtonClicked(event.currentTarget);
+    setIsMenuButtonClicked(event.currentTarget);
   };
 
   //after click on some menuItem list will disappear
   const handleClose = () => {
-    setIsButtonClicked(null);
+    setIsMenuButtonClicked(null);
+  };
+
+  // logut button clicked
+  const handleLogoutClick = () => {
+    // empty the login slice
+    console.log("Logout clicked");
+    dispatch(
+      setLogin({
+        isAuthenticated: null,
+        username: null,
+        userId: null,
+        token: null,
+        avatar: null,
+      })
+    );
+
+    // remove isAuthenticated and token from localStorage
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("token");
+
+    // redirect to login page
+    navigate(ROUTES.LOGIN_PAGE, { replace: true });
   };
 
   return (
@@ -94,41 +121,16 @@ const Header = () => {
               </IconButton>
             </Tooltip>
             <Menu
-              anchorEl={isButtonClicked}
+              anchorEl={isMenuButtonClicked}
               id="account-menu"
               open={open}
               onClose={handleClose}
               onClick={handleClose}
-              PaperProps={{
-                elevation: 0,
-                sx: {
-                  overflow: "visible",
-                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                  mt: 1.5,
-                  "& .MuiAvatar-root": {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 1,
-                  },
-                  "&:before": {
-                    content: "''",
-                    display: "block",
-                    position: "absolute",
-                    top: 0,
-                    right: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: "background.paper",
-                    transform: "translateY(-50%) rotate(45deg)",
-                    zIndex: 0,
-                  },
-                },
-              }}
+              PaperProps={styles.menuPaperProps}
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem>
+              <MenuItem onClick={handleLogoutClick}>
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>
@@ -155,6 +157,32 @@ const styles = {
     cursor: "pointer",
   },
   appRegion: { fontSize: 13, marginLeft: "auto", marginRight: 12 },
+  menuPaperProps: {
+    elevation: 0,
+    sx: {
+      overflow: "visible",
+      filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+      mt: 1.5,
+      "& .MuiAvatar-root": {
+        width: 32,
+        height: 32,
+        ml: -0.5,
+        mr: 1,
+      },
+      "&:before": {
+        content: "''",
+        display: "block",
+        position: "absolute",
+        top: 0,
+        right: 14,
+        width: 10,
+        height: 10,
+        bgcolor: "background.paper",
+        transform: "translateY(-50%) rotate(45deg)",
+        zIndex: 0,
+      },
+    },
+  },
 };
 
 export default Header;

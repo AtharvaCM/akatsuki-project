@@ -4,10 +4,10 @@ export const loginSlice = createSlice({
   name: "login",
   initialState: {
     username: null,
-    token: null,
+    token: localStorage.getItem("token"),
     userId: null,
-    isAuthenticated: false,
-    avatar:null
+    isAuthenticated: localStorage.getItem("isAuthenticated"),
+    avatar: null,
   },
   reducers: {
     setLogin: (state, action) => {
