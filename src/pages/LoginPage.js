@@ -5,6 +5,7 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Alert from "@mui/material/Alert";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +23,9 @@ import { ROUTES } from "../utils/constants/routingPathConstants";
 import { setLogin } from "../store/loginSlice";
 
 const LoginPage = () => {
-  const { loaded, error, data, callAPI } = useAxios();
+  document.body.style.overflow = "auto";
+
+  const { loaded, error, data, callAPI, setLoaded } = useAxios();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,6 +39,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -48,6 +52,7 @@ const LoginPage = () => {
       username: username,
       password: password,
     });
+    setLoaded(false);
     callAPI(loginURL, "POST", payload);
   };
 
@@ -56,7 +61,12 @@ const LoginPage = () => {
     if (isAuthenticated) {
       navigate(ROUTES.HOME);
     }
-  }, []);
+
+    if (error) {
+      setLoading(false);
+      console.log("error: ", error);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (loaded) {
@@ -79,18 +89,22 @@ const LoginPage = () => {
         // set isAuthenticated and token to localstorage
         localStorage.setItem("isAuthenticated", data.is_authenticated);
         localStorage.setItem("token", data.token);
+        localStorage.setItem("avatar", data.avatar);
+        localStorage.setItem("userId", data.user_id);
+        localStorage.setItem("username", data.username);
 
         // redirect to home page
         navigate(ROUTES.HOME);
       }
 
+      if (data && data.message === "Does not exists.") {
+        setLoading(false);
+      }
+
       // check for errors and display feedback
+      setShow(true);
     }
   }, [loaded]);
-
-  if (error) {
-    console.log("error: ", error);
-  }
 
   return (
     <div>
@@ -101,6 +115,17 @@ const LoginPage = () => {
         <hr></hr>
 
         <div style={styles.innerBox}>
+          {/* Alert */}
+          {show && (
+            <Alert
+              variant="outlined"
+              severity="error"
+              onClose={() => setShow(false)}
+              sx={{ marginY: "2em" }}
+            >
+              Wrong credentials!
+            </Alert>
+          )}
           <form onSubmit={handleSubmit}>
             <TextField
               id="username-outlined"

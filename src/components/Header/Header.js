@@ -80,6 +80,10 @@ const Header = () => {
     // remove isAuthenticated and token from localStorage
     localStorage.removeItem("isAuthenticated");
     localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("token");
+    localStorage.removeItem("avatar");
+    localStorage.removeItem("username");
 
     // redirect to login page
     navigate(ROUTES.LOGIN_PAGE, { replace: true });

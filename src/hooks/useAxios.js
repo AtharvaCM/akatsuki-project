@@ -14,6 +14,8 @@ export const useAxios = () => {
     controllerRef.current.abort();
   };
 
+  // selector
+
   const callAPI = async (url, method = "GET", payload = {}, headers = {}) => {
     try {
       const response = await axios.request({
@@ -24,6 +26,7 @@ export const useAxios = () => {
         headers: {
           ...headers,
           "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
         },
       });
       setData(response.data);
