@@ -56,9 +56,9 @@ const Fallback404 = () => {
         sx={{
           position: "absolute",
           fontSize: "8.5rem",
-          left: "42%",
+          left: "44%",
           top: "17%",
-          color: "#ffffff",
+          color: "#2918EE",
           animation: "spin 4s liner infinite",
         }}
       />
