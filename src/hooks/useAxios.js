@@ -26,7 +26,6 @@ export const useAxios = () => {
         headers: {
           ...headers,
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
         },
       });
       setData(response.data);

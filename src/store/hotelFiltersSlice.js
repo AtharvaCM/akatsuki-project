@@ -5,8 +5,9 @@ export const hotelFiltersSlice = createSlice({
   initialState: {
     add: false,
     popular_filters: [],
-    filtered_hotel_count: 0,
-    priceRange: { min: 10, max: 300 },
+    priceRangeMin: 50,
+    priceRangeMax: 300,
+    amenities_filters: [],
   },
   reducers: {
     setPopularFilter: (state, action) => {
@@ -17,13 +18,21 @@ export const hotelFiltersSlice = createSlice({
     },
 
     setPriceRangeFilter: (state, action) => {
-      state.priceRange = action.payload;
+      state.priceRangeMin = action.payload.priceRangeMin;
+      state.priceRangeMax = action.payload.priceRangeMax;
+    },
+
+    setAmenitiesFilter: (state, action) => {
+      // mutating state works!, becaure of 'Immer'
+      action.payload.add
+        ? state.amenities_filters.push(action.payload.amenities_filter)
+        : state.amenities_filters.pop(action.payload.amenities_filter);
     },
   },
 });
 
 // this is for dispatch
-export const { setPopularFilter, setPriceRangeFilter } =
+export const { setPopularFilter, setPriceRangeFilter, setAmenitiesFilter } =
   hotelFiltersSlice.actions;
 
 // this is for configureStore

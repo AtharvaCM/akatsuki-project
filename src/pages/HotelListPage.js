@@ -23,7 +23,9 @@ import HotelListFilters from "../components/HotelListFilters/HotelListFilters";
 const hotelListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/`;
 
 const HotelListPage = () => {
-  const { popular_filters } = useSelector((state) => state.hotelFilters);
+  const { popular_filters, amenities_filters } = useSelector(
+    (state) => state.hotelFilters
+  );
 
   const {
     location: searchedLocation,
@@ -83,7 +85,7 @@ const HotelListPage = () => {
     }
   }, [loaded]);
 
-  useEffect(() => {}, [popular_filters]);
+  useEffect(() => {}, [popular_filters, amenities_filters]);
 
   if (loaded) {
     hotelList.forEach((hotel) => {
@@ -123,7 +125,12 @@ const HotelListPage = () => {
         </Typography>
       )}
       <Grid container>
-        <Grid item xs={12} md={3}>
+        <Grid
+          item
+          xs={12}
+          md={3}
+          sx={{ position: "sticky", top: "10%", justifyContent: "flexStart" }}
+        >
           <HotelListFilters
             hotelNameList={hotelNameList}
             hotelIdList={hotelIdList}
@@ -144,7 +151,12 @@ const HotelListPage = () => {
                 (popular_filters.length < 1 ||
                   // filteredHotelCount < 1 ||
                   popular_filters.some((feature) =>
-                    hotel.features.includes(feature)
+                    hotel.amenities.includes(feature)
+                  )) &&
+                (amenities_filters.length < 1 ||
+                  // filteredHotelCount < 1 ||
+                  amenities_filters.some((feature) =>
+                    hotel.amenities.includes(feature)
                   )) && (
                   <HotelListCard
                     key={hotel.id}

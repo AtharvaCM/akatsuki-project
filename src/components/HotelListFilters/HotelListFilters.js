@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 // router
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 
 // redux
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 // Routes
 import { ROUTES } from "../../utils/constants/routingPathConstants";
@@ -22,6 +22,7 @@ import { ROUTES } from "../../utils/constants/routingPathConstants";
 // actions
 import {
   setPopularFilter,
+  setAmenitiesFilter,
   setPriceRangeFilter,
 } from "../../store/hotelFiltersSlice";
 
@@ -41,6 +42,7 @@ const FACILITIES = [
   "Room Service",
   "Infinity Pool",
   "Spa",
+  "Baby Changing Station",
 ];
 
 // const [selectedPopularFilters, setSelectedPopularFilters] = useState([]);
@@ -64,6 +66,24 @@ const HotelListFilters = (props) => {
         setPopularFilter({
           add: false,
           popular_filter: e.target.name,
+        })
+      );
+    }
+  };
+
+  const facilitiesFiltersChangeHandler = (e) => {
+    if (e.target.checked) {
+      dispatch(
+        setAmenitiesFilter({
+          add: true,
+          amenities_filter: e.target.name,
+        })
+      );
+    } else {
+      dispatch(
+        setAmenitiesFilter({
+          add: false,
+          amenities_filter: e.target.name,
         })
       );
     }
@@ -164,7 +184,10 @@ const HotelListFilters = (props) => {
             sx={{ marginBottom: "0%", alignItems: "center" }}
           >
             <Grid item xs={2} md={2}>
-              <Checkbox name={facility}></Checkbox>
+              <Checkbox
+                name={facility}
+                onChange={facilitiesFiltersChangeHandler}
+              ></Checkbox>
             </Grid>
             <Grid item xs={10} md={10}>
               {facility}

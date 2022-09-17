@@ -43,8 +43,15 @@ import { updateRoomPrice } from "../../store/roomTypeSlice";
 import { useAxios } from "../../hooks/useAxios";
 
 const HotelListCard = (props) => {
-  const { priceRange } = useSelector((state) => state.hotelFilters);
-  console.log(priceRange);
+  const {
+    checkInDate: searchedCheckInDate,
+    checkOutDate: searchedCheckOutDate,
+  } = useSelector((state) => state.searchHotel);
+
+  const { priceRangeMin, priceRangeMax } = useSelector(
+    (state) => state.hotelFilters
+  );
+  // console.log(priceRange);
   const {
     loaded: priceLoaded,
     data: priceListData,
@@ -55,7 +62,12 @@ const HotelListCard = (props) => {
   const [roomPrice, setRoomPrice] = useState(0);
   const [roomCapacity, setRoomCapacity] = useState(0);
 
-  const callPriceURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${props.id}/room-prices`;
+  const callPriceURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${
+    props.id
+  }/room-prices?check_in_date=${searchedCheckInDate.substring(
+    1,
+    11
+  )}&check_out_date=${searchedCheckOutDate.substring(1, 11)}`;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -79,7 +91,7 @@ const HotelListCard = (props) => {
 
   // when api response is available, set price and capacity in state
   useEffect(() => {
-    if (priceLoaded) {
+    if (priceLoaded && priceListData.data) {
       setRoomPrice(priceListData.data[0].cost);
       setRoomCapacity(priceListData.data[0].capacity_per_room);
     }
@@ -90,9 +102,8 @@ const HotelListCard = (props) => {
   }
 
   return (
-    roomPrice &&
-    roomPrice >= priceRange.priceRange.min &&
-    roomPrice <= priceRange.priceRange.max && (
+    roomPrice >= priceRangeMin &&
+    roomPrice <= priceRangeMax && (
       <Card sx={{ borderRadius: "24px", marginBottom: "2rem" }}>
         <Grid container>
           {/* Hotel Image */}

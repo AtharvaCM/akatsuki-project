@@ -73,6 +73,8 @@ const HotelBookingCard = (props) => {
     roomType: selectedRoomType,
   } = useSelector((state) => state.roomPrice);
 
+  const { token } = useSelector((state) => state.login);
+
   // Importing dates and location from store
   const {
     location: searchedLocation,
@@ -241,7 +243,7 @@ const HotelBookingCard = (props) => {
     dispatch(setBookingDetails({ ...payload, hotel_name: props.hotel_name }));
 
     // POST booking request
-    callBookingAPI(bookingURL, "POST", payload);
+    callBookingAPI(bookingURL, "POST", payload, { "x-access-token": token });
   };
 
   // when booking api response is received
