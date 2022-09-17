@@ -43,6 +43,7 @@ const BreadCrumbsData = [{ label: "Hotel List", route: ROUTES.HOTEL_LIST }];
 
 const HotelDetailsPage = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const {
     data: dataHotelDetails,
@@ -57,7 +58,6 @@ const HotelDetailsPage = () => {
     callAPI: callAPIHotelExtraFeatures,
   } = useAxios();
 
-  const location = useLocation();
   // get hotel id from url
   const hotel_id = location.pathname.split("/").at(-1);
 
@@ -86,7 +86,7 @@ const HotelDetailsPage = () => {
   }, []);
 
   useEffect(() => {
-    if (loadedHotelDetails) {
+    if (loadedHotelDetails && dataHotelDetails.data) {
       dispatch(
         setHotelDetails({
           id: dataHotelDetails.data.id,
