@@ -3,6 +3,9 @@ import SearchWidget from "../components/SearchWidget/SearchWidget";
 import HomeHeadline from "../components/HomeHeadline/HomeHeadline";
 
 const HomePage = () => {
+  // enable body overflow
+  document.body.style.overflow = "auto";
+
   return (
     <>
       <div>

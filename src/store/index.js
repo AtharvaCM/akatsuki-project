@@ -4,6 +4,8 @@ import { configureStore } from "@reduxjs/toolkit";
 
 // slice reducers
 import searchHotelReducer from "../store/searchHotelSlice";
+import loginReducer from "../store/loginSlice";
+
 import roomPriceReducer from "../store/roomTypeSlice";
 import hotelDetailsReducer from "../store/hotelDetailsSlice";
 import bookingDetailsReducer from "../store/bookingDetailsSlice";
@@ -14,5 +16,6 @@ export default configureStore({
     roomPrice: roomPriceReducer,
     hotelDetails: hotelDetailsReducer,
     bookingDetails: bookingDetailsReducer,
+    login: loginReducer,
   },
 });
