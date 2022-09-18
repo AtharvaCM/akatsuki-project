@@ -99,7 +99,7 @@ const SearchWidget = () => {
                 <Autocomplete
                   disablePortal
                   loading={!loaded}
-                  options={loaded ? data.data : []}
+                  options={loaded && data ? data.data : []}
                   value={location}
                   className={styles["input"]}
                   onChange={(event, value) => {
@@ -134,6 +134,7 @@ const SearchWidget = () => {
                         {...params}
                         autoComplete="off"
                         required={true}
+                        onKeyDown={(event) => event.preventDefault()}
                       />
                     )}
                   />
@@ -157,6 +158,7 @@ const SearchWidget = () => {
                         {...params}
                         autoComplete="off"
                         required={true}
+                        onKeyDown={(event) => event.preventDefault()}
                       />
                     )}
                   />
@@ -169,6 +171,7 @@ const SearchWidget = () => {
                   size="large"
                   color="primary"
                   className={styles["searchbtn"]}
+                  style={{textTransform:"capitalize",fontSize:"20px"}}
                 >
                   Search
                 </Button>

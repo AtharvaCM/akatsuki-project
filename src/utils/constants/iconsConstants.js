@@ -20,6 +20,12 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import WineBarIcon from "@mui/icons-material/WineBar";
 import LocalParkingOutlinedIcon from "@mui/icons-material/LocalParkingOutlined";
 import SpaIcon from "@mui/icons-material/Spa";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
+import TvIcon from "@mui/icons-material/Tv";
+import MusicOffIcon from "@mui/icons-material/MusicOff";
+import DeckIcon from "@mui/icons-material/Deck";
+import LocationCityIcon from "@mui/icons-material/LocationCity";
+import LandscapeIcon from "@mui/icons-material/Landscape";
 
 export const FEATURES_ICONS = {
   "Free Wifi": <WifiIcon />,
@@ -46,4 +52,11 @@ export const FEATURES_ICONS = {
   "Breakfast included": <RestaurantOutlinedIcon />,
   Restaurant: <RestaurantMenuIcon />,
   "Covid safety kit": <CoronavirusOutlinedIcon />,
+  "Air conditioning": <AcUnitIcon/>,
+  "Flat-Screen TV": <TvIcon/>,
+  "Sound Proof" : <MusicOffIcon/>,
+  "Patio" : <DeckIcon/>,
+  "City View" : <LocationCityIcon/>,
+  "City view" : <LocationCityIcon/>,
+  "Mountain View" : <LandscapeIcon/>
 };
