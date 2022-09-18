@@ -306,7 +306,7 @@ const HotelBookingCard = (props) => {
           <Grid container className={styles["card_header"]}>
             <Grid item xs={6} md={6}>
               <Typography variant="h6">
-                {isDiscountApplied ? roomPrice ?? 0 : roomOriginalPrice ?? 0}
+                ${isDiscountApplied ? roomPrice ?? 0 : roomOriginalPrice ?? 0}
                 <span className={styles["night_text"]}>/night</span>
               </Typography>
             </Grid>

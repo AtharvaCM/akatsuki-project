@@ -93,7 +93,7 @@ const RoomTypeCard = (props) => {
             <Grid item xs={3} textAlign={"right"}>
               <div>
                 <Typography variant="h6">
-                  {isDiscountApplied ? discountedPrice : price}
+                  ${isDiscountApplied ? discountedPrice : price}
                   <span style={{ color: "#A4A2A2", fontSize: "16px" }}>
                     /night
                   </span>
