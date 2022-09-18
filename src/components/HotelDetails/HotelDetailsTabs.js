@@ -120,6 +120,7 @@ const HotelDetailsTabs = (props) => {
                           ? true
                           : false
                       }
+                      features={room.features}
                       room_type={room.room_type}
                       total_rooms={room.total_rooms}
                       available_rooms={room.available_rooms}
