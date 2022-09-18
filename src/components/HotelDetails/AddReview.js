@@ -26,7 +26,7 @@ const AddReview = (props) => {
   const { data, loaded, error, callAPI } = useAxios();
 
   // selector
-  const { token } = useSelector((state) => state.login);
+  const { token ,userId } = useSelector((state) => state.login);
 
   // states
   const [loadingDisabled, setLoadingDisabled] = useState(true);
@@ -43,7 +43,7 @@ const AddReview = (props) => {
     const reqBody = JSON.stringify({
       rating: rating,
       comment: comment,
-      user_id: 2,
+      user_id: userId,
     });
     callAPI(addReviewURL, "POST", reqBody, { "x-access-token": token });
   };
