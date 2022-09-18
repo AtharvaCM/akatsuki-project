@@ -11,7 +11,6 @@ import HotelRecommendationCard from "./HotelRecommendationCard";
 
 // Custom Hook
 import { useAxios } from "../../hooks/useAxios";
-import LocationRecommendationCard from "./LocationRecommendationCard";
 
 const HotelRecommendation = () => {
   const { data, loaded, error, callAPI } = useAxios();
@@ -70,10 +69,8 @@ const HotelRecommendation = () => {
               hotelDp={hotel.hotel_dp}
               hotelId={hotel.id}
             />
-            
           ))}
       </Box>
-      
     </Box>
   );
 };
