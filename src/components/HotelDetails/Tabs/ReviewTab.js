@@ -17,6 +17,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 // Custom hooks
 import { useAxios } from "../../../hooks/useAxios";
+import { useSelector } from "react-redux";
 
 const ReviewTab = (props) => {
   const { data, error, loaded, callAPI, setLoaded } = useAxios();
@@ -34,13 +35,16 @@ const ReviewTab = (props) => {
   const [userReview, setUserReview] = useState(null);
   const [reviewsList, setReviewsList] = useState(null);
 
+  //selector
+  const { userId } = useSelector( (state) => state.login )
+
   // const checkReviewURL = `http://127.0.0.1:5000/api/v1/hotels/${
   //   props.hotel_id
   // }/reviews/check-review?user_id=${2}`;
   // const reviewsListURL = `http://127.0.0.1:5000/api/v1/hotels/${props.hotel_id}/reviews`;
   const checkReviewURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${
     props.hotel_id
-  }/reviews/check-review?user_id=${2}`;
+  }/reviews/check-review?user_id=${userId}`;
   const reviewsListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${props.hotel_id}/reviews`;
 
   // on load, chcek if the user has already posted a review
