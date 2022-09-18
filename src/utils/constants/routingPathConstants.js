@@ -3,5 +3,5 @@ export const ROUTES = {
   HOTEL_LIST: "/hotel-list",
   HOTEL_DETAILS: "/hotel-details",
   BOOKING_CONFIRMATION: "/booking-confirmation",
-  LOGIN_PAGE:"/login-page"
+  LOGIN_PAGE: "/login",
 };
