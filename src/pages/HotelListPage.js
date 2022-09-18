@@ -75,11 +75,11 @@ const HotelListPage = () => {
     if (!isViewMoreClicked) {
       setHotelList([]);
 
-      if (loaded) {
+      if (loaded && hotel_list_data.data) {
         setHotelList([...hotel_list_data.data]);
       }
     } else {
-      if (loaded) {
+      if (loaded && hotel_list_data.data) {
         setHotelList((prevState) => [...prevState, ...hotel_list_data.data]);
       }
     }

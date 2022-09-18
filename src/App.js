@@ -17,6 +17,9 @@ import Footer from "./components/Footer/Footer";
 // context
 import ColorModeContext from "./store/color-mode-context";
 
+// error boundary
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
+
 const App = () => {
   const [mode, setMode] = useState("light");
   const colorMode = useMemo(
@@ -43,14 +46,16 @@ const App = () => {
 
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Header />
-        <main style={styles.main}>
-          <Router />
-        </main>
-        <Footer />
-      </ThemeProvider>
+      <ErrorBoundary>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Header />
+          <main style={styles.main}>
+            <Router />
+          </main>
+          <Footer />
+        </ThemeProvider>
+      </ErrorBoundary>
     </ColorModeContext.Provider>
   );
 };
