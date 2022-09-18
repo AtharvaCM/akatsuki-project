@@ -24,20 +24,20 @@ import { useAxios } from "../hooks/useAxios";
 // actions
 import { setHotelDetails } from "../store/hotelDetailsSlice";
 
-const amenities = [
-  "Kins bed",
-  "Bath tub",
-  "Fire Extinguisher",
-  "Complimentary drink",
-  "Baby changing station",
-  "Room Service",
-  "Smart TV",
-  "Laundary Service",
-  "Deck",
-  "Duty free",
-  "Breakfast included",
-  "Covid safety kit",
-];
+// const amenities = [
+//   "Kins bed",
+//   "Bath tub",
+//   "Fire Extinguisher",
+//   "Complimentary drink",
+//   "Baby changing station",
+//   "Room Service",
+//   "Smart TV",
+//   "Laundary Service",
+//   "Deck",
+//   "Duty free",
+//   "Breakfast included",
+//   "Covid safety kit",
+// ];
 
 const BreadCrumbsData = [{ label: "Hotel List", route: ROUTES.HOTEL_LIST }];
 
@@ -83,6 +83,7 @@ const HotelDetailsPage = () => {
     address,
     description,
     features,
+    amenities,
     ratings,
     reviews_count,
     room_images,
@@ -121,6 +122,7 @@ const HotelDetailsPage = () => {
           address: dataHotelDetails.data.address,
           description: dataHotelDetails.data.description,
           features: dataHotelDetails.data.features,
+          amenities: dataHotelDetails.data.amenities,
           ratings: dataHotelDetails.data.ratings,
           reviews_count: 234,
           room_images: dataHotelDetails.data.room_images,

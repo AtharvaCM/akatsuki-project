@@ -1,7 +1,7 @@
 // Author: AtharvaCM
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-
+import dayjs from "dayjs";
 // router
 import { useNavigate } from "react-router-dom";
 
@@ -17,23 +17,16 @@ import CircularProgress from "@mui/material/CircularProgress";
 // MUI icons
 import StarIcon from "@mui/icons-material/Star";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-// import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-// import FlightOutlinedIcon from "@mui/icons-material/FlightOutlined";
-import WifiOutlinedIcon from "@mui/icons-material/WifiOutlined";
-import DirectionsCarOutlinedIcon from "@mui/icons-material/DirectionsCarOutlined";
-import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
-import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
-
-// assets
-import { ReactComponent as DatabaseIcon } from "../../assets/images/database_icon.svg";
+import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
 
 // styles
 import styles from "./HotelListCard.module.css";
 
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // Routes
+import { FEATURES_ICONS } from "../../utils/constants/iconsConstants";
 import { ROUTES } from "../../utils/constants/routingPathConstants";
 
 // actions
@@ -44,6 +37,15 @@ import { useAxios } from "../../hooks/useAxios";
 
 const HotelListCard = (props) => {
   const {
+    checkInDate: searchedCheckInDate,
+    checkOutDate: searchedCheckOutDate,
+  } = useSelector((state) => state.searchHotel);
+
+  const { priceRangeMin, priceRangeMax } = useSelector(
+    (state) => state.hotelFilters
+  );
+  // console.log(priceRange);
+  const {
     loaded: priceLoaded,
     data: priceListData,
     error: priceError,
@@ -53,7 +55,12 @@ const HotelListCard = (props) => {
   const [roomPrice, setRoomPrice] = useState(0);
   const [roomCapacity, setRoomCapacity] = useState(0);
 
-  const callPriceURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${props.id}/room-prices`;
+  const callPriceURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${
+    props.id
+  }/room-prices?check_in_date=${searchedCheckInDate.substring(
+    1,
+    11
+  )}&check_out_date=${searchedCheckOutDate.substring(1, 11)}`;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -77,7 +84,7 @@ const HotelListCard = (props) => {
 
   // when api response is available, set price and capacity in state
   useEffect(() => {
-    if (priceLoaded) {
+    if (priceLoaded && priceListData.data) {
       setRoomPrice(priceListData.data[0].cost);
       setRoomCapacity(priceListData.data[0].capacity_per_room);
     }
@@ -88,145 +95,170 @@ const HotelListCard = (props) => {
   }
 
   return (
-    <Card sx={{ borderRadius: "24px", marginBottom: "2rem" }}>
-      <Grid container>
-        {/* Hotel Image */}
-        <Grid item md={5}>
-          <CardMedia
-            component="img"
-            height="467"
-            width="410"
-            image={props.hotel_dp}
-            alt={props.name}
-          />
-        </Grid>
+    roomPrice >= priceRangeMin &&
+    roomPrice <= priceRangeMax && (
+      <Card sx={{ borderRadius: "24px", marginBottom: "2rem" }}>
+        <Grid container>
+          {/* Hotel Image */}
+          <Grid item md={5}>
+            <CardMedia
+              component="img"
+              height="467"
+              width="410"
+              image={props.hotel_dp}
+              alt={props.name}
+            />
+          </Grid>
 
-        {/* Hotel Details */}
-        <Grid item md={7} className={styles.hotelDetailsGridItem}>
-          <CardContent className={styles.hotelDetailsCardContent}>
-            <Typography
-              variant="h4"
-              component="h4"
-              gutterBottom
-              fontWeight={"bolder"}
-              className={styles.hotelLocation}
-            >
-              {props.state}, {props.country}
-            </Typography>
-            <Typography
-              variant="h5"
-              component="h5"
-              gutterBottom
-              fontWeight={"bolder"}
-            >
-              {props.name}
-            </Typography>
-            {/* Ratings */}
-            <span className={styles.ratingsSpan}>
-              <StarIcon className={styles.ratingsIcon} />
-              <Typography variant="body1" className={styles.iconLabels}>
-                {props.ratings} ({props.reviews_count} reviews)
+          {/* Hotel Details */}
+          <Grid item md={7} className={styles.hotelDetailsGridItem}>
+            <CardContent className={styles.hotelDetailsCardContent}>
+              <Typography
+                variant="h4"
+                component="h4"
+                gutterBottom
+                fontWeight={"bolder"}
+                className={styles.hotelLocation}
+              >
+                {props.state}, {props.country}
               </Typography>
-            </span>
-            <Grid container>
-              {/* Address */}
-              <Grid item md={7} className={styles.alignCenter}>
-                <LocationOnOutlinedIcon className={styles.icon} />
-                <address
-                  className={`${styles.iconLabels} ${styles.hotelAddress}`}
-                >
-                  {props.address}
-                </address>
-              </Grid>
-              {/* Dates */}
-              {/* <Grid item md={5} className={styles.alignCenter}>
-                <DateRangeOutlinedIcon className={styles.icon} />
+              <Typography
+                variant="h5"
+                component="h5"
+                gutterBottom
+                fontWeight={"bolder"}
+              >
+                {props.name}
+              </Typography>
+              {/* Ratings */}
+              <span className={styles.ratingsSpan}>
+                <StarIcon className={styles.ratingsIcon} />
                 <Typography variant="body1" className={styles.iconLabels}>
-                  {props.check_in_date} - {props.check_out_date}
+                  {props.ratings} ({props.reviews_count} reviews)
                 </Typography>
-              </Grid> */}
-            </Grid>
-            {/* Departure */}
-            {/* <span className={styles.departure}>
+              </span>
+              <Grid container>
+                {/* Address */}
+                <Grid item md={7} className={styles.alignCenter}>
+                  <LocationOnOutlinedIcon className={styles.icon} />
+                  <address
+                    className={`${styles.iconLabels} ${styles.hotelAddress}`}
+                  >
+                    {props.address}
+                  </address>
+                </Grid>
+                {/* Dates */}
+                <Grid item md={5} className={styles.alignCenter}>
+                  <DateRangeOutlinedIcon className={styles.icon} />
+                  <Typography
+                    variant="caption1"
+                    sx={{ fontSize: "12px" }}
+                    className={styles.iconLabels}
+                  >
+                    {`${dayjs(props.check_in_date)
+                      .add(1, "day")
+                      .format("DD.MM.YY")} - ${dayjs(props.check_out_date)
+                      .add(1, "day")
+                      .format("DD.MM.YY")}`}
+                    {/* {props.check_in_date} - {props.check_out_date} */}
+                  </Typography>
+                </Grid>
+              </Grid>
+              {/* Departure */}
+              {/* <span className={styles.departure}>
               <FlightOutlinedIcon className={styles.icon} />
               <Typography variant="body1" className={styles.iconLabels}>
                 Departure from {props.departure}
               </Typography>
             </span> */}
 
-            <Grid container>
-              {/* Hotel features */}
-              <Grid item md={6}>
-                <div className={styles.hotelFeatures}>
-                  <span>
-                    <WifiOutlinedIcon className={styles.icon} />
-                    <Typography variant="body1" className={styles.iconLabels}>
-                      Free Wifi
-                    </Typography>
-                  </span>
-                  <span>
-                    <DirectionsCarOutlinedIcon className={styles.icon} />
-                    <Typography variant="body1" className={styles.iconLabels}>
-                      Free Parking
-                    </Typography>
-                  </span>
-                  <span>
-                    <LocalOfferOutlinedIcon className={styles.icon} />
-                    <Typography variant="body1" className={styles.iconLabels}>
-                      Special Offer
-                    </Typography>
-                  </span>
-                  <span>
-                    <LanguageOutlinedIcon className={styles.icon} />
-                    <Typography variant="body1" className={styles.iconLabels}>
-                      Visit Hotel Website
-                    </Typography>
-                  </span>
-                  <span>
-                    <DatabaseIcon className={styles.dbIcon} />
-                    <Typography variant="body1" className={styles.iconLabels}>
-                      Taking Safety Measures
-                    </Typography>
-                  </span>
-                </div>
-              </Grid>
-              {/* Book Now Buttons */}
-              <Grid item md={6}>
-                <div className={styles.bookNowButtons}>
-                  {/* Price chip */}
-                  <Chip
-                    label={
-                      <span className={styles.priceChipSpan}>
-                        {!priceLoaded && <CircularProgress />}
-                        {priceLoaded && (
-                          <>
-                            <Typography variant="h6">${roomPrice}</Typography>
-                            <Typography variant="caption">
-                              For {roomCapacity} people
-                            </Typography>
-                          </>
-                        )}
-                      </span>
-                    }
-                  />
-                  {/* Book now chip */}
-                  <Chip
-                    color="primary"
-                    sx={{ mt: "15px" }}
-                    label={
-                      <Typography variant="h6" className={styles.bookNowLabel}>
-                        Book Now
+              <Grid container>
+                {/* Hotel features */}
+                <Grid item md={6} mt={3}>
+                  <div className={styles.hotelFeatures}>
+                    {props.features.slice(1).map((feature) => (
+                      <div key={feature} style={{ marginTop: "5%" }}>
+                        {/* <WifiOutlinedIcon className={styles.icon} /> */}
+                        <span
+                          className={`${styles["icon"]} ${styles["alignCenter"]}`}
+                        >
+                          {FEATURES_ICONS[feature]}
+                          <Typography
+                            variant="body1"
+                            className={styles.iconLabels}
+                          >
+                            {feature}
+                          </Typography>
+                        </span>
+                      </div>
+                    ))}
+                    {/* <span>
+                      <DirectionsCarOutlinedIcon className={styles.icon} />
+                      <Typography variant="body1" className={styles.iconLabels}>
+                        Free Parking
                       </Typography>
-                    }
-                    onClick={handleBookNow}
-                  />
-                </div>
+                    </span>
+                    <span>
+                      <LocalOfferOutlinedIcon className={styles.icon} />
+                      <Typography variant="body1" className={styles.iconLabels}>
+                        Special Offer
+                      </Typography>
+                    </span>
+                    <span>
+                      <LanguageOutlinedIcon className={styles.icon} />
+                      <Typography variant="body1" className={styles.iconLabels}>
+                        Visit Hotel Website
+                      </Typography>
+                    </span>
+                    <span>
+                      <DatabaseIcon className={styles.dbIcon} />
+                      <Typography variant="body1" className={styles.iconLabels}>
+                        Taking Safety Measures
+                      </Typography>
+                    </span> */}
+                  </div>
+                </Grid>
+                {/* Book Now Buttons */}
+                <Grid item md={6} mt={4}>
+                  <div className={styles.bookNowButtons}>
+                    {/* Price chip */}
+                    <Chip
+                      label={
+                        <span className={styles.priceChipSpan}>
+                          {!priceLoaded && <CircularProgress />}
+                          {priceLoaded && (
+                            <>
+                              <Typography variant="h6">${roomPrice}</Typography>
+                              <Typography variant="caption">
+                                For {roomCapacity} people
+                              </Typography>
+                            </>
+                          )}
+                        </span>
+                      }
+                    />
+                    {/* Book now chip */}
+                    <Chip
+                      color="primary"
+                      sx={{ mt: "15px" }}
+                      label={
+                        <Typography
+                          variant="h6"
+                          className={styles.bookNowLabel}
+                        >
+                          Book Now
+                        </Typography>
+                      }
+                      onClick={handleBookNow}
+                    />
+                  </div>
+                </Grid>
               </Grid>
-            </Grid>
-          </CardContent>
+            </CardContent>
+          </Grid>
         </Grid>
-      </Grid>
-    </Card>
+      </Card>
+    )
   );
 };
 

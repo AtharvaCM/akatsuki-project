@@ -26,6 +26,10 @@ import MusicOffIcon from "@mui/icons-material/MusicOff";
 import DeckIcon from "@mui/icons-material/Deck";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import LandscapeIcon from "@mui/icons-material/Landscape";
+import DeskIcon from "@mui/icons-material/Desk";
+import PetsIcon from "@mui/icons-material/Pets";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 
 export const FEATURES_ICONS = {
   "Free Wifi": <WifiIcon />,
@@ -33,15 +37,20 @@ export const FEATURES_ICONS = {
   "Wi-fi": <WifiIcon />,
   Spa: <SpaIcon />,
   "Infinity Pool": <PoolIcon />,
+  "Swimming Pool": <PoolIcon />,
+  "24-hour Front Desk": <DeskIcon />,
+  "Pet Friendly": <PetsIcon />,
   "Golf Course": <GolfCourseIcon />,
   "Airport Shuttle": <AirportShuttleOutlinedIcon />,
   "On Call Doctor": <LocalHospitalOutlinedIcon />,
   "Covid safety Protocols": <CoronavirusOutlinedIcon />,
   "Kins bed": <HotelOutlinedIcon />,
   "Bath tub": <BathtubOutlinedIcon />,
+  "Bath Tub": <BathtubOutlinedIcon />,
   "Fire Extinguisher": <FireExtinguisherOutlinedIcon />,
   "Complimentary drink": <WineBarOutlinedIcon />,
   "Baby changing station": <BabyChangingStationOutlinedIcon />,
+  "Baby Changing Station": <BabyChangingStationOutlinedIcon />,
   "Room Service": <RoomServiceOutlinedIcon />,
   "Smart TV": <LiveTvOutlinedIcon />,
   "Laundary Service": <LocalLaundryServiceOutlinedIcon />,
@@ -50,13 +59,17 @@ export const FEATURES_ICONS = {
   "Free Parking": <LocalParkingOutlinedIcon />,
   "Duty free": <LocalMallOutlinedIcon />,
   "Breakfast included": <RestaurantOutlinedIcon />,
+  Breakfast: <RestaurantOutlinedIcon />,
   Restaurant: <RestaurantMenuIcon />,
   "Covid safety kit": <CoronavirusOutlinedIcon />,
-  "Air conditioning": <AcUnitIcon/>,
-  "Flat-Screen TV": <TvIcon/>,
-  "Sound Proof" : <MusicOffIcon/>,
-  "Patio" : <DeckIcon/>,
-  "City View" : <LocationCityIcon/>,
-  "City view" : <LocationCityIcon/>,
-  "Mountain View" : <LandscapeIcon/>
+  "Covid Safety Kit": <CoronavirusOutlinedIcon />,
+  "Air conditioning": <AcUnitIcon />,
+  "Flat-Screen TV": <TvIcon />,
+  "Sound Proof": <MusicOffIcon />,
+  Patio: <DeckIcon />,
+  "Fitness Center": <FitnessCenterIcon />,
+  "Duty Free": <LocalOfferIcon />,
+  "City View": <LocationCityIcon />,
+  "City view": <LocationCityIcon />,
+  "Mountain View": <LandscapeIcon />,
 };
