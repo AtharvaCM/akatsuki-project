@@ -99,7 +99,7 @@ const SearchWidget = () => {
                 <Autocomplete
                   disablePortal
                   loading={!loaded}
-                  options={loaded ? data.data : []}
+                  options={loaded && data ? data.data : []}
                   value={location}
                   className={styles["input"]}
                   onChange={(event, value) => {

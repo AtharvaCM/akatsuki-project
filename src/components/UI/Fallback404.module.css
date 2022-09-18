@@ -1,10 +1,10 @@
 body {
-  background-color: #95c2de;
+  background-color: white;
   overflow: hidden;
 }
 
 .mainbox {
-  background-color: #95c2de;
+  background-color: aliceblue;
   box-sizing: border-box;
   margin: auto;
   height: 100vh;
@@ -18,11 +18,11 @@ body {
 }
 
 .err {
-  color: #ffffff;
+  color: #2918EE;
   font-family: "Nunito Sans", sans-serif;
   font-size: 11rem;
   position: absolute;
-  left: 32%;
+  left: 35%;
   top: 8%;
 }
 
@@ -35,7 +35,7 @@ body {
 }
 
 .err2 {
-  color: #ffffff;
+  color: #2918EE;
   font-family: "Nunito Sans", sans-serif;
   font-size: 11rem;
   position: absolute;
@@ -60,7 +60,7 @@ body {
   /*optional*/
   font-family: arial, sans-serif;
   /*input has OS specific font-family*/
-  color: white;
+  color: #2918EE;
   text-decoration: none;
   cursor: pointer;
   font-size: 1.6rem;
