@@ -10,15 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 // actions
 import { updateRoomPrice } from "../../store/roomTypeSlice";
 
-const services = [
-  "Free Wifi",
-  "Breakfast for two people",
-  "No-refundable",
-  "No-refundable",
-];
-
-// const room_type = "Double Room";
-
 const RoomTypeCard = (props) => {
   const offerPercentage = 10;
   const hikePercentage = 20;
@@ -82,7 +73,7 @@ const RoomTypeCard = (props) => {
                   columns={{ xs: 4, sm: 8, md: 12 }}
                   sx={{ flexDirection: "row" }}
                 >
-                  {services.map((service, index) => (
+                  {props.features.map((service, index) => (
                     <Grid item xs={2} sm={4} md={4} key={index}>
                       <span style={{ display: "flex", alignItems: "flex-end" }}>
                         <CheckIcon
@@ -155,6 +146,7 @@ RoomTypeCard.propTypes = {
   isHiked: PropTypes.bool,
   isDiscountApplied: PropTypes.bool,
   room_type: PropTypes.string,
+  features: PropTypes.array,
   available_rooms: PropTypes.number,
   total_rooms: PropTypes.number,
   capacity: PropTypes.number,
