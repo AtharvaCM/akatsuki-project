@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+// router
+import { useNavigate } from "react-router-dom";
 
 import {
   Autocomplete,
@@ -11,34 +13,98 @@ import {
   Typography,
 } from "@mui/material";
 
+// redux
+import { useDispatch } from "react-redux";
+
+// Routes
+import { ROUTES } from "../../utils/constants/routingPathConstants";
+
+// actions
+import {
+  setPopularFilter,
+  setAmenitiesFilter,
+  setPriceRangeFilter,
+} from "../../store/hotelFiltersSlice";
+
 import Slider from "@mui/material/Slider";
 
 // CSS Imports
 // import styles from "./HotelListFilters.module.css";
 
-const POPULAR_FILTERS = [
-  "Hotels",
-  "Breakfast and Dinner",
-  "Free Cancelation",
-  "No Prepayment",
-];
+const POPULAR_FILTERS = ["Mountain View", "City View", "Sound Proof", "Patio"];
 
-const PROPERTY_TYPE = ["Hotels", "Appartments", "Resort"];
+// const PROPERTY_TYPE = ["Hotels", "Appartments", "Resort"];
 
 const FACILITIES = [
   "Outdoor Sports",
   "Barbeque",
   "Living Room",
-  "Room Service",
-  "Infinity Pool",
+  "Bath Tub",
+  "Bar",
   "Spa",
+  "Baby Changing Station",
 ];
 
+// const [selectedPopularFilters, setSelectedPopularFilters] = useState([]);
+
 const HotelListFilters = (props) => {
-  const [priceRange, setPriceRange] = useState([50, 500]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // const { popular_filters } = useSelector((state) => state.hotelFilters);
+
+  // console.log("dispatch", popular_filters);
+  const popularFiltersChangeHandler = (e) => {
+    if (e.target.checked) {
+      dispatch(
+        setPopularFilter({
+          add: true,
+          popular_filter: e.target.name,
+        })
+      );
+    } else {
+      dispatch(
+        setPopularFilter({
+          add: false,
+          popular_filter: e.target.name,
+        })
+      );
+    }
+  };
+
+  const facilitiesFiltersChangeHandler = (e) => {
+    if (e.target.checked) {
+      dispatch(
+        setAmenitiesFilter({
+          add: true,
+          amenities_filter: e.target.name,
+        })
+      );
+    } else {
+      dispatch(
+        setAmenitiesFilter({
+          add: false,
+          amenities_filter: e.target.name,
+        })
+      );
+    }
+  };
+
+  const propertySearchHandler = (hotel_name) => {
+    const hotel_id = props.hotelIdList[props.hotelNameList.indexOf(hotel_name)];
+    // Redirect to hotel detail page
+    navigate(`${ROUTES.HOTEL_DETAILS}/${hotel_id}`);
+  };
+
+  const [priceRange, setPriceRange] = useState([50, 300]);
 
   const priceRangeChangeHandler = (event, newValue) => {
     setPriceRange(newValue);
+    dispatch(
+      setPriceRangeFilter({
+        priceRangeMin: newValue[0],
+        priceRangeMax: newValue[1],
+      })
+    );
   };
   return (
     <>
@@ -47,6 +113,7 @@ const HotelListFilters = (props) => {
         disablePortal
         options={props.hotelNameList}
         sx={styles.input}
+        onChange={(e, value) => propertySearchHandler(value)}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -64,7 +131,10 @@ const HotelListFilters = (props) => {
             sx={{ marginBottom: "0%", alignItems: "center" }}
           >
             <Grid item xs={2} md={2}>
-              <Checkbox name={popFilter}></Checkbox>
+              <Checkbox
+                name={popFilter}
+                onChange={popularFiltersChangeHandler}
+              ></Checkbox>
             </Grid>
             <Grid item xs={10} md={10}>
               {popFilter}
@@ -74,7 +144,7 @@ const HotelListFilters = (props) => {
       </Box>
       <Divider sx={styles.divider} />
       <Typography variant="h6" sx={{ marginBottom: "15%" }}>
-        Price Range
+        Price Range Per Night
       </Typography>
       <Slider
         getAriaLabel={() => "Minimum distance"}
@@ -82,13 +152,13 @@ const HotelListFilters = (props) => {
         onChange={priceRangeChangeHandler}
         valueLabelDisplay="on"
         min={45}
-        max={2000}
+        max={300}
         valueLabelFormat={(value) => <div>{value}</div>}
         // getAriaValueText={valuetext}
         disableSwap
       />
       <Divider sx={styles.divider} />
-      <Typography variant="h6">Property Type</Typography>
+      {/* <Typography variant="h6">Property Type</Typography>
       <Box>
         {PROPERTY_TYPE.map((propertyType) => (
           <Grid
@@ -105,7 +175,7 @@ const HotelListFilters = (props) => {
           </Grid>
         ))}
       </Box>
-      <Divider sx={styles.divider} />
+      <Divider sx={styles.divider} /> */}
       <Typography variant="h6">Facilities</Typography>
       <Box>
         {FACILITIES.map((facility) => (
@@ -115,7 +185,10 @@ const HotelListFilters = (props) => {
             sx={{ marginBottom: "0%", alignItems: "center" }}
           >
             <Grid item xs={2} md={2}>
-              <Checkbox name={facility}></Checkbox>
+              <Checkbox
+                name={facility}
+                onChange={facilitiesFiltersChangeHandler}
+              ></Checkbox>
             </Grid>
             <Grid item xs={10} md={10}>
               {facility}
@@ -151,6 +224,7 @@ const styles = {
 
 HotelListFilters.propTypes = {
   hotelNameList: PropTypes.array,
+  hotelIdList: PropTypes.array,
 };
 
 export default HotelListFilters;

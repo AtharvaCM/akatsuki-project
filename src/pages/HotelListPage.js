@@ -23,6 +23,10 @@ import HotelListFilters from "../components/HotelListFilters/HotelListFilters";
 const hotelListURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/`;
 
 const HotelListPage = () => {
+  const { popular_filters, amenities_filters } = useSelector(
+    (state) => state.hotelFilters
+  );
+
   const {
     location: searchedLocation,
     checkInDate: searchedCheckInDate,
@@ -31,8 +35,11 @@ const HotelListPage = () => {
 
   const [hotelList, setHotelList] = useState([]);
   const [isViewMoreClicked, setIsViewMoreClicked] = useState(false);
+  // const [filteredHotelCount, setfilteredHotelCount] = useState(0);
   const [page, setPage] = useState(1);
+
   let hotelNameList = [];
+  let hotelIdList = [];
 
   const {
     data: hotel_list_data,
@@ -78,8 +85,15 @@ const HotelListPage = () => {
     }
   }, [loaded]);
 
+  useEffect(() => {}, [popular_filters, amenities_filters]);
+
   if (loaded) {
-    hotelList.map((hotel) => hotelNameList.push(hotel.name));
+    console.log(hotelList);
+    hotelList.forEach((hotel) => {
+      hotelNameList.push(hotel.name);
+      hotelIdList.push(hotel.id);
+    });
+    // hotelList.map((hotel) => );
   }
 
   const handleViewMore = () => {
@@ -112,35 +126,62 @@ const HotelListPage = () => {
         </Typography>
       )}
       <Grid container>
-        <Grid item xs={12} md={3}>
-          <HotelListFilters hotelNameList={hotelNameList} />
+        <Grid
+          item
+          xs={12}
+          md={3}
+          // sx={{ position: "sticky", top: "10%", justifyContent: "flexStart" }}
+        >
+          <HotelListFilters
+            hotelNameList={hotelNameList}
+            hotelIdList={hotelIdList}
+          />
         </Grid>
         <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={8}>
+          {/* {loaded && popular_filters.length > 0 && filteredHotelCount < 1 && (
+            <Typography variant="h6">
+              No Hotels Found with Current Filters !
+            </Typography>
+          )} */}
           {/* hotels map */}
-          {hotelList.length > 0 &&
-            hotelList.map((hotel) => (
-              <HotelListCard
-                key={hotel.id}
-                id={hotel.id}
-                name={hotel.name}
-                country={hotel.country}
-                state={hotel.state}
-                city={hotel.city}
-                hotel_dp={hotel.hotel_dp}
-                address={hotel.address}
-                description={hotel.description}
-                features={hotel.features}
-                check_in_date={searchedCheckInDate.substring(1, 11)}
-                check_out_date={searchedCheckOutDate.substring(1, 11)}
-                ratings={hotel.ratings}
-                reviews_count={234}
-                departure="Kochi"
-                // price={720}
-                // capacity="Two"
-                room_images={hotel.room_images}
-              />
-            ))}
+          {hotelList &&
+            hotelList.length > 0 &&
+            hotelList.map(
+              (hotel) =>
+                (popular_filters.length < 1 ||
+                  JSON.stringify(
+                    popular_filters.filter((feature) =>
+                      hotel.features.includes(feature)
+                    )
+                  ) === JSON.stringify(popular_filters)) &&
+                (amenities_filters.length < 1 ||
+                  JSON.stringify(
+                    amenities_filters.filter((amenity) =>
+                      hotel.amenities.includes(amenity)
+                    )
+                  ) === JSON.stringify(amenities_filters)) && (
+                  <HotelListCard
+                    key={hotel.id}
+                    id={hotel.id}
+                    name={hotel.name}
+                    country={hotel.country}
+                    state={hotel.state}
+                    city={hotel.city}
+                    hotel_dp={hotel.hotel_dp}
+                    address={hotel.address}
+                    description={hotel.description}
+                    features={hotel.features}
+                    check_in_date={searchedCheckInDate.substring(1, 11)}
+                    check_out_date={searchedCheckOutDate.substring(1, 11)}
+                    ratings={hotel.ratings}
+                    reviews_count={234}
+                    departure="Kochi"
+                    room_images={hotel.room_images}
+                    // filter props
+                  />
+                )
+            )}
         </Grid>
       </Grid>
       {!loaded && searchedLocation !== null && (
