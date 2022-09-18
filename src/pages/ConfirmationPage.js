@@ -95,7 +95,7 @@ const ConfirmationPage = () => {
           severity="success"
           sx={{ width: "100%" }}
         >
-          Booking was successful !
+          Booking successful !
         </Alert>
       </Snackbar>
       {/* Alert end*/}
@@ -164,7 +164,9 @@ const ConfirmationPage = () => {
                     <Typography sx={styles.bookingHeaders}>
                       Booking Code
                     </Typography>
-                    <Typography sx={styles.bookingHeaders}>Date</Typography>
+                    <Typography sx={styles.bookingHeaders}>
+                      Booking Date
+                    </Typography>
                     <Typography sx={styles.bookingHeaders}>Total</Typography>
                     <Typography sx={styles.bookingHeaders}>
                       Payment Method
