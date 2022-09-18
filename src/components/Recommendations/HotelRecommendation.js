@@ -80,7 +80,7 @@ const styles = {
     backgroundColor: "#ffffff",
     width: "100%",
     padding: "30px",
-    marginTop: "10px",
+    marginTop: "140px",
   },
   cardContainer: {
     display: "flex",
