@@ -73,9 +73,8 @@ const HotelDetailsPage = () => {
   // URLs
   const HotelDetailsURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${hotel_id}`;
   const HotelExtraFeaturesURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/hotels/${hotel_id}/extrafeatures`;
-  // const HotelRecommendationsURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/recommendation/hotel?id=${user_id}`;
-  const HotelRecommendationsURL =
-    "http://127.0.0.1:5000/api/v1/recommendation/hotel";
+  const HotelRecommendationsURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/recommendation/hotel`;
+  // const HotelRecommendationsURL = "http://127.0.0.1:5000/api/v1/recommendation/hotel";
 
   const {
     hotel_name,
