@@ -88,6 +88,7 @@ const HotelListPage = () => {
   useEffect(() => {}, [popular_filters, amenities_filters]);
 
   if (loaded) {
+    console.log(hotelList);
     hotelList.forEach((hotel) => {
       hotelNameList.push(hotel.name);
       hotelIdList.push(hotel.id);
@@ -129,7 +130,7 @@ const HotelListPage = () => {
           item
           xs={12}
           md={3}
-          sx={{ position: "sticky", top: "10%", justifyContent: "flexStart" }}
+          // sx={{ position: "sticky", top: "10%", justifyContent: "flexStart" }}
         >
           <HotelListFilters
             hotelNameList={hotelNameList}
@@ -149,15 +150,17 @@ const HotelListPage = () => {
             hotelList.map(
               (hotel) =>
                 (popular_filters.length < 1 ||
-                  // filteredHotelCount < 1 ||
-                  popular_filters.some((feature) =>
-                    hotel.amenities.includes(feature)
-                  )) &&
+                  JSON.stringify(
+                    popular_filters.filter((feature) =>
+                      hotel.features.includes(feature)
+                    )
+                  ) === JSON.stringify(popular_filters)) &&
                 (amenities_filters.length < 1 ||
-                  // filteredHotelCount < 1 ||
-                  amenities_filters.some((feature) =>
-                    hotel.amenities.includes(feature)
-                  )) && (
+                  JSON.stringify(
+                    amenities_filters.filter((amenity) =>
+                      hotel.amenities.includes(amenity)
+                    )
+                  ) === JSON.stringify(amenities_filters)) && (
                   <HotelListCard
                     key={hotel.id}
                     id={hotel.id}

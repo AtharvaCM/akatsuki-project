@@ -18,14 +18,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import StarIcon from "@mui/icons-material/Star";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-// import FlightOutlinedIcon from "@mui/icons-material/FlightOutlined";
-import WifiOutlinedIcon from "@mui/icons-material/WifiOutlined";
-import DirectionsCarOutlinedIcon from "@mui/icons-material/DirectionsCarOutlined";
-import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
-import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
-
-// assets
-import { ReactComponent as DatabaseIcon } from "../../assets/images/database_icon.svg";
 
 // styles
 import styles from "./HotelListCard.module.css";
@@ -34,6 +26,7 @@ import styles from "./HotelListCard.module.css";
 import { useDispatch, useSelector } from "react-redux";
 
 // Routes
+import { FEATURES_ICONS } from "../../utils/constants/iconsConstants";
 import { ROUTES } from "../../utils/constants/routingPathConstants";
 
 // actions
@@ -181,15 +174,25 @@ const HotelListCard = (props) => {
 
               <Grid container>
                 {/* Hotel features */}
-                <Grid item md={6}>
+                <Grid item md={6} mt={3}>
                   <div className={styles.hotelFeatures}>
-                    <span>
-                      <WifiOutlinedIcon className={styles.icon} />
-                      <Typography variant="body1" className={styles.iconLabels}>
-                        Free Wifi
-                      </Typography>
-                    </span>
-                    <span>
+                    {props.features.slice(1).map((feature) => (
+                      <div key={feature} style={{ marginTop: "5%" }}>
+                        {/* <WifiOutlinedIcon className={styles.icon} /> */}
+                        <span
+                          className={`${styles["icon"]} ${styles["alignCenter"]}`}
+                        >
+                          {FEATURES_ICONS[feature]}
+                          <Typography
+                            variant="body1"
+                            className={styles.iconLabels}
+                          >
+                            {feature}
+                          </Typography>
+                        </span>
+                      </div>
+                    ))}
+                    {/* <span>
                       <DirectionsCarOutlinedIcon className={styles.icon} />
                       <Typography variant="body1" className={styles.iconLabels}>
                         Free Parking
@@ -212,11 +215,11 @@ const HotelListCard = (props) => {
                       <Typography variant="body1" className={styles.iconLabels}>
                         Taking Safety Measures
                       </Typography>
-                    </span>
+                    </span> */}
                   </div>
                 </Grid>
                 {/* Book Now Buttons */}
-                <Grid item md={6}>
+                <Grid item md={6} mt={4}>
                   <div className={styles.bookNowButtons}>
                     {/* Price chip */}
                     <Chip

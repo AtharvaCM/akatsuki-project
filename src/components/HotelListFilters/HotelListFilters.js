@@ -39,8 +39,8 @@ const FACILITIES = [
   "Outdoor Sports",
   "Barbeque",
   "Living Room",
-  "Room Service",
-  "Infinity Pool",
+  "Bath Tub",
+  "Bar",
   "Spa",
   "Baby Changing Station",
 ];
@@ -101,7 +101,8 @@ const HotelListFilters = (props) => {
     setPriceRange(newValue);
     dispatch(
       setPriceRangeFilter({
-        priceRange: { min: newValue[0], max: newValue[1] },
+        priceRangeMin: newValue[0],
+        priceRangeMax: newValue[1],
       })
     );
   };
