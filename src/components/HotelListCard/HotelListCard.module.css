@@ -44,7 +44,8 @@
 }
 
 .icon {
-  color: #929090
+  /* color: #929090 */
+  color: black !important;
 }
 
 .center {
@@ -53,6 +54,7 @@
 
 .iconLabels {
   margin-left: 10px !important;
+  color: black !important;
 }
 
 .ratingsIcon {

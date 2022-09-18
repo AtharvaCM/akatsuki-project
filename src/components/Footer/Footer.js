@@ -30,7 +30,7 @@ const Footer = () => {
                   src={Logo}
                   style={{ marginRight: 10, height: 25 }}
                 />
-                <Typography variant="h6">Hotel Guide</Typography>
+                <Typography variant="h6">HotelGuide</Typography>
               </Grid>
               <Grid>
                 <Typography fontSize={12} style={{ marginTop: 20 }}>

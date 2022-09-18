@@ -15,7 +15,7 @@ const SubcriptionCard = () => {
             sx={{ paddingY: "2rem", paddingX: "1rem" }}
           >
             <Grid item xs={12} md={5}>
-              <Typography variant="h5" color={"white"}>
+              <Typography variant="h5" sx={{fontWeight:600,textAlign:"center",fontSize:"30px"}} color={"white"}>
                 Get Our Pro Offers
               </Typography>
             </Grid>
