@@ -92,9 +92,19 @@ const Header = () => {
   return (
     <AppBar color="default" position="sticky" style={{ boxShadow: "none" }}>
       <Toolbar>
-        <Box component="img" alt="Img" src={Logo} style={styles.brandLogo} />
-        <Typography variant="h6" style={styles.brand}>
-          HotelGuide
+        <Box
+          component="img"
+          alt="Img"
+          src={Logo}
+          style={styles.brandLogo}
+          onClick={() => navigate(ROUTES.HOME)}
+        />
+        <Typography
+          variant="h6"
+          style={styles.brand}
+          onClick={() => navigate(ROUTES.HOME)}
+        >
+          Hotel Guide
         </Typography>
         <Typography color="text.secondary" style={styles.appRegion}>
           EURO

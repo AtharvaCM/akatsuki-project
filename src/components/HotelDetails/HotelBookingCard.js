@@ -58,6 +58,7 @@ const HotelBookingCard = (props) => {
     error: bookingError,
     data: bookingData,
     callAPI: callBookingAPI,
+    setLoaded: setBookingLoaded,
   } = useAxios();
 
   // get hotel id from url
@@ -221,6 +222,9 @@ const HotelBookingCard = (props) => {
     // show loader in button
     setLoading(true);
 
+    // set loaded state to false
+    setBookingLoaded(false);
+
     // set booking details in redux
     const payload = {
       user_id: 2,
@@ -302,7 +306,7 @@ const HotelBookingCard = (props) => {
           <Grid container className={styles["card_header"]}>
             <Grid item xs={6} md={6}>
               <Typography variant="h6">
-                {isDiscountApplied ? roomPrice ?? 0 : roomOriginalPrice ?? 0}
+                ${isDiscountApplied ? roomPrice ?? 0 : roomOriginalPrice ?? 0}
                 <span className={styles["night_text"]}>/night</span>
               </Typography>
             </Grid>
