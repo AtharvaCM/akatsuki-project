@@ -62,7 +62,7 @@ const HotelRecommendation = () => {
           recommendedHotels !== null &&
           recommendedHotels.map((hotel) => (
             <HotelRecommendationCard
-              key={+hotel.hotel_id + +user_id}
+              key={+hotel.id + +user_id}
               hotelName={hotel.name}
               avgRating={hotel.ratings}
               price={hotel.price}

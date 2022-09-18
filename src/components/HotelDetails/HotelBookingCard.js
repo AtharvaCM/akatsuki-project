@@ -58,6 +58,7 @@ const HotelBookingCard = (props) => {
     error: bookingError,
     data: bookingData,
     callAPI: callBookingAPI,
+    setLoaded: setBookingLoaded,
   } = useAxios();
 
   // get hotel id from url
@@ -220,6 +221,9 @@ const HotelBookingCard = (props) => {
     e.preventDefault();
     // show loader in button
     setLoading(true);
+
+    // set loaded state to false
+    setBookingLoaded(false);
 
     // set booking details in redux
     const payload = {
