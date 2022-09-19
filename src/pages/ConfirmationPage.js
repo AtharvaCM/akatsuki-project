@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import dayjs from "dayjs";
 
@@ -85,6 +85,13 @@ const ConfirmationPage = () => {
     bookingState.amount,
     "Credit card",
   ];
+
+  // if no bookinng data present, redirect to home page
+  useEffect(() => {
+    if (bookingState.booking_code === null) {
+      navigate(ROUTES.HOME);
+    }
+  }, [bookingState.booking_code]);
 
   return (
     <>

@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import HotelRecommendationCard from "./HotelRecommendationCard";
 
 // redux
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 // Custom Hook
 import { useAxios } from "../../hooks/useAxios";
@@ -19,8 +19,8 @@ const HotelRecommendation = () => {
   const [recommendedHotels, setRecommendedHotels] = useState(null);
 
   // selector
-  // const { user_id } = useSelector((state) => state.login);
-  const user_id = 2;
+  const { user_id } = useSelector((state) => state.login);
+  // const user_id = 2;
 
   const hotelRecommendationURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/recommendation/hotel?id=${user_id}`;
   // const hotelRecommendationURL = `http://127.0.0.1:5000/api/v1/recommendation/hotel?id=${user_id}`;

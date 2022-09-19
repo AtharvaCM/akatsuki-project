@@ -153,7 +153,7 @@ const Header = () => {
             </Menu>
           </>
         ) : (
-          <Button variant="contained" size="medium" onClick={handleLoginClick}>
+          <Button variant="contained" sx={styles.loginButton} size="medium" onClick={handleLoginClick}>
             Login
           </Button>
         )}
@@ -163,12 +163,16 @@ const Header = () => {
 };
 
 const styles = {
+  loginButton: {
+    textTransform:"capitalize"
+  },
   brandLogo: {
     cursor: "pointer",
     marginRight: "10px",
   },
   brand: {
     cursor: "pointer",
+    fontWeight:800
   },
   appRegion: { fontSize: 13, marginLeft: "auto", marginRight: 12 },
   menuPaperProps: {
