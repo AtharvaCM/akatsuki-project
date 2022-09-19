@@ -35,15 +35,7 @@ const POPULAR_FILTERS = ["Mountain View", "City View", "Sound Proof", "Patio"];
 
 // const PROPERTY_TYPE = ["Hotels", "Appartments", "Resort"];
 
-const FACILITIES = [
-  "Outdoor Sports",
-  "Barbeque",
-  "Living Room",
-  "Bath Tub",
-  "Bar",
-  "Spa",
-  "Baby Changing Station",
-];
+const FACILITIES = ["Bath Tub", "Bar", "Spa", "Baby Changing Station"];
 
 // const [selectedPopularFilters, setSelectedPopularFilters] = useState([]);
 
