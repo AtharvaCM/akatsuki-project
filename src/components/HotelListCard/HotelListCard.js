@@ -220,7 +220,7 @@ const HotelListCard = (props) => {
                 </Grid>
                 {/* Book Now Buttons */}
                 <Grid item md={6} mt={4}>
-                  <div className={styles.bookNowButtons}>
+                  <div className={styles.bookNowButtons} >
                     {/* Price chip */}
                     <Chip
                       label={
@@ -230,7 +230,7 @@ const HotelListCard = (props) => {
                             <>
                               <Typography variant="h6">${roomPrice}</Typography>
                               <Typography variant="caption">
-                                For {roomCapacity} people
+                                For {roomCapacity} People
                               </Typography>
                             </>
                           )}
