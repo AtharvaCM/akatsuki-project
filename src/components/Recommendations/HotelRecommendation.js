@@ -19,10 +19,9 @@ const HotelRecommendation = () => {
   const [recommendedHotels, setRecommendedHotels] = useState(null);
 
   // selector
-  const { user_id } = useSelector((state) => state.login);
-  // const user_id = 2;
+  const { userId } = useSelector((state) => state.login);
 
-  const hotelRecommendationURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/recommendation/hotel?id=${user_id}`;
+  const hotelRecommendationURL = `${process.env.REACT_APP_FLASK_DOMAIN}/api/v1/recommendation/hotel?id=${userId}`;
   // const hotelRecommendationURL = `http://127.0.0.1:5000/api/v1/recommendation/hotel?id=${user_id}`;
 
   // on load, call the API  to  check if there are any recommendations available
@@ -62,7 +61,7 @@ const HotelRecommendation = () => {
           recommendedHotels !== null &&
           recommendedHotels.map((hotel) => (
             <HotelRecommendationCard
-              key={+hotel.id + +user_id}
+              key={+hotel.id + +userId}
               hotelName={hotel.name}
               avgRating={hotel.ratings}
               price={hotel.price}
