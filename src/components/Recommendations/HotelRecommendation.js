@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useSelector } from "react";
+import React, { useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import HotelRecommendationCard from "./HotelRecommendationCard";
 
 // redux
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 // Custom Hook
 import { useAxios } from "../../hooks/useAxios";
