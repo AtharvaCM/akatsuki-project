@@ -299,6 +299,7 @@ const HotelBookingCard = (props) => {
 
   useEffect(() => {
     setRoomPrice(selectedRoomPrice === undefined ? 0 : selectedRoomPrice);
+    setRoomsCount(1);
 
     setTotalAmount(
       (selectedRoomPrice === undefined ? 0 : selectedRoomPrice) * numberOfDays
