@@ -58,7 +58,6 @@ const HotelDetailsPage = () => {
     callAPI: callAPIHotelExtraFeatures,
   } = useAxios();
   const {
-    data: dataHotelRecommendations,
     error: errorHotelRecommendations,
     loaded: loadedHotelRecommendations,
     callAPI: callAPIHotelRecommendations,
@@ -104,11 +103,7 @@ const HotelDetailsPage = () => {
   }, []);
 
   // when recommendations are received from API, store them
-  useEffect(() => {
-    if (loadedHotelRecommendations) {
-      console.log("dataHotelRecommendations: ", dataHotelRecommendations);
-    }
-  }, [loadedHotelRecommendations]);
+  useEffect(() => {}, [loadedHotelRecommendations]);
 
   // when hotel details are recieved from API, dispatch an action to redux
   useEffect(() => {

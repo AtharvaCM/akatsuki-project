@@ -127,6 +127,7 @@ const HotelBookingCard = (props) => {
       setTotalAmount(
         roomPrice * numberOfDays * (roomsCount - 1) + extraFeatureAmount
       );
+      unCheckAllExtraFeatures();
     }
   };
 
@@ -137,6 +138,7 @@ const HotelBookingCard = (props) => {
       setTotalAmount(
         roomPrice * numberOfDays * (roomsCount + 1) + extraFeatureAmount
       );
+      unCheckAllExtraFeatures();
     }
   };
 
@@ -153,6 +155,7 @@ const HotelBookingCard = (props) => {
     setTotalAmount(
       extraFeatureAmount + newRoomsCount * +roomPrice * numberOfDays
     );
+    unCheckAllExtraFeatures();
   };
 
   // Handles selection of extrafeatures and total amount payable
@@ -275,15 +278,38 @@ const HotelBookingCard = (props) => {
     callRoomListAPI();
   }, [checkInDate, checkOutDate]);
 
+  const unCheckAllExtraFeatures = () => {
+    var x = document.getElementsByClassName("efcheckbox");
+    var values = document.getElementsByClassName("PrivateSwitchBase-input");
+    var svg = document.getElementsByClassName(
+      "MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+    );
+    for (let i = 0; i < x.length; i++) {
+      x[i].classList.remove("Mui-checked");
+      values[i].checked = false;
+    }
+    for (let i = 0; i < svg.length; i++) {
+      if (
+        svg[i].dataset !== undefined &&
+        svg[i].dataset.testid == "CheckBoxIcon"
+      ) {
+        svg[i].dataset.testid = "CheckBoxOutlineBlankIcon";
+        svg[i].innerHTML =
+          "<path d='M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z'></path>";
+      }
+    }
+    setExtraFeatureAmount(0);
+  };
+
   useEffect(() => {
     setRoomPrice(selectedRoomPrice === undefined ? 0 : selectedRoomPrice);
+    setRoomsCount(1);
+
     setTotalAmount(
-      (selectedRoomPrice === undefined ? 0 : selectedRoomPrice) *
-        numberOfDays *
-        roomsCount +
-        extraFeatureAmount
+      (selectedRoomPrice === undefined ? 0 : selectedRoomPrice) * numberOfDays
     );
-  }, [selectedRoomPrice]);
+    unCheckAllExtraFeatures();
+  }, [selectedRoomPrice, checkInDate, checkOutDate]);
 
   if (bookingError) {
     console.log("bookingError: ", bookingError);
@@ -490,8 +516,15 @@ const HotelBookingCard = (props) => {
               >
                 <Grid item xs={2} md={2}>
                   <Checkbox
-                    disabled={checkOutDate === null}
-                    name={extraFeature.cost.toString()}
+                    className="efcheckbox"
+                    disabled={
+                      selectedRoomPrice === undefined || selectedRoomPrice === 0
+                    }
+                    name={(
+                      extraFeature.cost *
+                      numberOfDays *
+                      roomsCount
+                    ).toString()}
                     onChange={ExtraFeaturesChangeHandler}
                   ></Checkbox>
                 </Grid>
@@ -499,7 +532,10 @@ const HotelBookingCard = (props) => {
                   {extraFeature.name}
                 </Grid>
                 <Grid className={styles["night_text"]} item xs={2} md={2}>
-                  ${extraFeature.cost}
+                  $
+                  {extraFeature.cost *
+                    (numberOfDays === 0 ? 1 : numberOfDays) *
+                    roomsCount}
                 </Grid>
               </Grid>
             ))}

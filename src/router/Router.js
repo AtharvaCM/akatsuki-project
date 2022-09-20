@@ -38,7 +38,6 @@ const ProtectedRoute = ({ isAuthenticated, children }) => {
 const Router = () => {
   // selector
   const { isAuthenticated } = useSelector((state) => state.login);
-  console.log("isAuthenticated: ", isAuthenticated);
 
   return (
     <Routes>
