@@ -123,27 +123,29 @@ const HotelBookingCard = (props) => {
   // Decrement rooms count by 1 and update total payable amount
   const decrementRoomsCount = () => {
     if (roomsCount > 1) {
+      unCheckAllExtraFeatures();
       setRoomsCount((prevState) => +prevState - 1);
       setTotalAmount(
-        roomPrice * numberOfDays * (roomsCount - 1) + extraFeatureAmount
-      );
-      unCheckAllExtraFeatures();
+        roomPrice * numberOfDays * (roomsCount - 1))
+      
     }
   };
 
   // Increment rooms count by 1 and updates total payable amount
   const incrementRoomsCount = () => {
     if (roomsCount <= available_rooms - 1) {
+      unCheckAllExtraFeatures();
       setRoomsCount((prevState) => +prevState + 1);
       setTotalAmount(
-        roomPrice * numberOfDays * (roomsCount + 1) + extraFeatureAmount
+        roomPrice * numberOfDays * (roomsCount + 1)
       );
-      unCheckAllExtraFeatures();
+      
     }
   };
 
   // When manually room count is changed
   const roomInputOnChangeHandler = (e) => {
+    unCheckAllExtraFeatures();
     let newRoomsCount =
       e.target.value.length === 0 || e.target.value < 1 ? "" : e.target.value;
 
@@ -153,9 +155,8 @@ const HotelBookingCard = (props) => {
 
     setRoomsCount(newRoomsCount);
     setTotalAmount(
-      extraFeatureAmount + newRoomsCount * +roomPrice * numberOfDays
+      newRoomsCount * +roomPrice * numberOfDays
     );
-    unCheckAllExtraFeatures();
   };
 
   // Handles selection of extrafeatures and total amount payable
@@ -279,6 +280,7 @@ const HotelBookingCard = (props) => {
   }, [checkInDate, checkOutDate]);
 
   const unCheckAllExtraFeatures = () => {
+    setExtraFeatureAmount(0);
     var x = document.getElementsByClassName("efcheckbox");
     var values = document.getElementsByClassName("PrivateSwitchBase-input");
     var svg = document.getElementsByClassName(
@@ -298,7 +300,6 @@ const HotelBookingCard = (props) => {
           "<path d='M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z'></path>";
       }
     }
-    setExtraFeatureAmount(0);
   };
 
   useEffect(() => {
