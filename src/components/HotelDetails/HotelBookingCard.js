@@ -528,7 +528,10 @@ const HotelBookingCard = (props) => {
                   {extraFeature.name}
                 </Grid>
                 <Grid className={styles["night_text"]} item xs={2} md={2}>
-                  ${extraFeature.cost * numberOfDays * roomsCount}
+                  $
+                  {extraFeature.cost *
+                    (numberOfDays === 0 ? 1 : numberOfDays) *
+                    roomsCount}
                 </Grid>
               </Grid>
             ))}
